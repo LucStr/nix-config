@@ -116,6 +116,7 @@
       ])
       (jetbrains.plugins.addPlugins jetbrains.rider [ "github-copilot" "ideavim" ])
       (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" "ideavim" ])
+      mongodb-compass
     ];
   };
 
