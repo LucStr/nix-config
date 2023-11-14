@@ -51,9 +51,26 @@
   home = {
     username = "luca";
     homeDirectory = "/home/luca";
+    sessionVariables = {
+      EDITOR = "nvim";
+    };
+ };
+  
+  programs.neovim = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+    extraConfig = ''
+      set number relativenumber
+    '';
   };
 
-  # Add stuff for your user as you see fit:
+  programs.bash.enable = true;
+  programs.bash.shellAliases = {
+    os-rebuild = "sudo nixos-rebuild switch --flake $HOME/nix-config/.#scorcher";
+    home-rebuild = "home-manager switch --flake $HOME/nix-config/.#luca@scorcher";
+  };
+  
   # programs.neovim.enable = true;
   # home.packages = with pkgs; [ steam ];
 
