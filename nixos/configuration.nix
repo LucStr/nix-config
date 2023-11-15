@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
-{ config, pkgs, lib,... }:
+{ inputs, outputs, config, pkgs, lib,... }:
 
 {
   imports =
@@ -10,9 +10,49 @@
       ./hardware-configuration.nix
     ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nixpkgs.config.allowUnfree = true;
- 
+  nixpkgs = {
+    # You can add overlays here
+    overlays = [
+      # Add overlays your own flake exports (from overlays and pkgs dir):
+      outputs.overlays.additions
+      outputs.overlays.modifications
+      outputs.overlays.unstable-packages
+
+      # You can also add overlays exported from other flakes:
+      # neovim-nightly-overlay.overlays.default
+
+      # Or define it inline, for example:
+      # (final: prev: {
+      #   hi = final.hello.overrideAttrs (oldAttrs: {
+      #     patches = [ ./change-hello-to-hi.patch ];
+      #   });
+      # })
+    ];
+    # Configure your nixpkgs instance
+    config = {
+      # Disable if you don't want unfree packages
+      allowUnfree = true;
+    };
+  };
+
+  # This will additionally add your inputs to the system's legacy channels
+  # Making legacy nix commands consistent as well, awesome!
+  nix.nixPath = ["/etc/nix/path"];
+  environment.etc =
+    lib.mapAttrs'
+    (name: value: {
+      name = "nix/path/${name}";
+      value.source = value.flake;
+    })
+    config.nix.registry;
+
+  nix.settings = {
+    # Enable flakes and new 'nix' command
+    experimental-features = "nix-command flakes";
+    # Deduplicate and optimize nix store
+    auto-optimise-store = true;
+  };
+
   boot.loader = {
     efi = {
       canTouchEfiVariables = true;
@@ -99,9 +139,13 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.luca = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "network" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "docker" "networkmanager" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
-      chromium
+      (chromium.override {
+        commandLineArgs = [
+          "--ozone-platform-hint=auto"
+        ];
+      })
       tree
       alacritty
       wofi
@@ -117,6 +161,7 @@
       (jetbrains.plugins.addPlugins jetbrains.rider [ "github-copilot" "ideavim" ])
       (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" "ideavim" ])
       jetbrains.datagrip
+      mongodb-compass
     ];
   };
 
@@ -129,10 +174,12 @@
     htop
     killall
     home-manager
+    xorg.xlsclients
   ];
 
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
+    font-awesome
   ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

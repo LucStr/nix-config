@@ -10,6 +10,11 @@
     # example = prev.example.overrideAttrs (oldAttrs: rec {
     # ...
     # });
+    chromium = prev.chromium.overrideAttrs (oldAttrs: rec {
+      commandLineArgs = [
+        "--ozone-platform=wayland"
+      ];
+    });
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
