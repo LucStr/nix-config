@@ -191,6 +191,7 @@
   programs.hyprland = {
     enable = true;
     enableNvidiaPatches = true;
+    package = pkgs.hyprland-luca;
   };
 
   programs.waybar.enable = true;
