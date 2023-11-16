@@ -18,10 +18,7 @@
 
     hyprland-luca = prev.hyprland.overrideAttrs (oldAttrs: rec {
       patches = oldAttrs.patches ++ [
-        (final.fetchpatch {
-          url = "https://github.com/LucStr/Hyprland/commit/4afae3470198ab1c974e6182c9eec4e91c8ec881.patch";
-          sha256 = "sha256-+n39IvPN9hn4r39U42dhXk793gCJytq32G7B6z/eAS0=";
-        })
+        ./hyprland-fullscreen.patch
       ];
     });
   };

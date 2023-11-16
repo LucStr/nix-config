@@ -1,0 +1,13 @@
+diff --git a/src/Compositor.cpp b/src/Compositor.cpp
+index 70a19cb5b3..bf04418661 100644
+--- a/src/Compositor.cpp
++++ b/src/Compositor.cpp
+@@ -2278,7 +2278,7 @@ void CCompositor::setWindowFullscreen(CWindow* pWindow, bool on, eFullscreenMode
+ 
+     g_pLayoutManager->getCurrentLayout()->fullscreenRequestForWindow(pWindow, MODE, on);
+ 
+-    g_pXWaylandManager->setWindowFullscreen(pWindow, pWindow->m_bIsFullscreen && MODE == FULLSCREEN_FULL);
++    g_pXWaylandManager->setWindowFullscreen(pWindow, false);
+ 
+     pWindow->updateDynamicRules();
+     updateWindowAnimatedDecorationValues(pWindow);
