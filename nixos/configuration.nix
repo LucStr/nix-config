@@ -37,14 +37,14 @@
 
   # This will additionally add your inputs to the system's legacy channels
   # Making legacy nix commands consistent as well, awesome!
-  nix.nixPath = ["/etc/nix/path"];
-  environment.etc =
-    lib.mapAttrs'
-    (name: value: {
-      name = "nix/path/${name}";
-      value.source = value.flake;
-    })
-    config.nix.registry;
+  # nix.nixPath = ["/etc/nix/path"];
+  #environment.etc =
+  #  lib.mapAttrs'
+  #  (name: value: {
+  #    name = "nix/path/${name}";
+  #    value.source = value.flake;
+  #  })
+  #  config.nix.registry;
 
   nix.settings = {
     # Enable flakes and new 'nix' command
@@ -162,6 +162,7 @@
       (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" "ideavim" ])
       jetbrains.datagrip
       mongodb-compass
+      jb
     ];
   };
 
@@ -198,6 +199,10 @@
 
   virtualisation.docker.enable = true;
 
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
+
   # Enable OpenGL
   hardware.opengl = {
     enable = true;
@@ -206,6 +211,11 @@
     extraPackages = with pkgs; [
       # trying to fix `WLR_RENDERER=vulkan sway`
       vulkan-validation-layers 
+      # https://nixos.wiki/wiki/Accelerated_Video_Playback
+      intel-media-driver # LIBVA_DRIVER_NAME=iHD
+      vaapiIntel         # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+      vaapiVdpau
+      libvdpau-va-gl
     ];
   };
  
