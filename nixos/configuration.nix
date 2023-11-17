@@ -187,6 +187,8 @@
     killall
     home-manager
     xorg.xlsclients
+    zip
+    unzip
   ];
 
   fonts.packages = with pkgs; [
