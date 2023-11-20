@@ -92,6 +92,8 @@
     };
   }; 
 
+  boot.initrd.kernelModules = [ "i915" ];
+  #boot.kernelParams = [ "i915.force_probe=a788" ];
 
   networking.hostName = "scorcher"; # Define your hostname.
   # Pick only one of the below networking options.
@@ -114,8 +116,8 @@
   # };
 
   # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-
+  #services.xserver.enable = true;
+  #services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
@@ -125,7 +127,8 @@
   # services.printing.enable = true;
 
   # Enable sound.
-
+  
+  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -174,6 +177,9 @@
       jb
       discord
       pulsemixer
+      mariadb
+      bruno
+      nodejs_20
     ];
   };
 
@@ -204,7 +210,7 @@
   # };
   programs.hyprland = {
     enable = true;
-    enableNvidiaPatches = true;
+    #enableNvidiaPatches = true;
     package = pkgs.hyprland-luca;
   };
 
@@ -216,14 +222,26 @@
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
   };
 
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  services.blueman.enable = true;
+  
+  # Make audio buttons on bluetooth devices work 
+  systemd.user.services.mpris-proxy = {
+    description = "Mpris proxy";
+    after = [ "network.target" "sound.target" ];
+    wantedBy = [ "default.target" ];
+    serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
+};
+
   # Enable OpenGL
   hardware.opengl = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+  #  driSupport = true;
+  #  driSupport32Bit = true;
     extraPackages = with pkgs; [
       # trying to fix `WLR_RENDERER=vulkan sway`
-      vulkan-validation-layers 
+  #    vulkan-validation-layers 
       # https://nixos.wiki/wiki/Accelerated_Video_Playback
       intel-media-driver # LIBVA_DRIVER_NAME=iHD
       vaapiIntel         # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
@@ -238,19 +256,24 @@
     dedicatedServer.openFirewall = true;
   };
 
-  # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = [ "nvidia" ];
+  # Install KDE
+  services.xserver.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
 
-  hardware.nvidia = {
+  # Load nvidia driver for Xorg and Wayland
+  #services.xserver.videoDrivers = [ "intel" ];
+
+  #hardware.nvidia = {
 
     # Modesetting is required.
-    modesetting.enable = true;
+  #  modesetting.enable = true;
 
     # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    powerManagement.enable = false;
+  #  powerManagement.enable = false;
     # Fine-grained power management. Turns off GPU when not in use.
     # Experimental and only works on modern Nvidia GPUs (Turing or newer).
-    powerManagement.finegrained = false;
+  #  powerManagement.finegrained = false;
 
     # Use the NVidia open source kernel module (not to be confused with the
     # independent third-party "nouveau" open source driver).
@@ -259,36 +282,36 @@
     # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
     # Only available from driver 515.43.04+
     # Currently alpha-quality/buggy, so false is currently the recommended setting.
-    open = false;
+  #  open = false;
 
     # Enable the Nvidia settings menu,
 	# accessible via `nvidia-settings`.
-    nvidiaSettings = true;
+  #  nvidiaSettings = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  #  package = config.boot.kernelPackages.nvidiaPackages.stable;
     
-    prime = {
-      #offload = {
-      #  enable = true;
-      #  enableOffloadCmd = true;
-      #};
-      sync.enable = true;
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
-    }; 
-  };
+  #  prime = {
+  #    offload = {
+  #      enable = true;
+  #      enableOffloadCmd = true;
+  #    };
+      #sync.enable = true;
+  #    intelBusId = "PCI:0:2:0";
+  #    nvidiaBusId = "PCI:1:0:0";
+  #  }; 
+  #};
 
-  specialisation = {
-    on-the-go.configuration = {
-      system.nixos.tags = [ "on-the-go" ];
-      hardware.nvidia = {
-        prime.offload.enable = lib.mkForce true;
-        prime.offload.enableOffloadCmd = lib.mkForce true;
-        prime.sync.enable = lib.mkForce false;
-      };
-    };
-  };
+  #specialisation = {
+  #  on-the-go.configuration = {
+  #    system.nixos.tags = [ "on-the-go" ];
+  #    hardware.nvidia = {
+  #      prime.offload.enable = lib.mkForce true;
+  #      prime.offload.enableOffloadCmd = lib.mkForce true;
+  #      prime.sync.enable = lib.mkForce false;
+  #    };
+  #  };
+  #};
 
 
   # List services that you want to enable:
