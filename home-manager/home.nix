@@ -70,6 +70,7 @@
     os-rebuild = "sudo nixos-rebuild switch --flake $HOME/nix-config/.#scorcher";
     home-rebuild = "home-manager switch --flake $HOME/nix-config/.#luca@scorcher";
     gt = "${pkgs.nodePackages_latest.graphite-cli}/bin/gt";
+    sail= "[ -f sail ] && ${pkgs.bash}/bin/bash sail || ${pkgs.bash}/bin/bash vendor/bin/sail";
   };
   
   # programs.neovim.enable = true;
