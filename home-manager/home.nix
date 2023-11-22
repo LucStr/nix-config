@@ -73,6 +73,12 @@
     sail= "[ -f sail ] && ${pkgs.bash}/bin/bash sail || ${pkgs.bash}/bin/bash vendor/bin/sail";
     copy = "wl-copy > ";
   };
+  programs.bash.bashrcExtra = lib.mkMerge [
+        (lib.mkBefore ''
+          # goes before
+	  PATH=$PATH:$HOME/.npm-global/bin/
+        '')
+  ];
   
   # programs.neovim.enable = true;
   # home.packages = with pkgs; [ steam ];

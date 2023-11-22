@@ -183,6 +183,8 @@
       awscli2
       google-cloud-sdk
       wl-clipboard
+      wireguard-tools
+      terraform
     ];
   };
 
