@@ -180,6 +180,8 @@
       mariadb
       bruno
       nodejs_20
+      awscli2
+      google-cloud-sdk
     ];
   };
 
@@ -241,7 +243,7 @@
     driSupport32Bit = true;
     extraPackages = with pkgs; [
       # trying to fix `WLR_RENDERER=vulkan sway`
-      vulkan-validation-layers 
+      #vulkan-validation-layers 
       # https://nixos.wiki/wiki/Accelerated_Video_Playback
       intel-media-driver # LIBVA_DRIVER_NAME=iHD
       vaapiIntel         # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
@@ -257,12 +259,12 @@
   };
 
   # Install KDE
-  services.xserver.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  #services.xserver.enable = true;
+  #services.xserver.displayManager.sddm.enable = true;
+  #services.xserver.desktopManager.plasma5.enable = true;
 
   # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = [ "intel" ];
+  #services.xserver.videoDrivers = [ "modesetting" "fbdev" "nvidia" ];
 
   hardware.nvidia = {
 
