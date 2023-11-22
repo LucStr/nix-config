@@ -182,6 +182,7 @@
       nodejs_20
       awscli2
       google-cloud-sdk
+      wl-clipboard
     ];
   };
 

@@ -27,7 +27,7 @@
       # Add overlays your own flake exports (from overlays and pkgs dir):
       outputs.overlays.additions
       outputs.overlays.modifications
-      outputs.overlays.unstable-packages
+      outputs.overlays.stable-packages
 
       # You can also add overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
@@ -71,6 +71,7 @@
     home-rebuild = "home-manager switch --flake $HOME/nix-config/.#luca@scorcher";
     gt = "${pkgs.nodePackages_latest.graphite-cli}/bin/gt";
     sail= "[ -f sail ] && ${pkgs.bash}/bin/bash sail || ${pkgs.bash}/bin/bash vendor/bin/sail";
+    copy = "wl-copy > ";
   };
   
   # programs.neovim.enable = true;
