@@ -91,6 +91,20 @@
     userEmail = "luca@nowhere.com";
   };
 
+  xdg.mimeApps = {
+    enable = true;
+  
+    defaultApplications = {
+      "text/html" = "chromium.desktop";
+      "x-scheme-handler/http" = "chromium.desktop";
+      "x-scheme-handler/https" = "chromium.desktop";
+      "x-scheme-handler/about" = "chromium.desktop";
+      "x-scheme-handler/unknown" = "chromium.desktop";
+      "x-scheme-handler/mongodb" = "mongodb-compass.desktop";
+      "x-scheme-handler/mongodb+srv" = "mongodb-compass.desktop";
+    };
+  };
+
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
