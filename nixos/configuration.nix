@@ -92,8 +92,8 @@
     };
   }; 
 
-  #boot.initrd.kernelModules = [ "i915" ];
-  #boot.kernelParams = [ "i915.force_probe=a788" ];
+  boot.initrd.kernelModules = [ "i915" ];
+  boot.kernelParams = [ "ibt=off" ];
 
   networking.hostName = "scorcher"; # Define your hostname.
   # Pick only one of the below networking options.
@@ -106,6 +106,22 @@
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+  networking.wg-quick.interfaces = {
+    rapidata-test = {
+      address = [ "172.16.16.2/32" ];
+      privateKeyFile = "/home/luca/.wg/tinker-private";
+      
+      peers = [
+        {
+          publicKey = "IduFvdzqPWHsmzz4Qj8Ok6sUmwAsGM8yhw5d+A34ylg=";
+          allowedIPs = [ "10.96.0.0/16" ];
+          endpoint = "vpn.rabbitdata.ch:51820";
+          persistentKeepalive = 25;
+        }
+      ];
+    };
+  };
 
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
@@ -129,6 +145,7 @@
   # Enable sound.
   
   hardware.pulseaudio.enable = false;
+  hardware.pulseaudio.support32Bit = true;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -151,7 +168,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.luca = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "docker" "networkmanager" "adbusers"]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       (chromium.override {
         commandLineArgs = [
@@ -169,11 +186,12 @@
       (with dotnetCorePackages; combinePackages [
         sdk_6_0
         sdk_7_0
+	sdk_8_0
       ])
-      (jetbrains.plugins.addPlugins jetbrains.rider [ "github-copilot" "ideavim" ])
+      (jetbrains.plugins.addPlugins rider-luca [ "github-copilot" "ideavim" ])
       (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" "ideavim" ])
       jetbrains.datagrip
-      mongodb-compass
+      mongodb-compass-luca
       jb
       discord
       pulsemixer
@@ -185,6 +203,17 @@
       wl-clipboard
       wireguard-tools
       terraform
+      redis
+      vulkan-tools
+      lutris
+      wlr-randr
+      mongosh
+      xdg-utils
+      zoom-us
+      python311
+      grim
+      slurp
+      act
     ];
   };
 
@@ -215,17 +244,17 @@
   # };
   programs.hyprland = {
     enable = true;
-    #enableNvidiaPatches = true;
+    enableNvidiaPatches = true;
     package = pkgs.hyprland-luca;
   };
 
+  programs.sway.enable = true;
+
   programs.waybar.enable = true;
+  programs.adb.enable = true;
 
   virtualisation.docker.enable = true;
 
-  nixpkgs.config.packageOverrides = pkgs: {
-    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
-  };
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
@@ -239,6 +268,11 @@
     serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
 };
 
+ 
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  }; 
+
   # Enable OpenGL
   hardware.opengl = {
     enable = true;
@@ -246,7 +280,7 @@
     driSupport32Bit = true;
     extraPackages = with pkgs; [
       # trying to fix `WLR_RENDERER=vulkan sway`
-      #vulkan-validation-layers 
+      vulkan-validation-layers 
       # https://nixos.wiki/wiki/Accelerated_Video_Playback
       intel-media-driver # LIBVA_DRIVER_NAME=iHD
       vaapiIntel         # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
@@ -262,12 +296,13 @@
   };
 
   # Install KDE
-  #services.xserver.enable = true;
-  #services.xserver.displayManager.sddm.enable = true;
-  #services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
+  #services.xserver.windowManager.qtile.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
 
   # Load nvidia driver for Xorg and Wayland
-  #services.xserver.videoDrivers = [ "modesetting" "fbdev" "nvidia" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
 
@@ -287,7 +322,7 @@
     # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
     # Only available from driver 515.43.04+
     # Currently alpha-quality/buggy, so false is currently the recommended setting.
-    open = false;
+    open = true;
 
     # Enable the Nvidia settings menu,
 	# accessible via `nvidia-settings`.
@@ -301,22 +336,22 @@
         enable = true;
         enableOffloadCmd = true;
       };
-      #sync.enable = true;
+      #reverseSync.enable = true;
       intelBusId = "PCI:0:2:0";
       nvidiaBusId = "PCI:1:0:0";
     }; 
   };
 
-  #specialisation = {
-  #  on-the-go.configuration = {
-  #    system.nixos.tags = [ "on-the-go" ];
-  #    hardware.nvidia = {
-  #      prime.offload.enable = lib.mkForce true;
-  #      prime.offload.enableOffloadCmd = lib.mkForce true;
-  #      prime.sync.enable = lib.mkForce false;
-  #    };
-  #  };
-  #};
+  specialisation = {
+    on-the-go.configuration = {
+      system.nixos.tags = [ "on-the-go" ];
+      hardware.nvidia = {
+        prime.offload.enable = lib.mkForce true;
+        prime.offload.enableOffloadCmd = lib.mkForce true;
+        prime.sync.enable = lib.mkForce false;
+      };
+    };
+  };
 
 
   # List services that you want to enable:

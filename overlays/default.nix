@@ -21,6 +21,16 @@
         ./hyprland-fullscreen.patch
       ];
     });
+
+    rider-luca = prev.jetbrains.rider.overrideAttrs (oldAttrs: rec {
+      version = "2023.3 RC";
+      buildNumber = "233.11799";
+      src = final.fetchurl {
+        url = "https://download.jetbrains.com/rider/JetBrains.Rider-2023.3-RC1-233.11799.183.tar.gz";
+	sha256 = "66945b54fd5496be0e7789147d4967d7cd578b2685ad65808dee204ba5d6cf95";
+      };
+      update-channel = "RD-EAP-licensing-RELEASE";
+    });
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
