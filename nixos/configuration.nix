@@ -214,6 +214,9 @@
       grim
       slurp
       act
+      gdb
+      filezilla
+      gh
     ];
   };
 
@@ -244,7 +247,6 @@
   # };
   programs.hyprland = {
     enable = true;
-    enableNvidiaPatches = true;
     package = pkgs.hyprland-luca;
   };
 
@@ -288,6 +290,9 @@
       libvdpau-va-gl
     ];
   };
+
+environment.variables.VDPAU_DRIVER = "va_gl";
+environment.variables.LIBVA_DRIVER_NAME = "nvidia";
  
   programs.steam = {
     enable = true;

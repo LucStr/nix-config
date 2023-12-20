@@ -23,13 +23,13 @@
     });
 
     rider-luca = prev.jetbrains.rider.overrideAttrs (oldAttrs: rec {
-      version = "2023.3 RC";
-      buildNumber = "233.11799";
+      version = "2023.3";
+      buildNumber = "233.11799.303";
       src = final.fetchurl {
-        url = "https://download.jetbrains.com/rider/JetBrains.Rider-2023.3-RC1-233.11799.183.tar.gz";
-	sha256 = "66945b54fd5496be0e7789147d4967d7cd578b2685ad65808dee204ba5d6cf95";
+        url = "https://download.jetbrains.com/rider/JetBrains.Rider-2023.3.1.tar.gz";
+	sha256 = "07dfbdc277d2befdb2700f515167b9bcb6464dd6d9fe59f98147c03233b6aa75";
       };
-      update-channel = "RD-EAP-licensing-RELEASE";
+      update-channel = "Rider RELEASE";
     });
   };
 

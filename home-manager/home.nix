@@ -79,8 +79,12 @@
         (lib.mkBefore ''
           # goes before
 	  PATH=$PATH:$HOME/.npm-global/bin/
+
+	  alias ??='gh copilot suggest -t shell'
         '')
   ];
+
+
   
   # programs.neovim.enable = true;
   # home.packages = with pkgs; [ steam ];
