@@ -1,7 +1,7 @@
 @import ".config/wofi/colors/everforest-light.css";
 
 * {
-    font-family: JetBrainsMono Nerd Font, FontAwesome;
+    font-family: JetBrainsMono Nerd Font, "Font Awesome 6 Free";
     font-size: 17px;
     border-radius: 10px;
     border: none;
