@@ -75,10 +75,14 @@
     sail= "[ -f sail ] && ${pkgs.bash}/bin/bash sail || ${pkgs.bash}/bin/bash vendor/bin/sail";
     copy = "wl-copy > ";
   };
+  
 
-  home.file.".config/hypr".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/home-manager/config/hypr";
-  home.file.".config/waybar".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/home-manager/config/waybar";
-  home.file.".config/wofi".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/home-manager/config/wofi";
+  home.file = let
+    mkSymlink = name: config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/home-manager/config/${name}";
+  in builtins.listToAttrs (map (name: {
+    name = ".config/${name}";
+    value.source = mkSymlink name;
+  }) [ "hypr" "waybar" "wofi" ]);
 
   programs.bash.bashrcExtra = lib.mkMerge [
         (lib.mkBefore ''
