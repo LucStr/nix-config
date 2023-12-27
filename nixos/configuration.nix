@@ -178,7 +178,7 @@
       tree
       alacritty
       wofi
-      dolphin
+      cinnamon.nemo
       spotify
       vscode
       hyprpaper
@@ -217,6 +217,7 @@
       gdb
       filezilla
       gh
+      brightnessctl
     ];
   };
 
@@ -235,8 +236,8 @@
   ];
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" ]; })
     font-awesome
+    nerdfonts
   ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
