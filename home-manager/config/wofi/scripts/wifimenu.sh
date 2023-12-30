@@ -50,7 +50,7 @@ elif [[ "$CONSTATE" =~ "disabled" ]]; then
 fi
 
 
-CHENTRY=$(echo -e "$TOGGLE\nmanual\n$LIST" | uniq -u | wofi $2 -i -d --style ~/.config/wofi/themes/"$1".css --prompt "Wi-Fi SSID: ")
+CHENTRY=$(echo -e "$TOGGLE\nmanual\n$LIST" | uniq -u | wofi '$2' -i -d --style ~/.config/wofi/themes/"$1".css --prompt "Wi-Fi SSID: ")
 #echo "$CHENTRY"
 CHSSID=$(echo "$CHENTRY" | sed  's/\s\{2,\}/\|/g' | awk -F "|" '{print $1}')
 #echo "$CHSSID"

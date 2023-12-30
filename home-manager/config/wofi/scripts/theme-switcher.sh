@@ -2,10 +2,10 @@
 
 entries="Summer-Day\nSummer-Night"
 source='source = ~/.config/hypr/themes/'
-hyprland-conf=~/.config/hypr/hyprland.conf
 # delete-line="$(sed -i '1d' ~/.config/hypr/hyprland.conf)"
 
-selected=$(echo -e $entries|wofi --dmenu $2 --style ~/.config/wofi/themes/$1.css --hide-scroll --cache-file /dev/null)
+
+selected=$(echo -e $entries|wofi --dmenu '$2' --style .config/wofi/themes/$1.css --hide-scroll --cache-file /dev/null)
 
 case $selected in
   Summer-Day)

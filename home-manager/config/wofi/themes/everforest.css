@@ -1,4 +1,4 @@
-@import ".config/wofi/colors/everforest-light.css";
+@import ".config/wofi/colors/everforest.css";
 
 * {
     font-family: JetBrainsMono Nerd Font, "Font Awesome 6 Free";
@@ -53,6 +53,10 @@ window {
 #text {
     margin-left: 15px;
     margin-right: 15px;
+}
+
+#text:selected {
+    color: @fg;
 }
 
 #entry {
