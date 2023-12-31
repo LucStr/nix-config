@@ -4,4 +4,5 @@
   # example = pkgs.callPackage ./example { };
   jb = pkgs.callPackage ./jb.nix { };
   mongodb-compass-luca = pkgs.callPackage ./mongodb-compass.nix { };
+  goldy-plasma-theme = pkgs.callPackage ./themes/goldy-plasma-themes.nix { };
 }

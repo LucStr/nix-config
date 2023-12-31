@@ -173,12 +173,13 @@
       (chromium.override {
         commandLineArgs = [
           "--ozone-platform-hint=auto"
+	  "--enable-native-notifications"
         ];
       })
       tree
       alacritty
       wofi
-      cinnamon.nemo
+      gnome.nautilus
       spotify
       vscode
       hyprpaper
@@ -218,6 +219,8 @@
       filezilla
       gh
       brightnessctl
+      neofetch
+      goldy-plasma-theme
     ];
   };
 
@@ -233,6 +236,7 @@
     xorg.xlsclients
     zip
     unzip
+    swaynotificationcenter
   ];
 
   fonts.packages = with pkgs; [
@@ -302,10 +306,10 @@ environment.variables.LIBVA_DRIVER_NAME = "nvidia";
   };
 
   # Install KDE
-  services.xserver.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
+  #services.xserver.enable = true;
+  #services.xserver.displayManager.sddm.enable = true;
   #services.xserver.windowManager.qtile.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  #services.xserver.desktopManager.plasma5.enable = true;
 
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = [ "nvidia" ];

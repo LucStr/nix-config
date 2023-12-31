@@ -30,13 +30,13 @@ waybar --config ~/.config/waybar/$COLOR_SCHEME/config --style ~/.config/waybar/$
 sh ~/.config/hypr/scripts/set-gtk-theme.sh $GTK_THEME
 
 # Kvantum Theme
-if [[ ! "$KVANTUM_THEME" ]] # If no kvantum theme is set, use gtk2 QT style
-then 
-    sed -i -E 's/(style=)(.*)/\1'"gtk2"'/g' ~/.config/qt5ct/qt5ct.conf
-else
-    sed -i -E 's/(style=)(.*)/\1'"kvantum"'/g' ~/.config/qt5ct/qt5ct.conf
-    kvantummanager --set $KVANTUM_THEME
-fi
+#if [[ ! "$KVANTUM_THEME" ]] # If no kvantum theme is set, use gtk2 QT style
+#then 
+#    sed -i -E 's/(style=)(.*)/\1'"gtk2"'/g' ~/.config/qt5ct/qt5ct.conf
+#else
+#    sed -i -E 's/(style=)(.*)/\1'"kvantum"'/g' ~/.config/qt5ct/qt5ct.conf
+#    kvantummanager --set $KVANTUM_THEME
+#fi
 
 # font
 gsettings set org.gnome.desktop.interface font-name "$FONT"
