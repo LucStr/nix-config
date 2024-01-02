@@ -82,7 +82,7 @@
   in builtins.listToAttrs (map (name: {
     name = ".config/${name}";
     value.source = mkSymlink name;
-  }) [ "hypr" "waybar" "wofi" "gtk-3.0" ]);
+  }) [ "hypr" "waybar" "wofi" "gtk-3.0" "alacritty" ]);
 
   programs.bash.bashrcExtra = lib.mkMerge [
         (lib.mkBefore ''
