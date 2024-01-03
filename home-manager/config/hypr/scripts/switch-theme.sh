@@ -5,6 +5,7 @@ THEME_CONFIG="~/.config/hypr/themes/$1/$1.json"
 GTK_THEME=$(cat ~/.config/hypr/themes/$1/$1.json | jq -r ".gtkTheme")
 KVANTUM_THEME=$(cat ~/.config/hypr/themes/$1/$1.json | jq -r ".kvantumTheme")
 COLOR_SCHEME=$(cat ~/.config/hypr/themes/$1/$1.json | jq -r ".colorScheme")
+COLOR_MODE=$(cat ~/.config/hypr/themes/$1/$1.json | jq -r ".colorMode")
 ICON_THEME=$(cat ~/.config/hypr/themes/$1/$1.json | jq -r ".iconTheme")
 FONT=$(cat ~/.config/hypr/themes/$1/$1.json | jq -r ".font")
 NVIM_THEME=$(cat ~/.config/hypr/themes/$1/$1.json | jq -r ".nvimTheme")
@@ -29,6 +30,9 @@ waybar --config ~/.config/waybar/$COLOR_SCHEME/config --style ~/.config/waybar/$
 
 # gtk theme
 sh ~/.config/hypr/scripts/set-gtk-theme.sh $GTK_THEME $ICON_THEME
+
+# dark mode
+gsettings set org.gnome.desktop.interface color-scheme prefer-$COLOR_MODE
 
 # Kvantum Theme
 #if [[ ! "$KVANTUM_THEME" ]] # If no kvantum theme is set, use gtk2 QT style

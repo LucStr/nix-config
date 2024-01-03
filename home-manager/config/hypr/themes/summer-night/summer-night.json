@@ -3,6 +3,7 @@
     "kvantumTheme": "",
     "iconTheme": "Everforest-Dark",
     "colorScheme": "everforest",
+    "colorMode": "dark",
     "vsCodeTheme": "Everforest Dark",
     "vsCodeExtraColors" : "",
     "nvimTheme": "everforest",

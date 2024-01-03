@@ -6,4 +6,5 @@
   mongodb-compass-luca = pkgs.callPackage ./mongodb-compass.nix { };
   goldy-plasma-theme = pkgs.callPackage ./themes/goldy-plasma-themes.nix { };
   everforest-theme = pkgs.callPackage ./themes/everforest-themes.nix { };
+  mongosync = pkgs.callPackage ./mongosync.nix { };
 }

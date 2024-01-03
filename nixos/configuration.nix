@@ -150,6 +150,19 @@ in
         }
       ];
     };
+    rapidata-prod = {
+      address = [ "172.16.17.2/32" ];
+      privateKeyFile = "/home/luca/.wg/tinker-private";
+      
+      peers = [
+        {
+          publicKey = "IduFvdzqPWHsmzz4Qj8Ok6sUmwAsGM8yhw5d+A34ylg=";
+          allowedIPs = [ "10.97.0.0/16" ];
+          endpoint = "vpn.turtledata.ch:51820";
+          persistentKeepalive = 25;
+        }
+      ];
+    };
   };
 
   # Select internationalisation properties.
@@ -208,7 +221,6 @@ in
       tree
       alacritty
       wofi
-      gnome.nautilus
       cinnamon.nemo
       spotify
       vscode
@@ -255,6 +267,7 @@ in
       configure-gtk
       dbus-sway-environment
       everforest-theme
+      mongosync
     ];
   };
 
