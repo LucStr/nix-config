@@ -20,6 +20,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+
     # TODO: Add any other flake you might need
     # hardware.url = "github:nixos/nixos-hardware";
 
@@ -34,6 +36,7 @@
     home-manager,
     #tuxedo-nixos,
     hyprland,
+    nix-vscode-extensions,
     ...
   } @ inputs: let
     inherit (self) outputs;

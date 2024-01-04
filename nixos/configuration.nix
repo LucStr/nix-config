@@ -223,7 +223,6 @@ in
       wofi
       cinnamon.nemo
       spotify
-      vscode
       hyprpaper
       jq
       (with dotnetCorePackages; combinePackages [
@@ -268,6 +267,19 @@ in
       dbus-sway-environment
       everforest-theme
       mongosync
+      (pkgs.vscode-with-extensions.override
+        {
+          #vscode = pkgs.vscodium;
+          vscodeExtensions = with inputs.nix-vscode-extensions.extensions.${system}.vscode-marketplace; [
+            ms-python.python
+            ms-python.vscode-pylance
+            sainnhe.everforest
+            bbenoist.nix
+            xdebug.php-debug
+            bmewburn.vscode-intelephense-client
+          ];
+        }
+      )
     ];
   };
 
