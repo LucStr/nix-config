@@ -156,9 +156,9 @@ in
       
       peers = [
         {
-          publicKey = "IduFvdzqPWHsmzz4Qj8Ok6sUmwAsGM8yhw5d+A34ylg=";
+          publicKey = "IFmvZCNVUidd6+U/LLBzYeVHIOZQUAxWccY178H9t2A=";
           allowedIPs = [ "10.97.0.0/16" ];
-          endpoint = "vpn.turtledata.ch:51820";
+          endpoint = "vpn.rapidata.ai:51820";
           persistentKeepalive = 25;
         }
       ];
@@ -282,6 +282,7 @@ in
       )
       prismlauncher
       dig
+      playerctl
     ];
   };
 
