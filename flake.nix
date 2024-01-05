@@ -34,9 +34,6 @@
     self,
     nixpkgs,
     home-manager,
-    #tuxedo-nixos,
-    hyprland,
-    nix-vscode-extensions,
     ...
   } @ inputs: let
     inherit (self) outputs;

@@ -267,7 +267,7 @@ in
       dbus-sway-environment
       everforest-theme
       mongosync
-      (pkgs.vscode-with-extensions.override
+      (vscode-with-extensions.override
         {
           #vscode = pkgs.vscodium;
           vscodeExtensions = with inputs.nix-vscode-extensions.extensions.${system}.vscode-marketplace; [
@@ -280,6 +280,8 @@ in
           ];
         }
       )
+      prismlauncher
+      dig
     ];
   };
 
