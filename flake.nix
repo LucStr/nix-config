@@ -73,7 +73,7 @@
       scorcher = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
-          ./hosts/scorcher/configuration.nix
+          ./hosts/scorcher
         ];
       };
     };
