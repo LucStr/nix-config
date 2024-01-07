@@ -73,14 +73,7 @@
       scorcher = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
-          # > Our main nixos configuration file <
-          ./nixos/configuration.nix
-          #tuxedo-nixos.nixosModules.default
-          #{ 
-          #  hardware.tuxedo-control-center.enable = true;
-          #  hardware.tuxedo-control-center.package = tuxedo-nixos.packages.x86_64-linux.default;
-          #  hardware.tuxedo-keyboard.enable = true;
-          #}
+          ./hosts/scorcher/configuration.nix
         ];
       };
     };
