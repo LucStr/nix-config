@@ -37,6 +37,7 @@ in
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ../common/global
     ];
 
   nixpkgs = {
@@ -74,13 +75,6 @@ in
   #    value.source = value.flake;
   #  })
   #  config.nix.registry;
-
-  nix.settings = {
-    # Enable flakes and new 'nix' command
-    experimental-features = "nix-command flakes";
-    # Deduplicate and optimize nix store
-    auto-optimise-store = true;
-  };
 
   boot.loader = {
     efi = {
@@ -283,23 +277,9 @@ in
       prismlauncher
       dig
       playerctl
+      swaynotificationcenter
     ];
   };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    git
-    htop
-    killall
-    home-manager
-    xorg.xlsclients
-    zip
-    unzip
-    swaynotificationcenter
-  ];
 
   fonts.packages = with pkgs; [
     font-awesome
