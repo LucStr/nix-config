@@ -37,7 +37,9 @@ in
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+
       ../common/global
+      ../common/bluetooth
     ];
 
   nixpkgs = {
@@ -308,19 +310,6 @@ in
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
-
-  hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
-  services.blueman.enable = true;
-  
-  # Make audio buttons on bluetooth devices work 
-  systemd.user.services.mpris-proxy = {
-    description = "Mpris proxy";
-    after = [ "network.target" "sound.target" ];
-    wantedBy = [ "default.target" ];
-    serviceConfig.ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
-};
-
  
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
