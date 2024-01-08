@@ -5,6 +5,7 @@ export XCURSOR_SIZE=24
 check_display() {
   if [ -f "$1" ]; then
     status=$(cat "$1")
+    echo $status
     if [ "$status" = "connected" ]; then
       echo "$2"
       return 0
@@ -14,7 +15,7 @@ check_display() {
 }
 
 # Define order of preference for displays
-declare -a displays=("/sys/class/drm/card0-HDMI-A-5/status HDMI-A-5" "/sys/class/drm/card0-DP-2/status DP-2")
+declare -a displays=("/sys/class/drm/card1-HDMI-A-5/status HDMI-A-5" "/sys/class/drm/card0-DP-2/status DP-2")
 
 # Default display
 export MAIN_DISPLAY="eDP-1"
@@ -24,6 +25,7 @@ for display_info in "${displays[@]}"; do
   read -r file display <<< "$display_info"
   if check_display "$file" "$display"; then
     export MAIN_DISPLAY="$display"
+    echo $MAIN_DISPLAY
     break
   fi
 done
