@@ -367,14 +367,14 @@ environment.variables.LIBVA_DRIVER_NAME = "nvidia";
     # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
     # Only available from driver 515.43.04+
     # Currently alpha-quality/buggy, so false is currently the recommended setting.
-    open = true;
+    open = false;
 
     # Enable the Nvidia settings menu,
 	# accessible via `nvidia-settings`.
     nvidiaSettings = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.production;
     
     prime = {
       offload = {
@@ -390,10 +390,9 @@ environment.variables.LIBVA_DRIVER_NAME = "nvidia";
   specialisation = {
     on-the-go.configuration = {
       system.nixos.tags = [ "on-the-go" ];
-      hardware.nvidia = {
-        prime.offload.enable = lib.mkForce true;
-        prime.offload.enableOffloadCmd = lib.mkForce true;
-        prime.sync.enable = lib.mkForce false;
+      environment.sessionVariables = rec {
+        WLR_DRM_DEVICES  = "/dev/dri/card0";
+        KWIN_DRM_DEVICES  = "/dev/dri/card0";
       };
     };
   };

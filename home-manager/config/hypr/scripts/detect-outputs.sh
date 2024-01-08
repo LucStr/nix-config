@@ -1,19 +1,29 @@
 #!/bin/sh
-export MAIN_DISPLAY=eDP-1
 export XCURSOR_SIZE=24
 
-HDMI=$(cat /sys/class/drm/card0-HDMI-A-1/status) # Display in HDMI port
-DP=$(cat /sys/class/drm/card0-DP-2/status) # Display in HDMI port
-
-if [ "$HDMI" = 'disconnected' ]; then
-  if [ "$DP" = 'disconnected' ]; then	
-	export MAIN_DISPLAY=eDP-1
-	export XCURSOR_SIZE=24
-  else
-	export MAIN_DISPLAY=DP-3
-	export XCURSOR_SIZE=24
+# Function to check display status
+check_display() {
+  if [ -f "$1" ]; then
+    status=$(cat "$1")
+    if [ "$status" = "connected" ]; then
+      echo "$2"
+      return 0
+    fi
   fi
-else
-	export MAIN_DISPLAY=HDMI-A-1
-	export XCURSOR_SIZE=24
-fi
+  return 1
+}
+
+# Define order of preference for displays
+declare -a displays=("/sys/class/drm/card0-HDMI-A-5/status HDMI-A-5" "/sys/class/drm/card0-DP-2/status DP-2")
+
+# Default display
+export MAIN_DISPLAY="eDP-1"
+
+# Check each display in order of preference
+for display_info in "${displays[@]}"; do
+  read -r file display <<< "$display_info"
+  if check_display "$file" "$display"; then
+    export MAIN_DISPLAY="$display"
+    break
+  fi
+done
