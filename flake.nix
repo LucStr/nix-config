@@ -20,6 +20,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    spicetify-nix.url = "github:the-argus/spicetify-nix";
+
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
 
     # TODO: Add any other flake you might need
@@ -34,6 +36,7 @@
     self,
     nixpkgs,
     home-manager,
+    spicetify-nix,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -83,10 +86,11 @@
     homeConfigurations = {
       "luca@scorcher" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs outputs;};
+        extraSpecialArgs = {inherit inputs outputs spicetify-nix; };
         modules = [
           # > Our main home-manager configuration file <
           ./home-manager/home.nix
+          ./home-manager/spicetify.nix
         ];
       };
     };
