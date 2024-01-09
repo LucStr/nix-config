@@ -281,6 +281,8 @@ in
       dig
       playerctl
       swaynotificationcenter
+      gitkraken
+      s3fs
     ];
   };
 
