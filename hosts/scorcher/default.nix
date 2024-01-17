@@ -225,7 +225,8 @@ in
       (with dotnetCorePackages; combinePackages [
         sdk_6_0
         sdk_7_0
-	sdk_8_0
+	      sdk_8_0
+        dotnet-luca.sdk_3_1
       ])
       (jetbrains.plugins.addPlugins rider-luca [ "github-copilot" "ideavim" ])
       (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" "ideavim" ])
@@ -264,6 +265,7 @@ in
       dbus-sway-environment
       everforest-theme
       mongosync
+      mongodb-tools
       (vscode-with-extensions.override
         {
           #vscode = pkgs.vscodium;

@@ -1,0 +1,8 @@
+[env]
+TERM = "xterm-256color"
+
+[shell]
+program = "/run/current-system/sw/bin/bash"
+
+[window]
+opacity = 0.8
