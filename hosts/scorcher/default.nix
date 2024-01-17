@@ -41,6 +41,7 @@ in
       ../common/global
       ../common/bluetooth
       ../common/gpu/nvidia-laptop
+      #../common/sshd
     ];
 
   nixpkgs = {
@@ -227,6 +228,7 @@ in
         sdk_7_0
 	      sdk_8_0
         dotnet-luca.sdk_3_1
+        dotnet-luca.runtime_2_1
       ])
       (jetbrains.plugins.addPlugins rider-luca [ "github-copilot" "ideavim" ])
       (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" "ideavim" ])
@@ -351,7 +353,7 @@ environment.variables.LIBVA_DRIVER_NAME = "nvidia";
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
