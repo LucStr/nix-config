@@ -18,7 +18,7 @@
 
     hyprland-luca = inputs.hyprland.packages.x86_64-linux.hyprland.overrideAttrs (oldAttrs: rec {
       patches = oldAttrs.patches ++ [
-        #./hyprland-fullscreen.patch
+        ./hyprland-fullscreen.patch
       ];
     });
 

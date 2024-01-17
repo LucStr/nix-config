@@ -1,13 +1,13 @@
-diff --git a/src/Compositor.cpp b/src/Compositor.cpp
-index 70a19cb5b3..bf04418661 100644
---- a/src/Compositor.cpp
-+++ b/src/Compositor.cpp
-@@ -2278,7 +2278,7 @@ void CCompositor::setWindowFullscreen(CWindow* pWindow, bool on, eFullscreenMode
+diff --git a/src/Window.cpp b/src/Window.cpp
+index 5a50713b2d..f41099dff4 100644
+--- a/src/Window.cpp
++++ b/src/Window.cpp
+@@ -1066,7 +1066,7 @@ bool CWindow::canBeTorn() {
  
-     g_pLayoutManager->getCurrentLayout()->fullscreenRequestForWindow(pWindow, MODE, on);
+ bool CWindow::shouldSendFullscreenState() {
+     const auto MODE = g_pCompositor->getWorkspaceByID(m_iWorkspaceID)->m_efFullscreenMode;
+-    return m_bFakeFullscreenState || (m_bIsFullscreen && (MODE == FULLSCREEN_FULL));
++    return m_bFakeFullscreenState; //|| (m_bIsFullscreen && (MODE == FULLSCREEN_FULL));
+ }
  
--    g_pXWaylandManager->setWindowFullscreen(pWindow, pWindow->m_bIsFullscreen && MODE == FULLSCREEN_FULL);
-+    g_pXWaylandManager->setWindowFullscreen(pWindow, false);
- 
-     pWindow->updateDynamicRules();
-     updateWindowAnimatedDecorationValues(pWindow);
+ void CWindow::setSuspended(bool suspend) {
