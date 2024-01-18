@@ -74,6 +74,7 @@
     gts = "gt submit -n";
     sail= "[ -f sail ] && ${pkgs.bash}/bin/bash sail || ${pkgs.bash}/bin/bash vendor/bin/sail";
     copy = "wl-copy > ";
+    rapidata = "bash ~/Code/rapidata/rapidata-setup/rapidata.sh";
   };
   
 
