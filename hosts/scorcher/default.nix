@@ -278,6 +278,7 @@ in
             bbenoist.nix
             xdebug.php-debug
             bmewburn.vscode-intelephense-client
+	    ms-vscode-remote.remote-containers
           ];
         }
       )
