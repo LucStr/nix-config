@@ -8,4 +8,5 @@
   everforest-theme = pkgs.callPackage ./themes/everforest-themes.nix { };
   mongosync = pkgs.callPackage ./mongosync.nix { };
   dotnet-luca = pkgs.callPackage ./dotnet { };
+  tuxedo-control-center = pkgs.callPackage ./tuxedo-control-center.nix { };
 }
