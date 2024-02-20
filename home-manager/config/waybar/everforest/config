@@ -6,7 +6,7 @@
   "height": 60, 
   "layer": "top",
   "position": "top",
-  "output": "DP-5",
+  "output": "HDMI-A-5",
   "spacing": 15,
   "modules-left": ["custom/launcher", "clock", "clock#date"],
   "modules-center": ["hyprland/workspaces"],

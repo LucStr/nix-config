@@ -288,6 +288,7 @@ in
       swaynotificationcenter
       gitkraken
       s3fs
+      libreoffice-qt
     ];
   };
 
