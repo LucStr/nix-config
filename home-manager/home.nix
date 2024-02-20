@@ -75,6 +75,7 @@
     sail= "[ -f sail ] && ${pkgs.bash}/bin/bash sail || ${pkgs.bash}/bin/bash vendor/bin/sail";
     copy = "wl-copy > ";
     rapidata = "bash ~/Code/rapidata/rapidata-setup/rapidata.sh";
+    cd = "z";
   };
   
 
@@ -84,6 +85,11 @@
     name = ".config/${name}";
     value.source = mkSymlink name;
   }) [ "hypr" "waybar" "wofi" "gtk-3.0" "alacritty" ]);
+
+  programs.zoxide = {
+    enable = true;
+    enableBashIntegration = true;
+  };
 
   programs.bash.bashrcExtra = lib.mkMerge [
         (lib.mkBefore ''
