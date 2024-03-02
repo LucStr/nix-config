@@ -220,6 +220,7 @@ in
       alacritty
       wofi
       cinnamon.nemo
+      gvfs
       spotify
       hyprpaper
       jq
@@ -289,6 +290,7 @@ in
       gitkraken
       s3fs
       libreoffice-qt
+      ncdu
     ];
   };
 
