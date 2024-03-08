@@ -201,7 +201,12 @@ in
     tailor-gui.enable = true;
   };
 
-
+  services = {
+    udev.packages = with pkgs; [ 
+        ledger-udev-rules
+        # potentially even more if you need them
+    ];
+  };
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -291,6 +296,7 @@ in
       s3fs
       libreoffice-qt
       ncdu
+      ledger-live-desktop
     ];
   };
 
