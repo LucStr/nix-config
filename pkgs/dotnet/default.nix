@@ -17,6 +17,7 @@ let
   ## Files in versions/ are generated automatically by update.sh ##
   dotnet_3_1 = import ./versions/3.1.nix buildAttrs;
   dotnet_2_1 = import ./versions/2.1.nix buildAttrs;
+  dotnet_9_0 = import ./versions/9.0.nix buildAttrs;
 
   runtimeIdentifierMap = {
     "x86_64-linux" = "linux-x64";
@@ -33,4 +34,4 @@ in
 {
   inherit systemToDotnetRid;
 
-} // dotnet_3_1 // dotnet_2_1
+} // dotnet_3_1 // dotnet_2_1 // dotnet_9_0

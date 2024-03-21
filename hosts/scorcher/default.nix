@@ -31,6 +31,32 @@ let
     '';
   };
 
+  dotnet-combined = (with pkgs; dotnetCorePackages.combinePackages [
+      dotnetCorePackages.sdk_6_0
+      dotnetCorePackages.sdk_7_0
+      dotnetCorePackages.sdk_8_0
+      dotnetCorePackages.sdk_9_0
+      dotnet-luca.sdk_3_1
+      dotnet-luca.runtime_2_1
+    ]).overrideAttrs (finalAttrs: previousAttrs: {
+      # This is needed to install workload in $HOME
+      # https://discourse.nixos.org/t/dotnet-maui-workload/20370/2
+
+      postBuild = (previousAttrs.postBuild or '''') + ''
+         for i in $out/sdk/*
+         do
+           i=$(basename $i)
+           length=$(printf "%s" "$i" | wc -c)
+           substring=$(printf "%s" "$i" | cut -c 1-$(expr $length - 2))
+           i="$substring""00"
+           mkdir -p $out/metadata/workloads/''${i/-*}
+           touch $out/metadata/workloads/''${i/-*}/userlocal
+        done
+        rm -rf $out/sdk-manifests
+        rm -rf $out/packs
+      '';
+    });
+
 in
 
 {
@@ -126,7 +152,10 @@ in
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
-
+  networking.extraHosts =
+    ''
+      127.0.0.1 host.docker.internal
+    '';
   # Set your time zone.
   time.timeZone = "Europe/Zurich";
 
@@ -229,13 +258,7 @@ in
       spotify
       hyprpaper
       jq
-      (with dotnetCorePackages; combinePackages [
-        sdk_6_0
-        sdk_7_0
-	      sdk_8_0
-        dotnet-luca.sdk_3_1
-        dotnet-luca.runtime_2_1
-      ])
+      dotnet-combined
       (jetbrains.plugins.addPlugins rider-luca [ "github-copilot" "ideavim" ])
       (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" "ideavim" ])
       jetbrains.datagrip
@@ -328,8 +351,11 @@ in
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
  
-environment.variables.VDPAU_DRIVER = "va_gl";
-environment.variables.LIBVA_DRIVER_NAME = "nvidia";
+environment.variables = {
+  VDPAU_DRIVER = "va_gl";
+  LIBVA_DRIVER_NAME = "nvidia";
+  DOTNET_ROOT = "${dotnet-combined}";
+};
  
   programs.steam = {
     enable = true;
