@@ -35,7 +35,6 @@ let
       dotnetCorePackages.sdk_6_0
       dotnetCorePackages.sdk_7_0
       dotnetCorePackages.sdk_8_0
-      dotnetCorePackages.sdk_9_0
       dotnet-luca.sdk_3_1
       dotnet-luca.runtime_2_1
     ]).overrideAttrs (finalAttrs: previousAttrs: {
@@ -52,8 +51,6 @@ let
            mkdir -p $out/metadata/workloads/''${i/-*}
            touch $out/metadata/workloads/''${i/-*}/userlocal
         done
-        rm -rf $out/sdk-manifests
-        rm -rf $out/packs
       '';
     });
 
@@ -354,7 +351,6 @@ in
 environment.variables = {
   VDPAU_DRIVER = "va_gl";
   LIBVA_DRIVER_NAME = "nvidia";
-  DOTNET_ROOT = "${dotnet-combined}";
 };
  
   programs.steam = {
