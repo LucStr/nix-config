@@ -266,7 +266,7 @@ in
       mariadb
       bruno
       nodejs_20
-      awscli2
+      stable.awscli2
       google-cloud-sdk
       wl-clipboard
       wireguard-tools
