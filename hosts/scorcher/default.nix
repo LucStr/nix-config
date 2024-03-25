@@ -160,6 +160,7 @@ in
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
+  services.resolved.enable = true;
   networking.wg-quick.interfaces = {
     rapidata-test = {
       address = [ "172.16.16.2/32" ];
@@ -173,6 +174,16 @@ in
           persistentKeepalive = 25;
         }
       ];
+
+      postUp = ''
+        resolvectl dns rapidata-test 10.96.0.2
+        resolvectl domain rapidata-test ~rabbitdata.ch
+      '';
+
+      postDown = ''
+        resolvectl dns rapidata-test ""
+        resolvectl domain rapidata-test ""
+      '';
     };
     rapidata-prod = {
       address = [ "172.16.17.2/32" ];
@@ -186,6 +197,16 @@ in
           persistentKeepalive = 25;
         }
       ];
+
+      postUp = ''
+        resolvectl dns rapidata-prod 10.97.0.2
+        resolvectl domain rapidata-prod ~rapidata.ai
+      '';
+
+      postDown = ''
+        resolvectl dns rapidata-prod ""
+        resolvectl domain rapidata-prod ""
+      '';
     };
   };
 
@@ -254,6 +275,7 @@ in
       gvfs
       spotify
       hyprpaper
+      hyprlock
       jq
       dotnet-combined
       (jetbrains.plugins.addPlugins rider-luca [ "github-copilot" "ideavim" ])
@@ -317,6 +339,7 @@ in
       libreoffice-qt
       ncdu
       ledger-live-desktop
+      pipenv
     ];
   };
 

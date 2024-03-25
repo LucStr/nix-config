@@ -16,11 +16,9 @@
       ];
     });
 
-    hyprland-luca = inputs.hyprland.packages.x86_64-linux.hyprland;#.overrideAttrs #(oldAttrs: rec {
-    #   patches = oldAttrs.patches ++ [
-    #     #./hyprland-fullscreen.patch
-    #   ];
-    # });
+    hyprland-luca = inputs.hyprland.packages.x86_64-linux.hyprland;
+
+    hyprlock = inputs.hyprlock.packages.x86_64-linux.hyprlock;
 
     rider-luca = prev.jetbrains.rider.overrideAttrs (oldAttrs: rec {
       version = "2023.3";
