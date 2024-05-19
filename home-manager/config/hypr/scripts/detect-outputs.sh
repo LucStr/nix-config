@@ -15,7 +15,7 @@ check_display() {
 }
 
 # Define order of preference for displays
-declare -a displays=("/sys/class/drm/card1-HDMI-A-5/status HDMI-A-5" "/sys/class/drm/card0-DP-2/status DP-2" "/sys/class/drm/card1-DP-5/status DP-5")
+declare -a displays=("/sys/class/drm/card0-DP-5/status DP-5" "/sys/class/drm/card0-HDMI-A-5/status HDMI-A-5" "/sys/class/drm/card1-HDMI-A-5/status HDMI-A-5" "/sys/class/drm/card0-DP-2/status DP-2" "/sys/class/drm/card1-DP-5/status DP-5")
 
 # Default display
 export MAIN_DISPLAY="eDP-1"
