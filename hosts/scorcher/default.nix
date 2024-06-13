@@ -53,7 +53,6 @@ let
         done
       '';
     });
-
 in
 
 {
@@ -260,7 +259,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.luca = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "networkmanager" "adbusers"]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "docker" "networkmanager" "adbusers" "libvirtd"]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       (chromium.override {
         commandLineArgs = [
@@ -319,15 +318,19 @@ in
       (vscode-with-extensions.override
         {
           #vscode = pkgs.vscodium;
-          vscodeExtensions = with inputs.nix-vscode-extensions.extensions.${system}.vscode-marketplace; [
+          vscodeExtensions  =[
+            # C# Development
+            ms-dotnettools-csdevkit
+            ms-dotnettools-csharp
+          ] ++ (with inputs.nix-vscode-extensions.extensions.${system}.vscode-marketplace; [
             ms-python.python
             ms-python.vscode-pylance
             sainnhe.everforest
             bbenoist.nix
             xdebug.php-debug
             bmewburn.vscode-intelephense-client
-	    ms-vscode-remote.remote-containers
-          ];
+	          ms-vscode-remote.remote-containers
+          ]);
         }
       )
       prismlauncher
@@ -341,6 +344,9 @@ in
       ledger-live-desktop
       pipenv
       logisim-evolution
+      vlc
+      libvlc
+      signal-desktop
     ];
   };
 
@@ -360,12 +366,18 @@ in
     package = pkgs.hyprland-luca;
   };
 
-  programs.sway.enable = true;
+  #programs.sway.enable = true;
 
   programs.waybar.enable = true;
   programs.adb.enable = true;
 
   virtualisation.docker.enable = true;
+
+  # virt-manager
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true;
+  #environment.systemPackages = with pkgs; [virt-manager];
+  programs.virt-manager.enable = true;
 
   xdg.portal = {
     enable = true;

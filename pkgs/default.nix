@@ -9,4 +9,6 @@
   mongosync = pkgs.callPackage ./mongosync.nix { };
   dotnet-luca = pkgs.callPackage ./dotnet { };
   tuxedo-control-center = pkgs.callPackage ./tuxedo-control-center.nix { };
+  ms-dotnettools-csdevkit = pkgs.callPackage ./ms-dotnettools.csdevkit { };
+  ms-dotnettools-csharp = pkgs.callPackage ./ms-dotnettools.csharp { };
 }
