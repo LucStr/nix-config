@@ -199,7 +199,7 @@ in
 
       postUp = ''
         resolvectl dns rapidata-prod 10.97.0.2
-        resolvectl domain rapidata-prod ~rapidata.ai
+        resolvectl domain rapidata-prod ~rapidata.ai ~s8kbzj5xd9.eu-central-1.aws.vpce.clickhouse.cloud
       '';
 
       postDown = ''
@@ -290,6 +290,7 @@ in
       stable.awscli2
       google-cloud-sdk
       wl-clipboard
+      cliphist
       wireguard-tools
       terraform
       redis
@@ -330,6 +331,7 @@ in
             xdebug.php-debug
             bmewburn.vscode-intelephense-client
 	          ms-vscode-remote.remote-containers
+            ms-dotnettools.vscode-dotnet-runtime
           ]);
         }
       )

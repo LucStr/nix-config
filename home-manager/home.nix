@@ -73,7 +73,7 @@
     gtt = "gt track -p main";
     gts = "gt submit -n";
     sail= "[ -f sail ] && ${pkgs.bash}/bin/bash sail || ${pkgs.bash}/bin/bash vendor/bin/sail";
-    copy = "wl-copy > ";
+    copy = "wl-copy < ";
     rapidata = "bash ~/Code/rapidata/rapidata-setup/rapidata.sh";
     cd = "z";
     docker-compose="docker compose";

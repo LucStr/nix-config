@@ -16,6 +16,11 @@ DARK_READER_BACKGROUND_COLOR=$(cat ~/.config/hypr/themes/$1/$1.json | jq -r ".da
 DARK_READER_TEXT_COLOR=$(cat ~/.config/hypr/themes/$1/$1.json | jq -r ".darkReaderColors.text")
 
 source configure-gtk
+
+# wofi theme
+rm ~/.config/wofi/theme.css
+ln -s ~/.config/wofi/themes/$COLOR_SCHEME.css ~/.config/wofi/theme.css
+
 # wallpaper
 pkill hyprpaper
 hyprpaper -c ~/.config/hypr/hyprpaper/$COLOR_SCHEME.conf &
