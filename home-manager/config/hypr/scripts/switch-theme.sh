@@ -29,6 +29,11 @@ hyprpaper -c ~/.config/hypr/hyprpaper/$COLOR_SCHEME.conf &
 source ~/.config/hypr/scripts/detect-outputs.sh
 sed -i -E 's/("output": ")(.*)(",)/\1'"$MAIN_DISPLAY"'\3/g' ~/.config/waybar/$COLOR_SCHEME/config
 
+# Switch hyprlock
+.config/hypr/themes/summer-day/summer-day.png
+
+sed -i -E 's|(path = ).*|\1'"$HOME/.config/hypr/themes/$1/$1.png"'|' ~/.config/hypr/hyprlock.conf
+
 # waybar
 pkill waybar
 waybar --config ~/.config/waybar/$COLOR_SCHEME/config --style ~/.config/waybar/$COLOR_SCHEME/style.css &

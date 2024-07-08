@@ -386,10 +386,15 @@ in
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
  
-environment.variables = {
-  VDPAU_DRIVER = "va_gl";
-  LIBVA_DRIVER_NAME = "nvidia";
-};
+  environment = {
+    variables = {
+      VDPAU_DRIVER = "va_gl";
+      LIBVA_DRIVER_NAME = "nvidia";
+    };
+    systemPackages = [
+      inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+    ];
+  };
  
   programs.steam = {
     enable = true;
