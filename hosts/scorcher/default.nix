@@ -199,7 +199,7 @@ in
 
       postUp = ''
         resolvectl dns rapidata-prod 10.97.0.2
-        resolvectl domain rapidata-prod ~rapidata.ai ~s8kbzj5xd9.eu-central-1.aws.vpce.clickhouse.cloud
+        resolvectl domain rapidata-prod ~rapidata.ai ~eu-central-1.aws.vpce.clickhouse.cloud
       '';
 
       postDown = ''
@@ -380,6 +380,7 @@ in
   programs.dconf.enable = true;
   #environment.systemPackages = with pkgs; [virt-manager];
   programs.virt-manager.enable = true;
+  programs.seahorse.enable = true;
 
   xdg.portal = {
     enable = true;
@@ -393,6 +394,7 @@ in
     };
     systemPackages = [
       inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+      pkgs.rose-pine-xcursor
     ];
   };
  
@@ -404,7 +406,19 @@ in
 
   # Install KDE
   #services.xserver.enable = true;
-  #services.xserver.displayManager.sddm.enable = true;
+  services.displayManager = {
+    sddm = {
+      enable = true;
+      wayland.enable = true;
+    };
+    autoLogin = {
+      enable = true;
+      user = "luca";
+    };
+  };
+
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.sddm.enableGnomeKeyring = true;
   #services.xserver.windowManager.qtile.enable = true;
   #services.xserver.desktopManager.plasma5.enable = true;
 
