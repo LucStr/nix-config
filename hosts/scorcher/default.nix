@@ -262,6 +262,7 @@ in
     extraGroups = [ "wheel" "docker" "networkmanager" "adbusers" "libvirtd"]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
       (chromium.override {
+        enableWideVine = true;
         commandLineArgs = [
           "--ozone-platform-hint=auto"
 	  "--enable-native-notifications"
@@ -385,17 +386,6 @@ in
   xdg.portal = {
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  };
- 
-  environment = {
-    variables = {
-      VDPAU_DRIVER = "va_gl";
-      LIBVA_DRIVER_NAME = "nvidia";
-    };
-    systemPackages = [
-      inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
-      pkgs.rose-pine-xcursor
-    ];
   };
  
   programs.steam = {
