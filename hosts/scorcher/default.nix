@@ -271,7 +271,7 @@ in
       tree
       alacritty
       wofi
-      cinnamon.nemo
+      nemo
       gvfs
       spotify
       hyprpaper
@@ -383,6 +383,8 @@ in
   programs.virt-manager.enable = true;
   programs.seahorse.enable = true;
 
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
   xdg.portal = {
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
@@ -392,6 +394,16 @@ in
     enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
+    gamescopeSession.enable = true;
+  };
+
+  programs.gamescope = {
+    enable = true;
+  };
+
+  programs.nh = {
+    enable = true;
+    flake = "/home/luca/nix-config/";
   };
 
   # Install KDE
