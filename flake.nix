@@ -16,7 +16,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     hyprland = {
-      url = "git+https://github.com/hyprwm/Hyprland?refs/tags/v0.42.0&submodules=1";
+      url = "git+https://github.com/hyprwm/Hyprland?ref=refs/tags/v0.42.0&submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -25,7 +25,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    spicetify-nix.url = "github:the-argus/spicetify-nix";
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
 
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
 
@@ -36,7 +36,6 @@
     self,
     nixpkgs,
     home-manager,
-    spicetify-nix,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -86,11 +85,10 @@
     homeConfigurations = {
       "luca@scorcher" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs outputs spicetify-nix; };
+        extraSpecialArgs = {inherit inputs outputs; };
         modules = [
           # > Our main home-manager configuration file <
           ./home-manager/home.nix
-          ./home-manager/spicetify.nix
         ];
       };
     };

@@ -17,7 +17,8 @@
     # inputs.nix-colors.homeManagerModules.default
 
     # You can also split up your configuration and import pieces of it here:
-    # ./nvim.nix
+    ./nvim
+    ./spicetify.nix
     inputs.hyprland.homeManagerModules.default
   ];
 
@@ -55,15 +56,6 @@
       EDITOR = "nvim";
     };
  };
-  
-  programs.neovim = {
-    enable = true;
-    viAlias = true;
-    vimAlias = true;
-    extraConfig = ''
-      set number relativenumber
-    '';
-  };
 
   programs.bash.enable = true;
   programs.bash.shellAliases = {

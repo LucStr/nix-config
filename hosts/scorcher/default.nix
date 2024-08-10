@@ -265,7 +265,7 @@ in
         enableWideVine = true;
         commandLineArgs = [
           "--ozone-platform-hint=auto"
-	  "--enable-native-notifications"
+	        "--enable-native-notifications"
         ];
       })
       tree
