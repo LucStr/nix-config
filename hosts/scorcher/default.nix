@@ -350,6 +350,8 @@ in
       vlc
       libvlc
       signal-desktop
+      gcc
+      ripgrep
     ];
   };
 

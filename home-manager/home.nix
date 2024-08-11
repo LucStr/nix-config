@@ -19,6 +19,7 @@
     # You can also split up your configuration and import pieces of it here:
     ./nvim
     ./spicetify.nix
+    ./tmux
     inputs.hyprland.homeManagerModules.default
   ];
 
