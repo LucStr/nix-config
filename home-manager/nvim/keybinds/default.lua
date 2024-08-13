@@ -10,3 +10,4 @@ vim.keymap.set('t', '<ESC>',  '<C-\\><C-n>',  {noremap = true})
 -- bind telescope hotspots
 vim.keymap.set('n', '<C-t>', ':Telescope find_files<CR>', { desc = 'Find files in current location'})
 
+vim.keymap.set({"n", "i", "v"}, "<F2>", '<cmd>lua require("renamer").rename()<cr>', { desc = 'Renames a symbol through the LSP'})

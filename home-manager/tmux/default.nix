@@ -20,6 +20,8 @@
       bind -n C-M-l resize-pane -R 5
 
       set -g @catppuccin_flavour 'mocha'
+
+      setw -g mouse on
     '';
   };
 }
