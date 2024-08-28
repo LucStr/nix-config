@@ -288,6 +288,7 @@ in
       mariadb
       bruno
       nodejs_20
+      nodePackages.typescript
       stable.awscli2
       google-cloud-sdk
       wl-clipboard
@@ -379,9 +380,22 @@ in
   virtualisation.docker.enable = true;
 
   # virt-manager
-  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      ovmf = {
+        enable = true;
+        packages = [pkgs.OVMFFull.fd];
+      };
+      swtpm.enable = true;
+    };
+  };
+
   programs.dconf.enable = true;
-  #environment.systemPackages = with pkgs; [virt-manager];
+  environment.systemPackages = with pkgs; [
+      virtiofsd
+  ];
   programs.virt-manager.enable = true;
   programs.seahorse.enable = true;
 

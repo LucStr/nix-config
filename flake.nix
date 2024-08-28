@@ -21,7 +21,7 @@
     };
 
     hyprlock = {
-      url = "github:hyprwm/hyprlock";
+      url = "github:hyprwm/hyprlock?ref=refs/tags/v0.4.1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

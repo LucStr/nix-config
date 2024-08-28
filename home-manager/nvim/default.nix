@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 {
   home.packages = with pkgs; [
@@ -9,6 +9,16 @@
   let
     toLua = str: "lua << EOF\n${str}\nEOF\n";
     toLuaFile = file: "lua << EOF\n${builtins.readFile file}\nEOF\n";
+
+    fromGitHub = rev: ref: repo: pkgs.vimUtils.buildVimPluginFrom2Nix {
+      pname = "${lib.strings.sanitizeDerivationName repo}";
+      version = ref;
+      src = builtins.fetchGit {
+        url = "https://github.com/${repo}.git";
+        ref = ref;
+        rev = rev;
+     };
+  };
   in
   {
     enable = true;
@@ -25,6 +35,9 @@
       tmux
       rust-analyzer
       pyright
+      nil
+      roslyn-ls
+      ripgrep
     ];
 
     plugins = with pkgs.vimPlugins; [
@@ -89,6 +102,10 @@
         plugin = renamer-nvim;
         config = toLua "require(\"renamer\").setup {}";
       }
+      {
+        plugin = (fromGitHub "e284f0e6c34b01cd1db9fdb71c75ae85d732a43b" "main" "seblj/roslyn.nvim");
+      }
+      actions-preview-nvim
     ];
 
     extraLuaConfig = ''
