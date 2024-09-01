@@ -20,4 +20,6 @@ vim.keymap.set("n", "sd", '<cmd>:Telescope lsp_document_symbols<CR>', { desc = '
 vim.keymap.set("n", "sf", '<cmd>:Telescope live_grep<CR>', { desc = 'Search all files' })
 vim.keymap.set("n", "sr", '<cmd>:Telescope lsp_references<CR>', { desc = 'Search all references' })
 
+vim.keymap.set("n", "ff", '<cmd>:lua vim.lsp.buf.format({})<CR>', { desc = 'Search all references' })
+
 

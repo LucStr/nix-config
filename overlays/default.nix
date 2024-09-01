@@ -20,12 +20,14 @@
 
     hyprlock = inputs.hyprlock.packages.x86_64-linux.hyprlock;
 
+    hyprpaper-luca = inputs.hyprpaper.packages.x86_64-linux.hyprpaper;
+
     rider-luca = prev.jetbrains.rider.overrideAttrs (oldAttrs: rec {
-      version = "2024.1";
-      buildNumber = "241.14494.307";
+      version = "2024.2.3";
+      buildNumber = "242.21829.166";
       src = final.fetchurl {
-        url = "https://download.jetbrains.com/rider/JetBrains.Rider-2024.1.tar.gz";
-	sha256 = "194096b0b550e1e320fc72aaf0510faeebf8737d05f6e02eecd72efe6f7cd757";
+        url = "https://download.jetbrains.com/rider/JetBrains.Rider-2024.2.3.tar.gz";
+	sha256 = "0qkv1gi9xqb3msjfg64yc9vqs6p9liclcbv4xm2kddx6z50ni0hl";
       };
       update-channel = "Rider RELEASE";
     });

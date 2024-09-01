@@ -22,7 +22,7 @@ require("roslyn").setup({
         --     - `on_init`
     },
     exe = {
-        "roslyn-ls"
+        "Microsoft.CodeAnalysis.LanguageServer"
     },
     -- NOTE: Set `filewatching` to false if you experience performance problems.
     -- Defaults to true, since turning it off is a hack.
