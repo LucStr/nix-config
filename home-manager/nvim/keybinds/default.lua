@@ -1,3 +1,5 @@
+vim.g.mapleader=";"
+
 -- binds to switch windows
 vim.keymap.set('n', '<C-h>', ':wincmd h<CR>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', ':wincmd l<CR>', { desc = 'Move focus to the right window' })
@@ -21,5 +23,4 @@ vim.keymap.set("n", "sf", '<cmd>:Telescope live_grep<CR>', { desc = 'Search all 
 vim.keymap.set("n", "sr", '<cmd>:Telescope lsp_references<CR>', { desc = 'Search all references' })
 
 vim.keymap.set("n", "ff", '<cmd>:lua vim.lsp.buf.format({})<CR>', { desc = 'Search all references' })
-
 

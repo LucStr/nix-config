@@ -27,6 +27,7 @@
     vimdiffAlias = true;
     extraConfig = ''
       set number relativenumber
+      let mapleader=";"
     '';
 
     extraPackages = with pkgs; [
@@ -106,6 +107,10 @@
         plugin = (fromGitHub "e284f0e6c34b01cd1db9fdb71c75ae85d732a43b" "main" "seblj/roslyn.nvim");
       }
       actions-preview-nvim
+      {
+        plugin = harpoon2;
+        config = toLuaFile ./plugins/harpoon.lua;
+      }
     ];
 
     extraLuaConfig = ''
