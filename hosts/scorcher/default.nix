@@ -184,6 +184,7 @@ in
         resolvectl domain rapidata-test ""
       '';
     };
+    
     rapidata-prod = {
       address = [ "172.16.17.2/32" ];
       privateKeyFile = "/home/luca/.wg/tinker-private";
@@ -207,7 +208,32 @@ in
         resolvectl domain rapidata-prod ""
       '';
     };
+
+    rapidata-stage = {
+      address = [ "172.16.18.2/32" ];
+      privateKeyFile = "/home/luca/.wg/tinker-private";
+      
+      peers = [
+        {
+          publicKey = "mRuajHEDH0KdAK8EoRq/MUhcqOEXx5Binnhr4YDziQs=";
+          allowedIPs = [ "10.98.0.0/16" ];
+          endpoint = "vpn.turtledata.ch:51820";
+          persistentKeepalive = 25;
+        }
+      ];
+
+      postUp = ''
+        resolvectl dns rapidata-stage 10.98.0.2
+        resolvectl domain rapidata-stage ~turtledata.ch ~eu-central-1.aws.vpce.clickhouse.cloud
+      '';
+
+      postDown = ''
+        resolvectl dns rapidata-stage ""
+        resolvectl domain rapidata-stage ""
+      '';
+    };
   };
+
 
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
@@ -353,6 +379,8 @@ in
       signal-desktop
       gcc
       ripgrep
+      yarn
+      jmeter
     ];
   };
 

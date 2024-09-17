@@ -1,10 +1,11 @@
 vim.g.mapleader=";"
 
 -- binds to switch windows
-vim.keymap.set('n', '<C-h>', ':wincmd h<CR>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', ':wincmd l<CR>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', ':wincmd j<CR>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', ':wincmd k<CR>', { desc = 'Move focus to the upper window' })
+vim.keymap.set('n', '<C-h>', '<cmd>:TmuxNavigateLeft<cr>', { desc = 'Move focus to the left window or tmux pane' })
+vim.keymap.set('n', '<C-j>', '<cmd>:TmuxNavigateDown<cr>', { desc = 'Move focus to the lower window or tmux pane' })
+vim.keymap.set('n', '<C-k>', '<cmd>:TmuxNavigateUp<cr>', { desc = 'Move focus to the upper window or tmux pane' })
+vim.keymap.set('n', '<C-l>', '<cmd>:TmuxNavigateRight<cr>', { desc = 'Move focus to the right window or tmux pane' })
+vim.keymap.set('n', '<C-\\>', '<cmd>:TmuxNavigatePrevious<cr>', { desc = 'Move focus to the previously used tmux pane' })
 
 -- bind to exit the terminal
 vim.keymap.set('t', '<ESC>',  '<C-\\><C-n>',  {noremap = true})

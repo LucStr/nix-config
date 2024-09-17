@@ -12,6 +12,8 @@ require'lspconfig'.pyright.setup{}
 
 require'lspconfig'.nil_ls.setup{}
 
+require'lspconfig'.phpactor.setup{}
+
 require("roslyn").setup({
     config = {
         -- Here you can pass in any options that that you would like to pass to `vim.lsp.start`

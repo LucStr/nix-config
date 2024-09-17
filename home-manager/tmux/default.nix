@@ -13,6 +13,7 @@
       bind -n C-j select-pane -D
       bind -n C-k select-pane -U
       bind -n C-l select-pane -R
+      bind -n C-\\ last-pane  # Jump to the previous pane using Ctrl-\
 
       bind -n C-M-h resize-pane -L 5
       bind -n C-M-j resize-pane -D 5
