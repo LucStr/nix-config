@@ -31,6 +31,15 @@
       };
       update-channel = "Rider RELEASE";
     });
+    #rider-luca = prev.jetbrains.rider.overrideAttrs (oldAttrs: rec {
+    #  version = "2024.2.5";
+    #  buildNumber = "242.22855.90";
+    #  src = final.fetchurl {
+    #    url = "https://download.jetbrains.com/rider/JetBrains.Rider-2024.2.5.tar.gz";
+    #    sha256 = "1zlxkynznd1zcx3s0bs3vz3vn36b0aia0z9bpx7339phb723z2vw";
+    #  };
+    #  update-channel = "Rider RELEASE";
+    #});
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will

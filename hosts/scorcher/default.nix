@@ -176,7 +176,7 @@ in
 
       postUp = ''
         resolvectl dns rapidata-test 10.96.0.2
-        resolvectl domain rapidata-test ~rabbitdata.ch
+        resolvectl domain rapidata-test ~internal.rabbitdata.ch
       '';
 
       postDown = ''
@@ -200,7 +200,7 @@ in
 
       postUp = ''
         resolvectl dns rapidata-prod 10.97.0.2
-        resolvectl domain rapidata-prod ~rapidata.ai ~eu-central-1.aws.vpce.clickhouse.cloud
+        resolvectl domain rapidata-prod ~internal.rapidata.ai ~eu-central-1.aws.vpce.clickhouse.cloud
       '';
 
       postDown = ''
@@ -224,7 +224,7 @@ in
 
       postUp = ''
         resolvectl dns rapidata-stage 10.98.0.2
-        resolvectl domain rapidata-stage ~turtledata.ch ~eu-central-1.aws.vpce.clickhouse.cloud
+        resolvectl domain rapidata-stage ~internal.turtledata.ch ~eu-central-1.aws.vpce.clickhouse.cloud
       '';
 
       postDown = ''
