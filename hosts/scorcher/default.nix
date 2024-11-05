@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
-{ inputs, outputs, config, pkgs, lib,... }:
+{ inputs, outputs, pkgs, ... }:
 
 let
   dbus-sway-environment = pkgs.writeTextFile {
@@ -53,6 +53,15 @@ let
         done
       '';
     });
+
+
+  tls-cert = {alt ? []}: (pkgs.runCommand "selfSignedCert" { buildInputs = [ pkgs.openssl ]; } ''
+    mkdir -p $out
+    openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:secp384r1 -days 365 -nodes \
+      -keyout $out/cert.key -out $out/cert.crt \
+      -subj "/CN=*.rapidata.local" -addext "subjectAltName=DNS:*.rapidata.local,DNS:rapidata.local,${builtins.concatStringsSep "," (["IP:127.0.0.1"] ++ alt)}"
+  '');
+  cert = tls-cert {};
 in
 
 {
@@ -151,6 +160,11 @@ in
   networking.extraHosts =
     ''
       127.0.0.1 host.docker.internal
+      127.0.0.1 rapids.rapidata.dev
+      127.0.0.1 app.rapidata.dev
+      127.0.0.1 api.rapidata.dev
+      127.0.0.1 auth.rapidata.dev
+      10.97.5.2 kubernetes.default.svc.rapidata.prod
     '';
   # Set your time zone.
   time.timeZone = "Europe/Zurich";
@@ -159,9 +173,17 @@ in
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  services.resolved.enable = true;
+  services.resolved = {
+    enable = true;
+    
+      #    extraConfig = ''
+      #DNS=216.239.32.107 216.239.34.107 216.239.36.107 216.239.38.107
+      #Domains=rapidata.ai
+    #    '';
+  };
   networking.wg-quick.interfaces = {
     rapidata-test = {
+      autostart = false;
       address = [ "172.16.16.2/32" ];
       privateKeyFile = "/home/luca/.wg/tinker-private";
       
@@ -186,8 +208,10 @@ in
     };
     
     rapidata-prod = {
+      autostart = true;
       address = [ "172.16.17.2/32" ];
       privateKeyFile = "/home/luca/.wg/tinker-private";
+      mtu = 1384;
       
       peers = [
         {
@@ -199,8 +223,8 @@ in
       ];
 
       postUp = ''
-        resolvectl dns rapidata-prod 10.97.0.2
-        resolvectl domain rapidata-prod ~internal.rapidata.ai ~eu-central-1.aws.vpce.clickhouse.cloud
+        resolvectl dns rapidata-prod 10.97.2.1
+        resolvectl domain rapidata-prod ~rapidata.internal 
       '';
 
       postDown = ''
@@ -209,7 +233,41 @@ in
       '';
     };
 
+    rapidata-gcp = {
+      address = [ "172.16.17.2/32" ];
+      privateKeyFile = "/home/luca/.wg/tinker-private";
+      autostart = false;
+      mtu = 1384;
+      
+      peers = [
+        {
+          publicKey = "IFmvZCNVUidd6+U/LLBzYeVHIOZQUAxWccY178H9t2A=";
+          allowedIPs = [ "10.97.0.0/16" "216.239.32.107/32" ];
+          #allowedIPs = [ "0.0.0.0/0" ];
+          endpoint = "34.90.72.160:51820";
+          persistentKeepalive = 25;
+        }
+      ];
+
+      #dns = ["10.97.1.1"];
+
+      postUp = ''
+        #resolvectl dns rapidata-gcp 216.239.32.107 
+        #resolvectl domain rapidata-gcp ~rapidata.ai 
+        resolvectl dns rapidata-gcp 10.97.2.1
+        resolvectl domain rapidata-gcp ~rapidata.internal
+      '';
+
+      postDown = ''
+        resolvectl dns rapidata-gcp ""
+        resolvectl domain rapidata-gcp ""
+      '';
+    };
+
+
+
     rapidata-stage = {
+      autostart = false;
       address = [ "172.16.18.2/32" ];
       privateKeyFile = "/home/luca/.wg/tinker-private";
       
@@ -314,9 +372,10 @@ in
       mariadb
       bruno
       nodejs_20
+      corepack_20
       nodePackages.typescript
       stable.awscli2
-      google-cloud-sdk
+      (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
       wl-clipboard
       cliphist
       wireguard-tools
@@ -360,6 +419,10 @@ in
             bmewburn.vscode-intelephense-client
 	          ms-vscode-remote.remote-containers
             ms-dotnettools.vscode-dotnet-runtime
+            esbenp.prettier-vscode
+            github.copilot
+            redhat.vscode-yaml
+            ms-kubernetes-tools.vscode-kubernetes-tools
           ]);
         }
       )
@@ -381,6 +444,9 @@ in
       ripgrep
       yarn
       jmeter
+      kubectl
+      kubernetes-helm
+      argocd
     ];
   };
 

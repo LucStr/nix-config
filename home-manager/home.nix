@@ -70,6 +70,7 @@
     rapidata = "bash ~/Code/rapidata/rapidata-setup/rapidata.sh";
     cd = "z";
     docker-compose="docker compose";
+    k = "kubectl";
   };
   
 
