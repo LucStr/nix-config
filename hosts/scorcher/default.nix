@@ -53,15 +53,6 @@ let
         done
       '';
     });
-
-
-  tls-cert = {alt ? []}: (pkgs.runCommand "selfSignedCert" { buildInputs = [ pkgs.openssl ]; } ''
-    mkdir -p $out
-    openssl req -x509 -newkey ec -pkeyopt ec_paramgen_curve:secp384r1 -days 365 -nodes \
-      -keyout $out/cert.key -out $out/cert.crt \
-      -subj "/CN=*.rapidata.local" -addext "subjectAltName=DNS:*.rapidata.local,DNS:rapidata.local,${builtins.concatStringsSep "," (["IP:127.0.0.1"] ++ alt)}"
-  '');
-  cert = tls-cert {};
 in
 
 {
@@ -104,7 +95,7 @@ in
   # Making legacy nix commands consistent as well, awesome!
   # nix.nixPath = ["/etc/nix/path"];
   #environment.etc =
-  #  lib.mapAttrs'
+  #  lib.mapAttrsdev'
   #  (name: value: {
   #    name = "nix/path/${name}";
   #    value.source = value.flake;
@@ -198,7 +189,7 @@ in
 
       postUp = ''
         resolvectl dns rapidata-test 10.96.0.2
-        resolvectl domain rapidata-test ~internal.rabbitdata.ch
+        resolvectl domain rapidata-test ~internal.rabbitdata.ch 
       '';
 
       postDown = ''
@@ -224,7 +215,7 @@ in
 
       postUp = ''
         resolvectl dns rapidata-prod 10.97.2.1
-        resolvectl domain rapidata-prod ~rapidata.internal 
+        resolvectl domain rapidata-prod ~rapidata.internal jdl8d5xg4d.europe-west4.p.gcp.clickhouse.cloud
       '';
 
       postDown = ''
@@ -370,7 +361,7 @@ in
       discord
       pulsemixer
       mariadb
-      bruno
+      #bruno
       nodejs_20
       corepack_20
       nodePackages.typescript
@@ -447,6 +438,7 @@ in
       kubectl
       kubernetes-helm
       argocd
+      mkcert
     ];
   };
 
@@ -535,10 +527,12 @@ in
   #services.xserver.windowManager.qtile.enable = true;
   #services.xserver.desktopManager.plasma5.enable = true;
 
+  security.pki.certificateFiles = [ /home/luca/.local/share/mkcert/rootCA.pem ];
+
   specialisation = {
     on-the-go.configuration = {
       system.nixos.tags = [ "on-the-go" ];
-      environment.sessionVariables = rec {
+      environment.sessionVariables = {
         WLR_DRM_DEVICES  = "/dev/dri/card0";
         KWIN_DRM_DEVICES  = "/dev/dri/card0";
       };
@@ -557,11 +551,7 @@ in
   # Or disable the firewall altogether.
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [
-      3000
-      3001
-      5001
-    ];
+    trustedInterfaces = [ "rapidnet" ];
   };
 
   # Copy the NixOS configuration file and link it from the resulting system
