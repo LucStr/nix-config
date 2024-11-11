@@ -174,7 +174,7 @@ in
   };
   networking.wg-quick.interfaces = {
     rapidata-test = {
-      autostart = false;
+      autostart = true;
       address = [ "172.16.16.2/32" ];
       privateKeyFile = "/home/luca/.wg/tinker-private";
       
@@ -188,8 +188,8 @@ in
       ];
 
       postUp = ''
-        resolvectl dns rapidata-test 10.96.0.2
-        resolvectl domain rapidata-test ~internal.rabbitdata.ch 
+        resolvectl dns rapidata-test 10.96.2.1
+        resolvectl domain rapidata-test ~rabbitdata.internal
       '';
 
       postDown = ''
@@ -423,6 +423,7 @@ in
       swaynotificationcenter
       gitkraken
       s3fs
+      gcsfuse
       libreoffice-qt
       ncdu
       ledger-live-desktop
@@ -439,6 +440,7 @@ in
       kubernetes-helm
       argocd
       mkcert
+      kustomize
     ];
   };
 
@@ -524,7 +526,7 @@ in
 
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.sddm.enableGnomeKeyring = true;
-  #services.xserver.windowManager.qtile.enable = true;
+  #services.xserver.windowManager.qtile.enable = true
   #services.xserver.desktopManager.plasma5.enable = true;
 
   security.pki.certificateFiles = [ /home/luca/.local/share/mkcert/rootCA.pem ];
