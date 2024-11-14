@@ -32,9 +32,9 @@ let
   };
 
   dotnet-combined = (with pkgs; dotnetCorePackages.combinePackages [
-      dotnetCorePackages.sdk_6_0
       dotnetCorePackages.sdk_7_0
       dotnetCorePackages.sdk_8_0
+      dotnetCorePackages.sdk_9_0
       dotnet-luca.sdk_3_1
       dotnet-luca.runtime_2_1
     ]).overrideAttrs (finalAttrs: previousAttrs: {
@@ -177,6 +177,7 @@ in
       autostart = true;
       address = [ "172.16.16.2/32" ];
       privateKeyFile = "/home/luca/.wg/tinker-private";
+      mtu = 1384;
       
       peers = [
         {
@@ -317,10 +318,10 @@ in
     #jack.enable = true;
   };
 
-  hardware.tuxedo-rs = {
-    enable = true;
-    tailor-gui.enable = true;
-  };
+  #hardware.tuxedo-rs = {
+    #  enable = true;
+    #tailor-gui.enable = true;
+  #};
 
   services = {
     udev.packages = with pkgs; [ 
@@ -353,7 +354,7 @@ in
       hyprlock
       jq
       dotnet-combined
-      (jetbrains.plugins.addPlugins rider-luca [ "github-copilot" "ideavim" ])
+      (jetbrains.plugins.addPlugins jetbrains.rider [ "github-copilot" "ideavim" ])
       (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" "ideavim" ])
       jetbrains.datagrip
       mongodb-compass-luca
