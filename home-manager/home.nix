@@ -71,6 +71,7 @@
     cd = "z";
     docker-compose="docker compose";
     k = "kubectl";
+    tvim = "bash $HOME/.config/scripts/tvim.sh";
   };
   
 
@@ -79,7 +80,7 @@
   in builtins.listToAttrs (map (name: {
     name = ".config/${name}";
     value.source = mkSymlink name;
-  }) [ "hypr" "waybar" "wofi" "gtk-3.0" "alacritty" ]);
+  }) [ "hypr" "waybar" "wofi" "gtk-3.0" "alacritty" "scripts"]);
 
   programs.zoxide = {
     enable = true;
