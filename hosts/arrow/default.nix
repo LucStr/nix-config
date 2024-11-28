@@ -62,7 +62,7 @@ in
 
       ../common/global
       ../common/bluetooth
-      ../common/gpu/nvidia-laptop
+      ../common/gpu/intel-laptop
       #../common/sshd
     ];
 
@@ -354,7 +354,8 @@ in
       hyprlock
       jq
       dotnet-combined
-      (jetbrains.plugins.addPlugins rider-luca [ "github-copilot" "ideavim" ])
+      inputs.nixpkgs-local.legacyPackages.x86_64-linux.jetbrains.rider
+      #(jetbrains.plugins.addPlugins rider-luca [ "github-copilot" "ideavim" ])
       (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" "ideavim" ])
       jetbrains.datagrip
       mongodb-compass-luca
@@ -442,6 +443,8 @@ in
       argocd
       mkcert
       kustomize
+      teamspeak_client
+      nmap
     ];
   };
 
