@@ -7,7 +7,6 @@
     # You can access packages and modules from different nixpkgs revs
     # at the same time. Here's an working example:
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.05";
-    nixpkgs-local.url = "path:/home/luca/Code/tinker/nixpkgs";
     # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
     #tuxedo-nixos = {
     #  url = "github:blitz/tuxedo-nixos";
