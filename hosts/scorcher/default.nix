@@ -32,11 +32,8 @@ let
   };
 
   dotnet-combined = (with pkgs; dotnetCorePackages.combinePackages [
-      dotnetCorePackages.sdk_7_0
       dotnetCorePackages.sdk_8_0
       dotnetCorePackages.sdk_9_0
-      dotnet-luca.sdk_3_1
-      dotnet-luca.runtime_2_1
     ]).overrideAttrs (finalAttrs: previousAttrs: {
       # This is needed to install workload in $HOME
       # https://discourse.nixos.org/t/dotnet-maui-workload/20370/2
@@ -354,7 +351,25 @@ in
       hyprlock
       jq
       dotnet-combined
-      (jetbrains.plugins.addPlugins rider-luca [ "github-copilot" "ideavim" ])
+      #inputs.nixpkgs-local.legacyPackages.x86_64-linux.pkgs.jetbrains.rider
+      (jetbrains.plugins.addPlugins (jetbrains.rider.overrideAttrs (attrs: {
+      postInstall = (attrs.postInstall or "") + lib.optionalString (stdenv.hostPlatform.isLinux) ''
+        (
+          cd $out/rider
+
+          ls -d $PWD/plugins/cidr-debugger-plugin/bin/lldb/linux/*/lib/python3.8/lib-dynload/* |
+          xargs patchelf \
+            --replace-needed libssl.so.10 libssl.so \
+            --replace-needed libcrypto.so.10 libcrypto.so \
+            --replace-needed libcrypt.so.1 libcrypt.so
+
+          for dir in lib/ReSharperHost/linux-*; do
+            rm -rf $dir/dotnet
+            ln -s ${dotnet-sdk_7.unwrapped}/share/dotnet $dir/dotnet 
+          done
+        )
+      '';
+    })) [ "github-copilot" "ideavim" ])
       (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" "ideavim" ])
       jetbrains.datagrip
       mongodb-compass-luca
@@ -442,6 +457,7 @@ in
       argocd
       mkcert
       kustomize
+      dotnet-depends
     ];
   };
 
