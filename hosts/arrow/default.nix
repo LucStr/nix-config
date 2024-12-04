@@ -5,54 +5,10 @@
 { inputs, outputs, pkgs, ... }:
 
 let
-  dbus-sway-environment = pkgs.writeTextFile {
-    name = "dbus-sway-environment";
-    destination = "/bin/dbus-sway-environment";
-    executable = true;
-
-    text = ''
-      dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-      systemctl --user stop pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-wlr
-      systemctl --user start pipewire pipewire-media-session xdg-desktop-portal xdg-desktop-portal-wlr
-    '';
-  };
-
-  configure-gtk = pkgs.writeTextFile {
-    name = "configure-gtk";
-    destination = "/bin/configure-gtk";
-    executable = true;
-    text = let
-      schema = pkgs.gsettings-desktop-schemas;
-      datadir = "${schema}/share/gsettings-schemas/${schema.name}";
-    in ''
-      export XDG_DATA_DIRS=${datadir}:$XDG_DATA_DIRS
-      gnome_schema=org.gnome.desktop.interface
-      gsettings set $gnome_schema gtk-theme 'Dracula'
-    '';
-  };
-
   dotnet-combined = (with pkgs; dotnetCorePackages.combinePackages [
-      dotnetCorePackages.sdk_7_0
       dotnetCorePackages.sdk_8_0
       dotnetCorePackages.sdk_9_0
-      dotnet-luca.sdk_3_1
-      dotnet-luca.runtime_2_1
-    ]).overrideAttrs (finalAttrs: previousAttrs: {
-      # This is needed to install workload in $HOME
-      # https://discourse.nixos.org/t/dotnet-maui-workload/20370/2
-
-      postBuild = (previousAttrs.postBuild or '''') + ''
-         for i in $out/sdk/*
-         do
-           i=$(basename $i)
-           length=$(printf "%s" "$i" | wc -c)
-           substring=$(printf "%s" "$i" | cut -c 1-$(expr $length - 2))
-           i="$substring""00"
-           mkdir -p $out/metadata/workloads/''${i/-*}
-           touch $out/metadata/workloads/''${i/-*}/userlocal
-        done
-      '';
-    });
+  ]);
 in
 
 {
@@ -63,6 +19,8 @@ in
       ../common/global
       ../common/bluetooth
       ../common/gpu/intel-laptop
+      ../common/hyprland
+      ../common/audio
       #../common/sshd
     ];
 
@@ -117,27 +75,6 @@ in
       devices = [ "nodev" ];
       efiSupport = true;
       enable = true;
-      extraEntries = ''
-        menuentry "Windows" {
-          insmod part_gpt
-	  insmod fat
-	  search --no-floppy --fs-uuid --set=root 0C3C-0A26
-	  chainloader /efi/Microsoft/Boot/bootmgfw.efi
-        }
-
-        menuentry 'TUXEDO OS GNU/Linux' --class tuxedo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-99d4aeb6-3ce0-4762-9428-761bce7c5140' {
-	  recordfail
-	  load_video
-	  gfxmode $linux_gfx_mode
-          insmod gzio
-	  if [ x$grub_platform = xxen ]; then insmod xzio; insmod lzopio; fi
-	  insmod part_gpt
-	  insmod ext2
-	  search --no-floppy --fs-uuid --set=root 99d4aeb6-3ce0-4762-9428-761bce7c5140
-	  linux	/boot/vmlinuz-6.5.0-10006-tuxedo root=UUID=99d4aeb6-3ce0-4762-9428-761bce7c5140 ro  quiet splash loglevel=3 udev.log_level=3 $vt_handoff
-	  initrd	/boot/initrd.img-6.5.0-10006-tuxedo
-        }
-      '';
     };
   }; 
 
@@ -345,14 +282,7 @@ in
         ];
       })
       tree
-      alacritty
-      wofi
-      nemo
-      gvfs
       spotify
-      hyprpaper-luca
-      hyprlock
-      jq
       dotnet-combined
       (jetbrains.plugins.addPlugins (jetbrains.rider.overrideAttrs (attrs: {
       postInstall = (attrs.postInstall or "") + lib.optionalString (stdenv.hostPlatform.isLinux) ''
@@ -377,7 +307,6 @@ in
       mongodb-compass-luca
       jb
       discord
-      pulsemixer
       mariadb
       #bruno
       nodejs_20
@@ -385,31 +314,19 @@ in
       nodePackages.typescript
       stable.awscli2
       (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
-      wl-clipboard
-      cliphist
       wireguard-tools
       terraform
       redis
       vulkan-tools
       lutris
-      wlr-randr
       mongosh
-      xdg-utils
       zoom-us
       python311
-      grim
-      slurp
       act
       gdb
       filezilla
       gh
-      brightnessctl
-      neofetch
-      goldy-plasma-theme
       glib
-      configure-gtk
-      dbus-sway-environment
-      everforest-theme
       mongosync
       mongodb-tools
       (vscode-with-extensions.override
@@ -438,7 +355,6 @@ in
       prismlauncher
       dig
       playerctl
-      swaynotificationcenter
       gitkraken
       s3fs
       gcsfuse
@@ -461,13 +377,11 @@ in
       kustomize
       teamspeak_client
       nmap
+      ghidra
+      remmina
     ];
   };
 
-  fonts.packages = with pkgs; [
-    font-awesome
-    nerdfonts
-  ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -475,15 +389,8 @@ in
   #   enable = true;
   #   enableSSHSupport = true;
   # };
-  programs.hyprland = {
-    enable = true;
-    package = pkgs.hyprland-luca;
-    portalPackage = inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
-  };
-
   #programs.sway.enable = true;
 
-  programs.waybar.enable = true;
   programs.adb.enable = true;
 
   virtualisation.docker.enable = true;
@@ -509,13 +416,6 @@ in
   programs.virt-manager.enable = true;
   programs.seahorse.enable = true;
 
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
-
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  };
- 
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
@@ -527,42 +427,9 @@ in
     enable = true;
   };
 
-  programs.nh = {
-    enable = true;
-    flake = "/home/luca/nix-config/";
-  };
-
   # Install KDE
   #services.xserver.enable = true;
-  services.displayManager = {
-    sddm = {
-      enable = true;
-      wayland.enable = true;
-    };
-    autoLogin = {
-      enable = true;
-      user = "luca";
-    };
-  };
-
-  services.gnome.gnome-keyring.enable = true;
-  security.pam.services.sddm.enableGnomeKeyring = true;
-  #services.xserver.windowManager.qtile.enable = true
-  #services.xserver.desktopManager.plasma5.enable = true;
-
-  #security.pki.certificateFiles = [ /home/luca/.local/share/mkcert/rootCA.pem ];
-
-  specialisation = {
-    on-the-go.configuration = {
-      system.nixos.tags = [ "on-the-go" ];
-      environment.sessionVariables = {
-        WLR_DRM_DEVICES  = "/dev/dri/card0";
-        KWIN_DRM_DEVICES  = "/dev/dri/card0";
-      };
-    };
-  };
-
-
+   
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.

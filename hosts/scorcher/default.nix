@@ -507,11 +507,6 @@ in
     enable = true;
   };
 
-  programs.nh = {
-    enable = true;
-    flake = "/home/luca/nix-config/";
-  };
-
   # Install KDE
   #services.xserver.enable = true;
   services.displayManager = {

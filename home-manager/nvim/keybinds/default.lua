@@ -1,11 +1,16 @@
 vim.g.mapleader=";"
 
 -- binds to switch windows
-vim.keymap.set('n', '<C-h>', '<cmd>:TmuxNavigateLeft<cr>', { desc = 'Move focus to the left window or tmux pane' })
-vim.keymap.set('n', '<C-j>', '<cmd>:TmuxNavigateDown<cr>', { desc = 'Move focus to the lower window or tmux pane' })
-vim.keymap.set('n', '<C-k>', '<cmd>:TmuxNavigateUp<cr>', { desc = 'Move focus to the upper window or tmux pane' })
-vim.keymap.set('n', '<C-l>', '<cmd>:TmuxNavigateRight<cr>', { desc = 'Move focus to the right window or tmux pane' })
-vim.keymap.set('n', '<C-\\>', '<cmd>:TmuxNavigatePrevious<cr>', { desc = 'Move focus to the previously used tmux pane' })
+
+-- Disable default mappings from vim-tmux-navigator
+--vim.g.tmux_navigator_no_mappings = 1
+-- Custom mappings for tmux navigation
+vim.keymap.set('n', 'af', '<cmd>TmuxNavigateLeft<CR>', { silent = true, desc = 'Move focus to the left tmux pane' })
+--vim.keymap.set('n', '<C-h>', '<cmd>TmuxNavigateLeft<CR>', { silent = true, desc = 'Move focus to the left tmux pane' })
+--vim.keymap.set('n', '<C-j>', '<cmd>TmuxNavigateDown<CR>', { silent = true, desc = 'Move focus to the lower tmux pane' })
+--vim.keymap.set('n', '<C-k>', '<cmd>TmuxNavigateUp<CR>', { silent = true, desc = 'Move focus to the upper tmux pane' })
+--vim.keymap.set('n', '<C-l>', '<cmd>TmuxNavigateRight<CR>', { silent = true, desc = 'Move focus to the right tmux pane' })
+--vim.keymap.set('n', '<C-\\>', '<cmd>TmuxNavigatePrevious<CR>', { silent = true, desc = 'Move focus to the previously used tmux pane' })
 
 -- bind to exit the terminal
 vim.keymap.set('t', '<ESC>',  '<C-\\><C-n>',  {noremap = true})
