@@ -123,6 +123,7 @@
       teamspeak_client
       ghidra
       remmina
+      reglookup
     ];
   };
 

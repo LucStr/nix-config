@@ -22,4 +22,5 @@
       homepage = "https://github.com/bjorkstromm/depends";
     };
   };
+  reglookup = pkgs.callPackage ./reglookup.nix { };
 }
