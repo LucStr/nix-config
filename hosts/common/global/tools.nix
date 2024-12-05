@@ -1,7 +1,7 @@
-{ pkgs, ... }: {
+{ pkgs, username, ... }: {
   programs.nh = {
     enable = true;
-    flake = "/home/luca/nix-config/";
+    flake = "/home/${username}/nix-config/";
   };
 
   environment.systemPackages = with pkgs; [
@@ -13,5 +13,11 @@
     home-manager
     zip
     unzip
+    ncdu
+    dig
+    gh
+    nmap
+    tree
+    neofetch
   ];
 }

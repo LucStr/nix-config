@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
-{ inputs, outputs, pkgs, ... }:
+{ inputs, outputs, pkgs, username, ... }:
 
 let
   dbus-sway-environment = pkgs.writeTextFile {
@@ -158,7 +158,7 @@ in
     rapidata-test = {
       autostart = true;
       address = [ "172.16.16.2/32" ];
-      privateKeyFile = "/home/luca/.wg/tinker-private";
+      privateKeyFile = "/home/${username}/.wg/tinker-private";
       mtu = 1384;
       
       peers = [
@@ -184,7 +184,7 @@ in
     rapidata-prod = {
       autostart = true;
       address = [ "172.16.17.2/32" ];
-      privateKeyFile = "/home/luca/.wg/tinker-private";
+      privateKeyFile = "/home/${username}/.wg/tinker-private";
       mtu = 1384;
       
       peers = [
@@ -209,7 +209,7 @@ in
 
     rapidata-gcp = {
       address = [ "172.16.17.2/32" ];
-      privateKeyFile = "/home/luca/.wg/tinker-private";
+      privateKeyFile = "/home/${username}/.wg/tinker-private";
       autostart = false;
       mtu = 1384;
       
@@ -243,7 +243,7 @@ in
     rapidata-stage = {
       autostart = false;
       address = [ "172.16.18.2/32" ];
-      privateKeyFile = "/home/luca/.wg/tinker-private";
+      privateKeyFile = "/home/${username}/.wg/tinker-private";
       
       peers = [
         {
@@ -315,7 +315,7 @@ in
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.luca = {
+  users.users.${username} = {
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" "networkmanager" "adbusers" "libvirtd"]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
@@ -516,7 +516,7 @@ in
     };
     autoLogin = {
       enable = true;
-      user = "luca";
+      user = "${username}";
     };
   };
 
@@ -525,7 +525,7 @@ in
   #services.xserver.windowManager.qtile.enable = true
   #services.xserver.desktopManager.plasma5.enable = true;
 
-  security.pki.certificateFiles = [ /home/luca/.local/share/mkcert/rootCA.pem ];
+  security.pki.certificateFiles = [ /home/${username}/.local/share/mkcert/rootCA.pem ];
 
   specialisation = {
     on-the-go.configuration = {

@@ -1,7 +1,11 @@
-{ inputs, lib, pkgs, config, ... }: {
+{ inputs, lib, pkgs, config, username, ... }: {
     nixpkgs.config.packageOverrides = pkgs: {
         vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
     }; 
+
+    users.users.${username}.packages = with pkgs; [
+      vulkan-tools
+    ];
 
     # Enable OpenGL
     hardware.graphics = {

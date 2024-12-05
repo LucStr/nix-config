@@ -79,13 +79,13 @@
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       scorcher = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {inherit inputs outputs; username = "luca";};
         modules = [
           ./hosts/scorcher
         ];
       };
       arrow = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {inherit inputs outputs; username = "luca";};
         modules = [
           ./hosts/arrow
         ];
