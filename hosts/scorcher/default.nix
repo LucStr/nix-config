@@ -31,10 +31,12 @@ let
     '';
   };
 
-  dotnet-combined = (with pkgs.stable.dotnetCorePackages; combinePackages [
-      sdk_8_0
-      sdk_9_0
+  dotnet-combined = (with pkgs.dotnetCorePackages; combinePackages [
+    sdk_8_0
+    sdk_9_0
   ]);
+
+  nerdfonts = builtins.filter pkgs.lib.isDerivation (builtins.attrValues pkgs.nerd-fonts);
 in
 
 {
@@ -336,24 +338,7 @@ in
       hyprlock
       jq
       dotnet-combined
-      (jetbrains.plugins.addPlugins (jetbrains.rider.overrideAttrs (attrs: {
-      postInstall = (attrs.postInstall or "") + lib.optionalString (stdenv.hostPlatform.isLinux) ''
-        (
-          cd $out/rider
-
-          ls -d $PWD/plugins/cidr-debugger-plugin/bin/lldb/linux/*/lib/python3.8/lib-dynload/* |
-          xargs patchelf \
-            --replace-needed libssl.so.10 libssl.so \
-            --replace-needed libcrypto.so.10 libcrypto.so \
-            --replace-needed libcrypt.so.1 libcrypt.so
-
-          for dir in lib/ReSharperHost/linux-*; do
-            rm -rf $dir/dotnet
-            ln -s ${dotnet-sdk_7.unwrapped}/share/dotnet $dir/dotnet 
-          done
-        )
-      '';
-    })) [ "github-copilot" "ideavim" ])
+      (jetbrains.plugins.addPlugins jetbrains.rider [ "github-copilot" "ideavim" ])
       (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" "ideavim" ])
       jetbrains.datagrip
       mongodb-compass-luca
@@ -399,8 +384,8 @@ in
           #vscode = pkgs.vscodium;
           vscodeExtensions  =[
             # C# Development
-            ms-dotnettools-csdevkit
-            ms-dotnettools-csharp
+            #ms-dotnettools-csdevkit
+            #ms-dotnettools-csharp
           ] ++ (with inputs.nix-vscode-extensions.extensions.${system}.vscode-marketplace; [
             ms-python.python
             ms-python.vscode-pylance
@@ -442,13 +427,14 @@ in
       mkcert
       kustomize
       dotnet-depends
+      cargo
+      rustc
     ];
   };
 
-  fonts.packages = with pkgs; [
-    font-awesome
-    nerdfonts
-  ];
+  fonts.packages = [
+    pkgs.font-awesome
+  ] ++ nerdfonts;
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
