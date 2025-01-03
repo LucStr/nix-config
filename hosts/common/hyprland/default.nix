@@ -25,6 +25,8 @@ let
       gsettings set $gnome_schema gtk-theme 'Dracula'
     '';
   };
+
+  nerdfonts = builtins.filter pkgs.lib.isDerivation (builtins.attrValues pkgs.nerd-fonts);
 in
 { 
   users.users.${username}.packages = with pkgs; [
@@ -77,11 +79,10 @@ in
     };
   };
 
-  fonts.packages = with pkgs; [
-    font-awesome
-    nerdfonts
-  ];
 
+  fonts.packages = [
+    pkgs.font-awesome
+  ] ++ nerdfonts;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 

@@ -118,6 +118,8 @@
       gcc
       ripgrep
       yarn
+
+      #diff
       jmeter
       mkcert
       teamspeak_client
