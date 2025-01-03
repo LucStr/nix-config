@@ -338,7 +338,7 @@ in
       hyprlock
       jq
       dotnet-combined
-      (jetbrains.plugins.addPlugins jetbrains.rider [ "github-copilot" "ideavim" ])
+      (jetbrains.plugins.addPlugins rider-luca [ "github-copilot" "ideavim" ])
       (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" "ideavim" ])
       jetbrains.datagrip
       mongodb-compass-luca
