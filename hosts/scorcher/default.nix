@@ -430,6 +430,7 @@ in
       cargo
       rustc
       grpc-tools
+      ffmpeg
     ];
   };
 
