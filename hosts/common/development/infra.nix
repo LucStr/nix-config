@@ -10,5 +10,6 @@
     s3fs
     gcsfuse
     kustomize
+    stripe-cli
   ];
 }
