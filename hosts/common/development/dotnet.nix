@@ -11,4 +11,8 @@ in
     (jetbrains.plugins.addPlugins rider-luca [ "github-copilot" "ideavim" ])
     jb
   ];
+
+  environment.sessionVariables = {
+    "DOTNET_ROOT" = "${dotnet-combined.outPath}/share/dotnet";
+  };
 }
