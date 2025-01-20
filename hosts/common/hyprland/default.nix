@@ -34,7 +34,7 @@ in
     wofi
     nemo
     gvfs
-    hyprpaper-luca
+    hyprpaper
     hyprlock
     jq
     wl-clipboard
@@ -54,8 +54,6 @@ in
   # hyprland
   programs.hyprland = {
     enable = true;
-    package = pkgs.hyprland-luca;
-    portalPackage = inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
   };
 
   # waybar

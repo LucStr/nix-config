@@ -16,12 +16,6 @@
       ];
     });
 
-    hyprland-luca = inputs.hyprland.packages.x86_64-linux.hyprland;
-
-    hyprlock = inputs.hyprlock.packages.x86_64-linux.hyprlock;
-
-    hyprpaper-luca = inputs.hyprpaper.packages.x86_64-linux.hyprpaper;
-
     rider-luca = prev.jetbrains.rider.overrideAttrs (oldAttrs: rec {
       version = "2024.3.3";
       buildNumber = "243.22562.250";
