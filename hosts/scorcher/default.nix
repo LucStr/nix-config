@@ -103,7 +103,10 @@
     #  enable = true;
     #tailor-gui.enable = true;
   #};
-
+  services.ollama = {
+    enable = true;
+    acceleration = "cuda";
+  };
   services = {
     udev.packages = with pkgs; [ 
         ledger-udev-rules
