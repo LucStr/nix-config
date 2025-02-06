@@ -16,7 +16,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     hyprland = {
-      url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+      url = "git+https://github.com/hyprwm/Hyprland?ref=refs/tags/v0.46.2&submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -33,7 +33,7 @@
 
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
 
-    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions?rev=c2efba4b42988d8573f914cad6431b5bd614935d";
 
     rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
   };

@@ -17,6 +17,7 @@
         bmewburn.vscode-intelephense-client
         ms-vscode-remote.remote-containers
         ms-dotnettools.vscode-dotnet-runtime
+        ms-toolsai.jupyter
         esbenp.prettier-vscode
         github.copilot
         redhat.vscode-yaml

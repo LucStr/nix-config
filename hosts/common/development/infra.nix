@@ -11,5 +11,6 @@
     gcsfuse
     kustomize
     stripe-cli
+    k9s
   ];
 }
