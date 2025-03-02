@@ -101,7 +101,7 @@
       mariadb
       #bruno
       nodejs_20
-      corepack_20
+      #corepack_20
       nodePackages.typescript
       redis
       mongosh
