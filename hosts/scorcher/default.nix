@@ -146,6 +146,7 @@
     rustc
     grpc-tools
     ffmpeg
+    uv
   ];
 
   security.pki.certificateFiles = [ /home/${username}/.local/share/mkcert/rootCA.pem ];

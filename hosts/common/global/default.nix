@@ -8,7 +8,8 @@
 
   home-manager.extraSpecialArgs = { inherit inputs outputs; };
 
-  time.timeZone = "Europe/Zurich";
+  services.automatic-timezoned.enable = true;
+  services.geoclue2.geoProviderUrl = "https://api.beacondb.net/v1/geolocate"; # can be remove once https://github.com/NixOS/nixpkgs/pull/391845 is merged
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
