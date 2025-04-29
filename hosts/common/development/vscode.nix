@@ -8,6 +8,7 @@
         # C# Development
         ms-dotnettools-csdevkit
         ms-dotnettools-csharp
+        pkgs.vscode-extensions.ms-vscode-remote.remote-ssh
       ] ++ (with inputs.nix-vscode-extensions.extensions.${system}.vscode-marketplace; [
         ms-python.python
         ms-python.vscode-pylance

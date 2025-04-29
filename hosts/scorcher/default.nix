@@ -118,9 +118,7 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${username}.packages = with pkgs; [
-    (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" "ideavim" ])
-    jetbrains.datagrip
-    mongodb-compass-luca
+    mongodb-compass
     jb
     mariadb
     nodejs_20
