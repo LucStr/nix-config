@@ -16,6 +16,15 @@
       ];
     });
 
+    jetbrains.rider =  (inputs.nixpkgs-stable.legacyPackages.x86_64-linux.jetbrains.plugins.addPlugins prev.jetbrains.rider ["github-copilot"]);
+
+
+    mongodb-compass = (prev.mongodb-compass.overrideAttrs (old: {
+      buildCommand = old.buildCommand + ''
+        sed -i 's|^Exec=mongodb-compass %U$|Exec=mongodb-compass --password-store="gnome-libsecret" --ignore-additional-command-line-flags %U|' $out/share/applications/mongodb-compass.desktop
+      '';
+    }));
+
     rider-luca = prev.jetbrains.rider.overrideAttrs (oldAttrs: rec {
       version = "2024.3.3";
       buildNumber = "243.22562.250";

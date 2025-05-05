@@ -8,8 +8,7 @@ in
 {
   users.users.${username}.packages = with pkgs; [
     dotnet-combined
-    #(jetbrains.plugins.addPlugins jetbrains.rider [ "github-copilot" "ideavim" ])
-    jetbrains.rider
+    (stable.jetbrains.plugins.addPlugins stable.jetbrains.rider [ "github-copilot" ])
     jb
   ];
 
