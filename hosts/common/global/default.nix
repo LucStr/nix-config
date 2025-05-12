@@ -1,6 +1,7 @@
 # This file (and the global directory) holds config that I use on all hosts
 { username, inputs, outputs, ... }: {
   imports = [
+    inputs.disko.nixosModules.disko
     inputs.home-manager.nixosModules.home-manager
     ./tools.nix
     ./nix.nix

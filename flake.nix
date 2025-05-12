@@ -38,6 +38,11 @@
     rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
 
     nix-jetbrains-plugins.url = "github:theCapypara/nix-jetbrains-plugins";
+
+    disko = {
+      url = "github:nix-community/disko/latest";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {

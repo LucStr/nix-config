@@ -2,11 +2,13 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
-{ pkgs, username, ... }:
+{ pkgs, lib, username, ... }:
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+
+      (import ../common/disko/simple-encrypted.nix {inherit lib; disk = "/dev/nvme1n1";})
 
       ../common/global
       ../common/bluetooth
