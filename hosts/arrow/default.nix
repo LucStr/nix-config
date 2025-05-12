@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
-{ pkgs, lib, username, ... }:
+{ pkgs, outputs, lib, username, ... }:
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -20,6 +20,14 @@
       ../common/development
       ../common/gaming
     ];
+  nixpkgs = {
+    # You can add overlays here
+    overlays = builtins.attrValues outputs.overlays;
+      config = {
+      # Disable if you don't want unfree packages
+      allowUnfree = true;
+    };
+  };
 
   # This will additionally add your inputs to the system's legacy channels
   # Making legacy nix commands consistent as well, awesome!
