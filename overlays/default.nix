@@ -1,5 +1,36 @@
 # This file defines overlays
-{inputs, ...}: {
+{inputs, lib, ...}: 
+let 
+
+  plugins = inputs.nix-jetbrains-plugins.plugins."${builtins.currentSystem}";
+  ideWithPlugins = jetbrains: ide-name: plugin-ids:
+    let 
+      ide = jetbrains."${ide-name}";
+      processPlugin = 
+        plugin:
+        if lib.isDerivation plugin then
+          plugin
+        else if jetbrains.plugins.raw.byId ? "${plugin}" || jetbrains.plugins.raw.byName ? "${plugin}" then
+          plugin
+        else if plugins."${ide-name}"."${ide.version}" ? "${plugin}" then
+          plugins."${ide-name}"."${ide.version}"."${plugin}"
+        else
+          throw "Could not resolve plugin ${plugin}";
+
+      mappedPlugins = map processPlugin plugin-ids;
+    in 
+      jetbrains.plugins.addPlugins ide mappedPlugins;
+
+in {
+  # When applied, the unstable nixpkgs set (declared in the flake inputs) will
+  # be accessible through 'pkgs.unstable'
+  stable-packages = final: _prev: {
+    stable = import inputs.nixpkgs-stable {
+      system = final.system;
+      config.allowUnfree = true;
+    };
+  };
+
   # This one brings our custom packages from the 'pkgs' directory
   additions = final: _prev: import ../pkgs {pkgs = final;};
 
@@ -16,8 +47,15 @@
       ];
     });
 
-    jetbrains.rider =  (inputs.nixpkgs-stable.legacyPackages.x86_64-linux.jetbrains.plugins.addPlugins prev.jetbrains.rider ["github-copilot"]);
-
+    jetbrains.rider = 
+      let 
+        stableRider = prev.stable.jetbrains.rider;
+        copilot = prev.stable.jetbrains.plugins.raw.byName."github-copilot" stableRider.pname stableRider.buildNumber;
+      in
+        ideWithPlugins prev.stable.jetbrains "rider" [
+          copilot
+          "com.intellij.csharpier"
+        ];
 
     mongodb-compass = (prev.mongodb-compass.overrideAttrs (old: {
       buildCommand = old.buildCommand + ''
@@ -45,12 +83,4 @@
     #});
   };
 
-  # When applied, the unstable nixpkgs set (declared in the flake inputs) will
-  # be accessible through 'pkgs.unstable'
-  stable-packages = final: _prev: {
-    stable = import inputs.nixpkgs-stable {
-      system = final.system;
-      config.allowUnfree = true;
-    };
-  };
 }

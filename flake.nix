@@ -36,6 +36,8 @@
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions?rev=c2efba4b42988d8573f914cad6431b5bd614935d";
 
     rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
+
+    nix-jetbrains-plugins.url = "github:theCapypara/nix-jetbrains-plugins";
   };
 
   outputs = {
@@ -61,13 +63,13 @@
   in {
     # Your custom packages
     # Accessible through 'nix build', 'nix shell', etc
-      packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; });
+    packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; });
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
     # Your custom packages and modifications, exported as overlays
-    overlays = import ./overlays {inherit inputs;};
+    overlays = import ./overlays {inherit inputs; inherit lib;};
     # Reusable nixos modules you might want to export
     # These are usually stuff you would upstream into nixpkgs
     nixosModules = import ./modules/nixos;

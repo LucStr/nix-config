@@ -8,7 +8,23 @@ in
 {
   users.users.${username}.packages = with pkgs; [
     dotnet-combined
-    (stable.jetbrains.plugins.addPlugins stable.jetbrains.rider [ "github-copilot" ])
+    jetbrains.rider
+    #(jetbrains.plugins.addPlugins jetbrains.rider [ "github-copilot" ])
+    #(pkgs.stdenv.mkDerivation {
+      #    name = "csharpier";
+      #  version = "2.1.2";
+      #  src = pkgs.fetchurl {
+      #    url    = "https://downloads.marketplace.jetbrains.com/files/18243/720382/csharpier-2.1.2.zip";
+      #    hash   = "sha256-IfFq+XsjApZcQcjXAZf0ta0q0lduOg5oAKXyAE77Lcg=";
+      #  };
+      #  dontUnpack = true;
+      #  nativeBuildInputs = [ unzip ];
+    #  installPhase = ''
+    #      mkdir -p $out
+    #      unzip $src
+    #      cp -r csharpier/* $out
+    #    '';
+    #  })])
     jb
   ];
 
