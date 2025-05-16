@@ -8,7 +8,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
 
-      (import ../common/disko/simple-encrypted.nix {inherit lib; disk = "/dev/nvme1n1";})
+      (import ../common/disko/simple-encrypted.nix {inherit lib; disk = "/dev/vda";})
 
       ../common/global
       ../common/bluetooth
@@ -58,6 +58,9 @@
     };
   }; 
 
+  users.users.root.openssh.authorizedKeys.keys = [
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCtQPPLHZOWLjEOpiROZRo4+mchPN8OzpH9NJ9NjYshZNAIHVjZ1kuWC8qTOm/2mD22ax1B4xl92MsQWzg0nX+/8315Gj+d1NmEOeUv0gpN1qRa2F0DvP9ySKMCixYT8cVWTIVPXAdYTVF/0oLlzsvnfQK0aLWcTM9xWmoc8d+iTpiMWCS0NtYqKv7izgYcynlNiy17d4un3tRtRs5IUZ8nKRh+O+aC9In2P2Q0ZNZMbpfY/88iqWbopt3eQWHzNxu51wU69YandeQbhinmISTd9SarYL6Qmph4q8yEC+wrEwxrdXVYlN2NfG762uzeGNCszUSdiu0CWd0WYTAInfpDbSmtT403/LYyi+vQ6Fn6Aa+sNXi5j+AVBuh7LTS4o+BkfyTh48TaEym56EBD33Ydk/uCJ5Awmr8XrjDiNgclIHKJ6zAuQeGTt31CWLUIe66OnPjUeIf9MgxmjLMM6NnbOUJpuaWOWlMQJ+21fkGPyufjzy/KIa7V/OjVntHKiGE="
+  ];
   boot.initrd.kernelModules = [ "i915" ];
   boot.kernelParams = [ "ibt=off" ];
 

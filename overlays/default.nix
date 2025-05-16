@@ -2,7 +2,7 @@
 {inputs, lib, ...}: 
 let 
 
-  plugins = inputs.nix-jetbrains-plugins.plugins."${builtins.currentSystem}";
+  plugins = inputs.nix-jetbrains-plugins.plugins."x86_64-linux";
   ideWithPlugins = jetbrains: ide-name: plugin-ids:
     let 
       ide = jetbrains."${ide-name}";
