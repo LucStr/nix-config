@@ -114,10 +114,6 @@
       }
 
       # Start Laravel stuff
-      {
-        plugin = (fromGitHub "aabe7c59a7ec64baf3f2af3d56e6852955c065c3" "main" "adalessa/laravel.nvim");
-        config = toLua "require(\"laravel\").setup {}";
-      }
       nui-nvim
       vim-dotenv
       none-ls-nvim
