@@ -99,6 +99,7 @@
         plugin = nvim-cmp;
         config = toLuaFile ./plugins/cmp.lua;
       }
+      copilot-vim
       plenary-nvim
       {
         plugin = renamer-nvim;
