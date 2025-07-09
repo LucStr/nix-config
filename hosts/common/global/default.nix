@@ -2,6 +2,7 @@
 { username, inputs, outputs, ... }: {
   imports = [
     inputs.disko.nixosModules.disko
+    inputs.lanzaboote.nixosModules.lanzaboote
     inputs.home-manager.nixosModules.home-manager
     ./tools.nix
     ./nix.nix
