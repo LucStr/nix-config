@@ -47,13 +47,39 @@
       # assuming /boot is the mount point of the  EFI partition in NixOS (as the installation section recommends).
       efiSysMountPoint = "/boot";
     };
+    
+    grub = {
+      # despite what the configuration.nix manpage seems to indicate,
+      # as of release 17.09, setting device to "nodev" will still call
+      # `grub-install` if efiSupport is true
+      # (the devices list is not used by the EFI grub install,
+      # but must be set to some value in order to pass an assert in grub.nix)
+      devices = [ "nodev" ];
+      efiSupport = true;
+      enable = true;
+      extraEntries = ''
+        menuentry "Windows" {
+          insmod part_gpt
+	  insmod fat
+	  search --no-floppy --fs-uuid --set=root 0C3C-0A26
+	  chainloader /efi/Microsoft/Boot/bootmgfw.efi
+        }
+
+        menuentry 'TUXEDO OS GNU/Linux' --class tuxedo --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-99d4aeb6-3ce0-4762-9428-761bce7c5140' {
+	  recordfail
+	  load_video
+	  gfxmode $linux_gfx_mode
+          insmod gzio
+	  if [ x$grub_platform = xxen ]; then insmod xzio; insmod lzopio; fi
+	  insmod part_gpt
+	  insmod ext2
+	  search --no-floppy --fs-uuid --set=root 99d4aeb6-3ce0-4762-9428-761bce7c5140
+	  linux	/boot/vmlinuz-6.5.0-10006-tuxedo root=UUID=99d4aeb6-3ce0-4762-9428-761bce7c5140 ro  quiet splash loglevel=3 udev.log_level=3 $vt_handoff
+	  initrd	/boot/initrd.img-6.5.0-10006-tuxedo
+        }
+      '';
+    };
   }; 
-  boot.loader.grub.enable = false; # Disable GRUB, use systemd-boot instead.
-  boot.loader.systemd-boot.enable = lib.mkForce false; # Enable systemd-boot.
-  boot.lanzaboote = {
-    enable = true;
-    pkiBundle = "/var/lib/sbctl";
-  };
 
   boot.initrd.kernelModules = [ "i915" ];
   boot.kernelParams = [ "ibt=off" ];

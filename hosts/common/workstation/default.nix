@@ -7,6 +7,7 @@
           "--ozone-platform-hint=auto"
           "--enable-native-notifications"
         ];
+        #proprietaryCodecs = true;
       })
     discord
     spotify
