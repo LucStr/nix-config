@@ -2,13 +2,14 @@
 {
   users.users.${username}.packages = with pkgs; [
     (chromium.override {
-        enableWideVine = true;
         commandLineArgs = [
           "--ozone-platform-hint=auto"
           "--enable-native-notifications"
         ];
-        #proprietaryCodecs = true;
+        enableWideVine = true;
+        proprietaryCodecs = true;
       })
+    firefox
     discord
     spotify
     libreoffice-qt
