@@ -23,6 +23,7 @@
         github.copilot
         redhat.vscode-yaml
         ms-kubernetes-tools.vscode-kubernetes-tools
+        golang.go
       ]);
     })
   ];

@@ -20,7 +20,7 @@
 
       postUp = ''
         resolvectl dns rapidata-test 10.96.2.1
-        resolvectl domain rapidata-test ~rabbitdata.internal
+        resolvectl domain rapidata-test ~rabbitdata.internal qbaude32rb.europe-west4.gcp.clickhouse.cloud
       '';
 
       postDown = ''
