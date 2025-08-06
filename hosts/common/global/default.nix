@@ -6,6 +6,8 @@
     inputs.home-manager.nixosModules.home-manager
     ./tools.nix
     ./nix.nix
+    ./sops.nix
+    ../certificates
   ] ++ (builtins.attrValues outputs.nixosModules);
 
   home-manager.extraSpecialArgs = { inherit inputs outputs; };

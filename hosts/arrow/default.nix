@@ -134,7 +134,6 @@
 
       #diff
       jmeter
-      mkcert
       teamspeak_client
       ghidra
       remmina

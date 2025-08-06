@@ -9,7 +9,6 @@
         enableWideVine = true;
         proprietaryCodecs = true;
       })
-    firefox
     discord
     spotify
     libreoffice-qt
@@ -19,6 +18,18 @@
     libvlc
     playerctl
   ];
+
+  programs.firefox = {
+    enable = true;
+    policies = {
+      Certificates = {
+        ImportEnterpriseRoots = true;
+      };
+      Install = [
+        "/etc/ssl/certs/ca-certificates.crt"
+      ];
+    };
+  };
 
   services.pulseaudio.enable = false;
   services.pulseaudio.support32Bit = true;

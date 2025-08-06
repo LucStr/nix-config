@@ -19,5 +19,7 @@
     nmap
     tree
     neofetch
+    age
+    sops
   ];
 }

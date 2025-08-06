@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
-{ inputs, outputs, pkgs, username, lib, ... }:
+{ inputs, outputs, pkgs, config, username, lib, ... }:
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -122,7 +122,6 @@
     ripgrep
     yarn
     jmeter
-    mkcert
     dotnet-depends
     cargo
     rustc
@@ -130,8 +129,6 @@
     ffmpeg
     uv
   ];
-
-  security.pki.certificateFiles = [ /home/${username}/.local/share/mkcert/rootCA.pem ];
 
   specialisation = {
     on-the-go.configuration = {
