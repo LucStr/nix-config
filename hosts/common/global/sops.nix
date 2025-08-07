@@ -31,5 +31,15 @@ in {
       group = "users";
       mode = "0440";
     };
+    "wg/rapidata-test.conf" = {
+      owner = "root";
+      group = "root";
+      mode = "0400";
+    };
+    "wg/rapidata-prod.conf" = {
+      owner = "root";
+      group = "root";
+      mode = "0400";
+    };
   };
 }
