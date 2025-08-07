@@ -23,11 +23,10 @@
     enable = true;
     policies = {
       Certificates = {
-        ImportEnterpriseRoots = true;
+        Install = [
+          "/etc/ssl/certs/ca-certificates.crt"
+        ];
       };
-      Install = [
-        "/etc/ssl/certs/ca-certificates.crt"
-      ];
     };
   };
 
