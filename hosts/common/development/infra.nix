@@ -12,5 +12,9 @@
     kustomize
     stripe-cli
     k9s
+    redis
+    mongosh
+    mongodb-tools
+    filezilla
   ];
 }

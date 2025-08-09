@@ -1,4 +1,4 @@
-{ lib, disk, ... }:
+{ lib, disk, config, ... }:
 {
   disko.devices = {
     disk.disk1 = {
@@ -28,7 +28,6 @@
             content = {
               type = "luks";
               name = "cryptroot";
-              passwordFile = "/tmp/peter.key";
               content = {
                 type = "filesystem";
                 format = "ext4";

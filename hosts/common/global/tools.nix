@@ -21,5 +21,7 @@
     neofetch
     age
     sops
+    gcc
+    glib
   ];
 }

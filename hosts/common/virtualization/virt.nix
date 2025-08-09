@@ -6,17 +6,25 @@
   };
   virtualisation.virtualbox.host.enable = true;
 
+
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
       package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true;
       ovmf = {
         enable = true;
-        packages = [pkgs.OVMFFull.fd];
+        packages = [(pkgs.OVMF.override {
+          secureBoot = true;
+          tpmSupport = true;
+        }).fd];
       };
-      swtpm.enable = true;
     };
   };
+
+  networking.firewall.trustedInterfaces = [ "virbr0" ];
+
 
   programs.virt-manager.enable = true;
 

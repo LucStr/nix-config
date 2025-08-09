@@ -19,6 +19,7 @@
       ../common/virtualization
       ../common/development
       ../common/gaming
+      ../common/crypto
     ];
 
   nixpkgs = {
@@ -91,12 +92,6 @@
     #tailor-gui.enable = true;
   #};
 
-  services = {
-    udev.packages = with pkgs; [ 
-        ledger-udev-rules
-        # potentially even more if you need them
-    ];
-  };
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -115,7 +110,6 @@
     glib
     mongosync
     mongodb-tools
-    ledger-live-desktop
     pipenv
     logisim-evolution
     gcc
