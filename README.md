@@ -6,3 +6,5 @@
 4. Enter disk encryption key
 5. ssh into the machine. make sure firewall is configured correctly.
 6. clone the repository `SSH_AUTH_SOCK=/run/user/1000/gcr/ssh git clone git@github.com:/LucStr/nix-config.git` into $HOME of user
+7. if present delete .config/hypr
+8. run `nh home switch`
