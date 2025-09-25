@@ -23,5 +23,6 @@
     sops
     gcc
     glib
+    lazygit
   ];
 }

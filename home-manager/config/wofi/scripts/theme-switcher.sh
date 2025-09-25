@@ -12,10 +12,12 @@ case $selected in
     notify-send "Summer-Day"
     sed -i '1d' ~/.config/hypr/hyprland.conf
     sed -i '1i\source = ~/.config/hypr/themes/summer-day/summer-day.conf' ~/.config/hypr/hyprland.conf
+    hyprctl reload
     ;;
   Summer-Night)
     notify-send "Summer-Night"
     sed -i '1d' ~/.config/hypr/hyprland.conf
     sed -i '1i\source = ~/.config/hypr/themes/summer-night/summer-night.conf' ~/.config/hypr/hyprland.conf
+    hyprctl reload
     ;;
 esac
