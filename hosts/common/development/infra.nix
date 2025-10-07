@@ -16,5 +16,6 @@
     mongosh
     mongodb-tools
     filezilla
+    k6
   ];
 }
