@@ -47,15 +47,10 @@ in {
       ];
     });
 
-    jetbrains.rider = 
-      let 
-        stableRider = prev.stable.jetbrains.rider;
-        copilot = prev.stable.jetbrains.plugins.raw.byName."github-copilot" stableRider.pname stableRider.buildNumber;
-      in
-        ideWithPlugins prev.stable.jetbrains "rider" [
-          copilot
-          "com.intellij.csharpier"
-        ];
+    # jetbrains.rider = ideWithPlugins prev.jetbrains "rider" [
+    #   "github-copilot"
+    #   "com.intellij.csharpier"
+    # ];
 
     mongodb-compass = (prev.mongodb-compass.overrideAttrs (old: {
       buildCommand = old.buildCommand + ''

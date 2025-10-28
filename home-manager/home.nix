@@ -72,6 +72,7 @@
     docker-compose="docker compose";
     k = "kubectl";
     tvim = "bash $HOME/.config/scripts/tvim.sh";
+    code = "codium";
   };
   
 

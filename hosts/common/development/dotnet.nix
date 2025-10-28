@@ -1,14 +1,38 @@
-{pkgs, username, ...}:
+{pkgs, username, inputs, lib, config, ...}:
 let
   dotnet-combined = (with pkgs.dotnetCorePackages; combinePackages [
       sdk_8_0
       sdk_9_0
   ]);
+
+  plugins = inputs.nix-jetbrains-plugins.plugins.${pkgs.system};
+  ideWithPlugins = jetbrains: ide-name: plugin-ids:
+    let 
+      ide = jetbrains."${ide-name}";
+      processPlugin = 
+        plugin:
+        if lib.isDerivation plugin then
+          plugin
+        else if jetbrains.plugins.raw.byId ? "${plugin}" || jetbrains.plugins.raw.byName ? "${plugin}" then
+          plugin
+        else if plugins."${ide-name}"."${ide.version}" ? "${plugin}" then
+          plugins."${ide-name}"."${ide.version}"."${plugin}"
+        else
+          throw "Could not resolve plugin ${plugin}";
+
+      mappedPlugins = map processPlugin plugin-ids;
+    in 
+      jetbrains.plugins.addPlugins ide mappedPlugins;
 in
 {
   users.users.${username}.packages = with pkgs; [
     dotnet-combined
-    jetbrains.rider
+    #jetbrains.rider
+    (ideWithPlugins jetbrains "rider" [
+      "github-copilot"
+      "com.intellij.csharpier"
+      "verify-rider"
+    ])
     #(jetbrains.plugins.addPlugins jetbrains.rider [ "github-copilot" ])
     #(pkgs.stdenv.mkDerivation {
       #    name = "csharpier";

@@ -3,12 +3,13 @@
   users.users.${username}.packages = with pkgs; [
     (vscode-with-extensions.override
     {
-      #vscode = pkgs.vscodium;
+      vscode = pkgs.vscodium;
       vscodeExtensions  =[
         # C# Development
         ms-dotnettools-csdevkit
         ms-dotnettools-csharp
         pkgs.vscode-extensions.ms-vscode-remote.remote-ssh
+        pkgs.vscode-extensions. github.copilot-chat
       ] ++ (with inputs.nix-vscode-extensions.extensions.${system}.vscode-marketplace; [
         ms-python.python
         ms-python.vscode-pylance
