@@ -9,7 +9,7 @@
         ms-dotnettools-csdevkit
         ms-dotnettools-csharp
         pkgs.vscode-extensions.ms-vscode-remote.remote-ssh
-        pkgs.vscode-extensions. github.copilot-chat
+        pkgs.vscode-extensions.github.copilot-chat
       ] ++ (with inputs.nix-vscode-extensions.extensions.${system}.vscode-marketplace; [
         ms-python.python
         ms-python.vscode-pylance
@@ -25,6 +25,7 @@
         redhat.vscode-yaml
         ms-kubernetes-tools.vscode-kubernetes-tools
         golang.go
+        coder.coder-remote
       ]);
     })
   ];

@@ -121,6 +121,7 @@
       "x-scheme-handler/unknown" = "chromium.desktop";
       "x-scheme-handler/mongodb" = "mongodb-compass.desktop";
       "x-scheme-handler/mongodb+srv" = "mongodb-compass.desktop";
+      "x-scheme-handler/vscode" = "codium.desktop";
     };
   };
 
