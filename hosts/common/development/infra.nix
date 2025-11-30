@@ -17,5 +17,11 @@
     mongodb-tools
     filezilla
     k6
+    openssl
   ];
+
+  boot.supportedFilesystems = [ "fuse" ];
+  # for FUSE3
+  boot.kernelModules = [ "fuse" ];
+  programs.fuse.userAllowOther = true;
 }

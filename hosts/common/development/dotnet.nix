@@ -1,8 +1,8 @@
 {pkgs, username, inputs, lib, config, ...}:
 let
   dotnet-combined = (with pkgs.dotnetCorePackages; combinePackages [
-      sdk_8_0
       sdk_9_0
+      sdk_10_0
   ]);
 
   plugins = inputs.nix-jetbrains-plugins.plugins.${pkgs.system};
@@ -29,11 +29,15 @@ in
     dotnet-combined
     #jetbrains.rider
     (ideWithPlugins jetbrains "rider" [
-      "github-copilot"
+      "17718" # github-copilot
       "com.intellij.csharpier"
       "verify-rider"
     ])
-    #(jetbrains.plugins.addPlugins jetbrains.rider [ "github-copilot" ])
+    # (jetbrains.plugins.addPlugins jetbrains.rider [ 
+    #   "17718"
+    #   inputs.nix-jetbrains-plugins.plugins.${pkgs.system}.rider."2025.2.5"."com.intellij.csharpier"
+    #   inputs.nix-jetbrains-plugins.plugins.${pkgs.system}.rider."2025.2.5"."verify-rider"
+    # ])
     #(pkgs.stdenv.mkDerivation {
       #    name = "csharpier";
       #  version = "2.1.2";

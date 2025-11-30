@@ -1,6 +1,6 @@
 { inputs, lib, pkgs, config, username, ... }: {
     nixpkgs.config.packageOverrides = pkgs: {
-        vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+        intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
     }; 
 
     users.users.${username}.packages = with pkgs; [
@@ -16,8 +16,8 @@
         nvidia-vaapi-driver
         # https://nixos.wiki/wiki/Accelerated_Video_Playback
         intel-media-driver # LIBVA_DRIVER_NAME=iHD
-        vaapiIntel         # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
-        vaapiVdpau
+        intel-vaapi-driver         # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+        libva-vdpau-driver
         libvdpau-va-gl
         ];
     };
