@@ -72,7 +72,7 @@
     docker-compose="docker compose";
     k = "kubectl";
     tvim = "bash $HOME/.config/scripts/tvim.sh";
-    code = "codium";
+    code = "code";
   };
   
 
@@ -91,7 +91,7 @@
   programs.bash.bashrcExtra = lib.mkMerge [
         (lib.mkBefore ''
           # goes before
-	  PATH=$PATH:$HOME/.npm-global/bin/
+	  PATH=$PATH:$HOME/.npm-global/bin/:$HOME/.dotnet/tools
 
 	  alias ??='gh copilot suggest -t shell'
         '')
@@ -121,7 +121,7 @@
       "x-scheme-handler/unknown" = "chromium.desktop";
       "x-scheme-handler/mongodb" = "mongodb-compass.desktop";
       "x-scheme-handler/mongodb+srv" = "mongodb-compass.desktop";
-      "x-scheme-handler/vscode" = "codium.desktop";
+      "x-scheme-handler/vscode" = "code.desktop";
     };
   };
 

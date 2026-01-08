@@ -13,5 +13,10 @@
       autostart = true;
       configFile = config.sops.secrets."wg/rapidata-prod.conf".path;
     };
+
+    home = {
+      autostart = false;
+      configFile = config.sops.secrets."wg/home.conf".path;
+    };
   };
 }

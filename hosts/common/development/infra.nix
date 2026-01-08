@@ -1,7 +1,7 @@
 {pkgs, username, ...}:{
   users.users.${username}.packages = with pkgs; [
     stable.awscli2
-    (google-cloud-sdk.withExtraComponents [google-cloud-sdk.components.gke-gcloud-auth-plugin])
+    (stable.google-cloud-sdk.withExtraComponents [stable.google-cloud-sdk.components.gke-gcloud-auth-plugin])
     terraform
     act
     kubectl
@@ -18,9 +18,11 @@
     filezilla
     k6
     openssl
+    talosctl
+    fluxcd
   ];
 
-  boot.supportedFilesystems = [ "fuse" ];
+  boot.supportedFilesystems = [ "fuse" "ntfs" ];
   # for FUSE3
   boot.kernelModules = [ "fuse" ];
   programs.fuse.userAllowOther = true;

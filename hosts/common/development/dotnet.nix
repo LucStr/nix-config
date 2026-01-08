@@ -9,11 +9,9 @@ let
   ideWithPlugins = jetbrains: ide-name: plugin-ids:
     let 
       ide = jetbrains."${ide-name}";
-      processPlugin = 
+      processPlugin =
         plugin:
         if lib.isDerivation plugin then
-          plugin
-        else if jetbrains.plugins.raw.byId ? "${plugin}" || jetbrains.plugins.raw.byName ? "${plugin}" then
           plugin
         else if plugins."${ide-name}"."${ide.version}" ? "${plugin}" then
           plugins."${ide-name}"."${ide.version}"."${plugin}"
@@ -29,7 +27,7 @@ in
     dotnet-combined
     #jetbrains.rider
     (ideWithPlugins jetbrains "rider" [
-      "17718" # github-copilot
+      "com.github.copilot" # github-copilot
       "com.intellij.csharpier"
       "verify-rider"
     ])

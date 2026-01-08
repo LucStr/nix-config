@@ -41,5 +41,10 @@ in {
       group = "root";
       mode = "0400";
     };
+    "wg/home.conf" = {
+      owner = "root";
+      group = "root";
+      mode = "0400";
+    };
   };
 }
