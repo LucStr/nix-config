@@ -129,6 +129,14 @@
           ./home-manager/home.nix
         ];
       };
+      # Standalone Home Manager for Void Linux (non-NixOS)
+      "luca@void" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        extraSpecialArgs = {inherit inputs outputs; };
+        modules = [
+          ./home-manager/home-void.nix
+        ];
+      };
     };
   };
 }
