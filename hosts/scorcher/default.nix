@@ -58,6 +58,7 @@
       devices = [ "nodev" ];
       efiSupport = true;
       enable = true;
+      useOSProber = true;
       extraEntries = ''
         menuentry "Windows" {
           insmod part_gpt
@@ -78,6 +79,11 @@
 	  linux	/boot/vmlinuz-6.5.0-10006-tuxedo root=UUID=99d4aeb6-3ce0-4762-9428-761bce7c5140 ro  quiet splash loglevel=3 udev.log_level=3 $vt_handoff
 	  initrd	/boot/initrd.img-6.5.0-10006-tuxedo
         }
+
+          menuentry "Void Linux" {
+    search --no-floppy --fs-uuid --set=root D8DC-9A18
+    chainloader /EFI/void_grub/grubx64.efi
+  }
       '';
     };
   }; 

@@ -73,6 +73,7 @@
     k = "kubectl";
     tvim = "bash $HOME/.config/scripts/tvim.sh";
     code = "code";
+    lazycloud = "cargo run --manifest-path ~/Code/tinker/lazycloud/Cargo.toml";
   };
   
 

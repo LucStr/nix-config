@@ -27,7 +27,7 @@ in
     dotnet-combined
     #jetbrains.rider
     (ideWithPlugins jetbrains "rider" [
-      "com.github.copilot" # github-copilot
+      # "com.github.copilot" # github-copilot
       "com.intellij.csharpier"
       "verify-rider"
     ])

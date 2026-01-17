@@ -1,5 +1,5 @@
 # This file (and the global directory) holds config that I use on all hosts
-{ username, inputs, outputs, ... }: {
+{ username, inputs, outputs, pkgs, ... }: {
   imports = [
     inputs.disko.nixosModules.disko
     inputs.lanzaboote.nixosModules.lanzaboote
@@ -27,9 +27,31 @@
     extraGroups = [ "wheel" "networkmanager" ];
   };
 
-  services.resolved.enable = true;
+  services.resolved = {
+    enable = true;
+    llmnr = "false";
+    extraConfig = ''
+      MulticastDNS=no
+    '';
+  };
 
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    dns = "systemd-resolved";
+    dispatcherScripts = [{
+      type = "basic";
+      source = pkgs.writeText "enable-mdns-physical" ''
+        # Enable mDNS on physical network interfaces (WiFi and Ethernet)
+        case "$DEVICE_IFACE" in
+          wlo1|enp58s0|enp*)
+            if [ "$2" = "up" ]; then
+              ${pkgs.systemd}/bin/resolvectl mdns "$DEVICE_IFACE" yes
+            fi
+            ;;
+        esac
+      '';
+    }];
+  };
   networking.firewall = {
     enable = true;
     trustedInterfaces = [ "rapidnet" ];
