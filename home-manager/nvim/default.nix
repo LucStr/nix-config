@@ -119,6 +119,12 @@
       vim-dotenv
       none-ls-nvim
       # End Laravel stuff
+
+      # GitHub integration
+      {
+        plugin = octo-nvim;
+        config = toLua "require('octo').setup()";
+      }
     ];
 
     extraLuaConfig = ''

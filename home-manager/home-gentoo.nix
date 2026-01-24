@@ -19,7 +19,15 @@
     homeDirectory = "/home/luca";
     sessionVariables = {
       EDITOR = "nvim";
+      NVM_DIR = "$HOME/.nvm";
     };
+    sessionPath = [
+      "$HOME/.nix-profile/bin"
+      "$HOME/.local/bin"
+      "$HOME/.npm-global/bin"
+      "$HOME/.spicetify"
+      "$HOME/.local/share/JetBrains/Toolbox/scripts"
+    ];
   };
 
   programs.bash = {
@@ -29,10 +37,19 @@
       k = "kubectl";
       tvim = "bash $HOME/.config/scripts/tvim.sh";
     };
-    bashrcExtra = ''
-      PATH=$PATH:$HOME/.local/bin:$HOME/.npm-global/bin
+    initExtra = ''
+      # NVM initialization (kept separate from nix)
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
     '';
   };
+
+  home.packages = with pkgs; [
+    lazygit
+    (google-cloud-sdk.withExtraComponents (with google-cloud-sdk.components; [
+      gke-gcloud-auth-plugin
+    ]))
+  ];
 
   programs.nh = {
     enable = true;
@@ -70,7 +87,7 @@
   in builtins.listToAttrs (map (name: {
     name = ".config/${name}";
     value.source = mkSymlink name;
-  }) [ "hypr" "waybar" "wofi" "gtk-3.0" "alacritty" "scripts" ]);
+  }) [ "hypr" "waybar" "wofi" "gtk-3.0" "alacritty" "scripts" "gh-dash" ]);
 
   home.stateVersion = "23.05";
 }

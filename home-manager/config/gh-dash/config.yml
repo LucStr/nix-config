@@ -1,0 +1,31 @@
+# gh-dash configuration
+# Docs: https://www.gh-dash.dev/configuration/
+
+# Map GitHub repos to local paths
+repoPaths:
+  RapidataAI/*: ~/Code/rapidata/*
+
+keybindings:
+  prs:
+    - key: o
+      name: open in Octo
+      command: "tmux new-window -c {{.RepoPath}} 'nvim -c \":Octo pr edit {{.PrNumber}}\"'"
+    - key: d
+      name: diff in nvim
+      command: "tmux new-window -c {{.RepoPath}} 'gh pr checkout {{.PrNumber}} && nvim -c \":DiffviewOpen main...HEAD\"'"
+    - key: c
+      name: checkout PR
+      command: "gh pr checkout {{.PrNumber}} --repo {{.RepoName}}"
+
+  issues:
+    - key: O
+      name: open in Octo
+      command: "tmux new-window -c {{.RepoPath}} 'nvim -c \":Octo issue edit {{.IssueNumber}}\"'"
+
+  universal:
+    - key: g
+      name: lazygit
+      command: "tmux new-window -c {{.RepoPath}} lazygit"
+    - key: v
+      name: open in nvim
+      command: "tmux new-window -c {{.RepoPath}} nvim"
