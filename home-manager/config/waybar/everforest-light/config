@@ -6,7 +6,7 @@
   "height": 60, 
   "layer": "top",
   "position": "top",
-  "output": "eDP-1",
+  "output": "HDMI-A-5",
   "spacing": 15,
   "modules-left": ["custom/launcher", "clock", "clock#date"],
   "modules-center": ["hyprland/workspaces"],
@@ -34,7 +34,7 @@
   
   "custom/launcher": {
       "interval": "once",
-      "format": "",
+      "format": "",
       "on-click": "pkill wofi || wofi --show drun --term=kitty --width=20% --height=50% --columns 1 -I -s ~/.config/wofi/themes/everforest-light.css -o $MAIN_DISPLAY",
       "tooltip": false
     },

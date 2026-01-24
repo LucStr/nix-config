@@ -113,7 +113,7 @@
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
-      "luca@scorcher" = home-manager.lib.homeManagerConfiguration {
+      "luca@nixos" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs; };
         modules = [
@@ -129,12 +129,12 @@
           ./home-manager/home.nix
         ];
       };
-      # Standalone Home Manager for Void Linux (non-NixOS)
-      "luca@void" = home-manager.lib.homeManagerConfiguration {
+      # Standalone Home Manager for Gentoo Linux (non-NixOS)
+      "luca@scorcher" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs; };
         modules = [
-          ./home-manager/home-void.nix
+          ./home-manager/home-gentoo.nix
         ];
       };
     };

@@ -2,9 +2,15 @@
 TERM = "xterm-256color"
 
 [terminal.shell]
-program = "/run/current-system/sw/bin/bash"
+program = "/usr/bin/bash"
 
 [window]
 opacity = 0.8
+
+[font]
+size = 11
+
+[font.normal]
+family = "Cousine Nerd Font Mono"
 
 [terminal]

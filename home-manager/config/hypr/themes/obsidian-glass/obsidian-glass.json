@@ -1,0 +1,14 @@
+{
+    "gtkTheme": "Adwaita-dark",
+    "kvantumTheme": "",
+    "iconTheme": "Papirus-Dark",
+    "colorScheme": "obsidian-glass",
+    "colorMode": "dark",
+    "vsCodeTheme": "Shades of Purple",
+    "vsCodeExtraColors": "",
+    "nvimTheme": "tokyonight",
+    "obsidianTheme": "Minimal",
+    "font": "JetBrainsMono Nerd Font",
+    "darkReaderColors": {"background": "#0d0d14", "text": "#e4e4ef"},
+    "firefoxTheme": "Dark blue"
+}

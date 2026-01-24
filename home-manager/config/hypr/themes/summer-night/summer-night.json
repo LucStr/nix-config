@@ -9,5 +9,6 @@
     "nvimTheme": "everforest",
     "obsidianTheme": "Everforest",
     "font": "JetBrainsMono Nerd Font",
-    "darkReaderColors": {"background": "#2d353b", "text": "#d3c6aa"}
+    "darkReaderColors": {"background": "#2d353b", "text": "#d3c6aa"},
+    "firefoxTheme": "Everforest Dark"
 }

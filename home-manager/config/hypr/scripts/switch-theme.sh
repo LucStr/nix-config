@@ -14,8 +14,9 @@ VS_CODE_THEME=$(cat ~/.config/hypr/themes/$1/$1.json | jq -r ".vsCodeTheme")
 VS_CODE_EXTRA_COLORS=$(cat ~/.config/hypr/themes/$1/$1.json | jq -r ".vsCodeExtraColors")
 DARK_READER_BACKGROUND_COLOR=$(cat ~/.config/hypr/themes/$1/$1.json | jq -r ".darkReaderColors.background")
 DARK_READER_TEXT_COLOR=$(cat ~/.config/hypr/themes/$1/$1.json | jq -r ".darkReaderColors.text")
+FIREFOX_THEME=$(cat ~/.config/hypr/themes/$1/$1.json | jq -r ".firefoxTheme")
 
-source configure-gtk
+#source configure-gtk
 
 # wofi theme
 rm ~/.config/wofi/theme.css
@@ -89,9 +90,8 @@ sed -i -E 's/("editor.fontFamily": ")(.*)(,.*,.*",)/\1'"$FONT"'\3/g' '.config/Co
 # Betterdiscord
 #cp ~/.config/themes/betterdiscord/$COLOR_SCHEME/themes.json ~/.config/BetterDiscord/data/stable/
 
-# Firefox
-#rm -r ~/.mozilla/firefox/*.default-release/chrome
-#cp -r ~/.config/themes/firefox/$COLOR_SCHEME/chrome ~/.mozilla/firefox/*.default-release/
+# Firefox (Theme Changer extension)
+echo "$FIREFOX_THEME" > ~/.config/themes/firefox/firefox_theme
 
 # Zathura theme
 #cp ~/.config/themes/zathura/$COLOR_SCHEME/zathurarc ~/.config/zathura/
