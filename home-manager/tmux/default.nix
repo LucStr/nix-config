@@ -1,36 +1,35 @@
 { pkgs, lib, ... }:
-let 
-  fromGitHub = rev: ref: owner: repo: pkgs.tmuxPlugins.mkTmuxPlugin {
-      pluginName = repo;
-      version = ref;
-      rtpFilePath = "vim-tmux-navigator.tmux";
-      src = builtins.fetchGit {
-        url = "https://github.com/${owner}/${repo}.git";
-        ref = ref;
-        rev = rev;
-     };
-  };
-
-in
 {
   programs.tmux = {
     enable = true;
 
     plugins = with pkgs.tmuxPlugins; [
-      (fromGitHub "743f1e8057bf2404db137192bc2f81e993eb065d" "main" "kranich" "vim-tmux-navigator")
       catppuccin
     ];
 
     extraConfig = ''
+      # Use login shell to ensure home-manager sessionPath is available
+      set -g default-command "bash --login"
+
       # Start windows and panes at 1, not 0
       set -g base-index 1
       setw -g pane-base-index 1
 
-      # Pane resizing
-      bind -n C-M-h resize-pane -L 5
-      bind -n C-M-j resize-pane -D 5
-      bind -n C-M-k resize-pane -U 5
-      bind -n C-M-l resize-pane -R 5
+      # Smart-splits integration for seamless nvim/tmux navigation and resizing
+      # See: https://github.com/mrjones2014/smart-splits.nvim#tmux
+      # Uses @pane-is-vim variable set by the plugin
+
+      # Navigation (Ctrl + hjkl)
+      bind-key -n C-h if -F "#{@pane-is-vim}" 'send-keys C-h' 'select-pane -L'
+      bind-key -n C-j if -F "#{@pane-is-vim}" 'send-keys C-j' 'select-pane -D'
+      bind-key -n C-k if -F "#{@pane-is-vim}" 'send-keys C-k' 'select-pane -U'
+      bind-key -n C-l if -F "#{@pane-is-vim}" 'send-keys C-l' 'select-pane -R'
+
+      # Resizing (Alt + hjkl)
+      bind-key -n M-h if -F "#{@pane-is-vim}" 'send-keys M-h' 'resize-pane -L 3'
+      bind-key -n M-j if -F "#{@pane-is-vim}" 'send-keys M-j' 'resize-pane -D 3'
+      bind-key -n M-k if -F "#{@pane-is-vim}" 'send-keys M-k' 'resize-pane -U 3'
+      bind-key -n M-l if -F "#{@pane-is-vim}" 'send-keys M-l' 'resize-pane -R 3'
 
       # Create new window
       bind -n M-c new-window

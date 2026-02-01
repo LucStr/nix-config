@@ -24,9 +24,11 @@
     sessionPath = [
       "$HOME/.nix-profile/bin"
       "$HOME/.local/bin"
+      "$HOME/.cargo/bin"
       "$HOME/.npm-global/bin"
       "$HOME/.spicetify"
       "$HOME/.local/share/JetBrains/Toolbox/scripts"
+      "$HOME/.dotnet"
       "$HOME/.dotnet/tools"
     ];
   };
@@ -38,8 +40,10 @@
       k = "kubectl";
       tvim = "bash $HOME/.config/scripts/tvim.sh";
     };
-    bashrcExtra = ''
-      # Source session vars for all shells (including non-interactive)
+    profileExtra = ''
+      # Reset guard and re-source hm-session-vars to set PATH
+      # (Guard may be inherited from parent, but /etc/profile.env resets PATH)
+      unset __HM_SESS_VARS_SOURCED
       . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
     '';
     initExtra = ''

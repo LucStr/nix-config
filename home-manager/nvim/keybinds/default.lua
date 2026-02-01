@@ -1,22 +1,10 @@
 vim.g.mapleader=";"
 
--- binds to switch windows
-
--- Disable default mappings from vim-tmux-navigator
---vim.g.tmux_navigator_no_mappings = 1
--- Custom mappings for tmux navigation
-vim.keymap.set('n', 'af', '<cmd>TmuxNavigateLeft<CR>', { silent = true, desc = 'Move focus to the left tmux pane' })
---vim.keymap.set('n', '<C-h>', '<cmd>TmuxNavigateLeft<CR>', { silent = true, desc = 'Move focus to the left tmux pane' })
---vim.keymap.set('n', '<C-j>', '<cmd>TmuxNavigateDown<CR>', { silent = true, desc = 'Move focus to the lower tmux pane' })
---vim.keymap.set('n', '<C-k>', '<cmd>TmuxNavigateUp<CR>', { silent = true, desc = 'Move focus to the upper tmux pane' })
---vim.keymap.set('n', '<C-l>', '<cmd>TmuxNavigateRight<CR>', { silent = true, desc = 'Move focus to the right tmux pane' })
---vim.keymap.set('n', '<C-\\>', '<cmd>TmuxNavigatePrevious<CR>', { silent = true, desc = 'Move focus to the previously used tmux pane' })
-
 -- bind to exit the terminal
 vim.keymap.set('t', '<ESC>',  '<C-\\><C-n>',  {noremap = true})
 
 -- bind telescope hotspots
-vim.keymap.set('n', '<C-t>', '<CMD>lua require("telescope.builtin").lsp_dynamic_workspace_symbols({ symbols = { "Function", "Class" } })<CR>', { desc = 'Find functions and classes in current workspace'})
+vim.keymap.set('n', '<C-t>', '<CMD>lua require("telescope.builtin").lsp_dynamic_workspace_symbols()<CR>', { desc = 'Find symbols in workspace'})
 
 vim.keymap.set({"n", "i", "v"}, "<F2>", '<cmd>lua require("renamer").rename()<cr>', { desc = 'Renames a symbol through the LSP'})
 
@@ -28,5 +16,15 @@ vim.keymap.set("n", "sd", '<cmd>:Telescope lsp_document_symbols<CR>', { desc = '
 vim.keymap.set("n", "sf", '<cmd>:Telescope live_grep<CR>', { desc = 'Search all files' })
 vim.keymap.set("n", "sr", '<cmd>:Telescope lsp_references<CR>', { desc = 'Search all references' })
 
-vim.keymap.set("n", "ff", '<cmd>:lua vim.lsp.buf.format({})<CR>', { desc = 'Search all references' })
+vim.keymap.set("n", "ff", function()
+    require("conform").format({ async = true, lsp_fallback = true })
+end, { desc = 'Format buffer' })
 
+-- Diagnostics
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = 'Show diagnostic message' })
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic' })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = 'Go to next diagnostic' })
+
+-- Trouble (tree view for quickfix/diagnostics)
+vim.keymap.set("n", "sq", '<cmd>Trouble qflist toggle<CR>', { desc = 'Quickfix in tree view' })
+vim.keymap.set("n", "se", '<cmd>Trouble diagnostics toggle<CR>', { desc = 'Diagnostics in tree view' })
