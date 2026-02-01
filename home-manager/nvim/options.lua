@@ -70,3 +70,31 @@ vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
+
+-- Quickfix folding by filename
+function _G.qf_fold_expr()
+  local line = vim.fn.getline(vim.v.lnum)
+  local prev_line = vim.fn.getline(vim.v.lnum - 1)
+
+  local current_file = line:match("^([^|]+)")
+  local prev_file = prev_line:match("^([^|]+)")
+
+  if vim.v.lnum == 1 then
+    return ">1"
+  end
+
+  if current_file ~= prev_file then
+    return ">1"
+  end
+
+  return "1"
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "qf",
+  callback = function()
+    vim.opt_local.foldmethod = "expr"
+    vim.opt_local.foldexpr = "v:lua.qf_fold_expr()"
+    vim.opt_local.foldlevel = 0  -- Start collapsed
+  end,
+})

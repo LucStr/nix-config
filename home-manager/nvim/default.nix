@@ -125,6 +125,12 @@
         plugin = octo-nvim;
         config = toLua "require('octo').setup()";
       }
+
+      # Better quickfix with folding per file
+      {
+        plugin = nvim-bqf;
+        config = toLua "require('bqf').setup()";
+      }
     ];
 
     extraLuaConfig = ''

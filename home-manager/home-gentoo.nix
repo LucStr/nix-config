@@ -27,6 +27,7 @@
       "$HOME/.npm-global/bin"
       "$HOME/.spicetify"
       "$HOME/.local/share/JetBrains/Toolbox/scripts"
+      "$HOME/.dotnet/tools"
     ];
   };
 
@@ -37,6 +38,10 @@
       k = "kubectl";
       tvim = "bash $HOME/.config/scripts/tvim.sh";
     };
+    bashrcExtra = ''
+      # Source session vars for all shells (including non-interactive)
+      . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+    '';
     initExtra = ''
       # NVM initialization (kept separate from nix)
       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -88,6 +93,9 @@
     name = ".config/${name}";
     value.source = mkSymlink name;
   }) [ "hypr" "waybar" "wofi" "gtk-3.0" "alacritty" "scripts" "gh-dash" ]);
+
+  # Enable better integration for non-NixOS Linux
+  targets.genericLinux.enable = true;
 
   home.stateVersion = "23.05";
 }
