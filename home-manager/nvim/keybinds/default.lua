@@ -14,6 +14,7 @@ vim.keymap.set({"i", "n"}, "<C-F12>", '<cmd>lua vim.lsp.buf.implementation()<CR>
 
 vim.keymap.set("n", "sd", '<cmd>:Telescope lsp_document_symbols<CR>', { desc = 'Search all symbols in the document' })
 vim.keymap.set("n", "sf", '<cmd>:Telescope live_grep<CR>', { desc = 'Search all files' })
+vim.keymap.set("n", "sp", '<cmd>:Telescope find_files<CR>', { desc = 'Search files by name' })
 vim.keymap.set("n", "sr", '<cmd>:Telescope lsp_references<CR>', { desc = 'Search all references' })
 
 vim.keymap.set("n", "ff", function()
@@ -28,3 +29,6 @@ vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 -- Trouble (tree view for quickfix/diagnostics)
 vim.keymap.set("n", "sq", '<cmd>Trouble qflist toggle<CR>', { desc = 'Quickfix in tree view' })
 vim.keymap.set("n", "se", '<cmd>Trouble diagnostics toggle<CR>', { desc = 'Diagnostics in tree view' })
+
+-- Test runner (easy-dotnet)
+vim.keymap.set("n", "st", '<cmd>Dotnet testrunner<CR>', { desc = 'Open test explorer' })

@@ -148,6 +148,10 @@
       roslyn-nvim
       actions-preview-nvim
       {
+        plugin = easy-dotnet-nvim;
+        config = toLuaFile ./plugins/easy-dotnet.lua;
+      }
+      {
         plugin = harpoon2;
         config = toLuaFile ./plugins/harpoon.lua;
       }
@@ -162,6 +166,10 @@
       {
         plugin = octo-nvim;
         config = toLua "require('octo').setup()";
+      }
+      {
+        plugin = diffview-nvim;
+        config = toLua "require('diffview').setup()";
       }
 
       # Better quickfix with folding per file

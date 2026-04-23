@@ -31,6 +31,19 @@
       bind-key -n M-k if -F "#{@pane-is-vim}" 'send-keys M-k' 'resize-pane -U 3'
       bind-key -n M-l if -F "#{@pane-is-vim}" 'send-keys M-l' 'resize-pane -R 3'
 
+      # Split panes (Alt + s/v)
+      bind -n M-s if -F "#{@pane-is-vim}" 'send-keys M-s' 'split-window -v -c "#{pane_current_path}"'
+      bind -n M-v if -F "#{@pane-is-vim}" 'send-keys M-v' 'split-window -h -c "#{pane_current_path}"'
+
+      # Swap panes (Alt + Shift + hjkl)
+      bind -n M-H if -F "#{@pane-is-vim}" 'send-keys M-H' 'swap-pane -s "{left-of}"'
+      bind -n M-J if -F "#{@pane-is-vim}" 'send-keys M-J' 'swap-pane -s "{down-of}"'
+      bind -n M-K if -F "#{@pane-is-vim}" 'send-keys M-K' 'swap-pane -s "{up-of}"'
+      bind -n M-L if -F "#{@pane-is-vim}" 'send-keys M-L' 'swap-pane -s "{right-of}"'
+
+      # Close pane (Alt + x)
+      bind -n M-x if -F "#{@pane-is-vim}" 'send-keys M-x' 'kill-pane'
+
       # Create new window
       bind -n M-c new-window
 
@@ -47,6 +60,8 @@
       bind -n M-0 select-window -t 10
 
       set -g @catppuccin_flavour 'mocha'
+
+      set -sg escape-time 150
 
       setw -g mouse on
     '';

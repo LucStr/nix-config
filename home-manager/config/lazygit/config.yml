@@ -1,0 +1,6 @@
+customCommands:
+  - key: "P"
+    context: "localBranches"
+    description: "Push and create PR"
+    command: "git push -u origin '{{.SelectedLocalBranch.Name}}' && { [ '{{.SelectedLocalBranch.Name}}' = \"$(gh repo view --json defaultBranchRef -q .defaultBranchRef.name)\" ] || gh pr view &>/dev/null || { gh pr create --fill && gh pr edit --add-reviewer jorgeparavicini 2>/dev/null; }; }"
+    loadingText: "Pushing and creating PR..."

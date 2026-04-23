@@ -1,8 +1,16 @@
 # Home Manager configuration for Gentoo Linux
-{ inputs, outputs, lib, config, pkgs, ... }: {
+{
+  inputs,
+  outputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
   imports = [
-    ./nvim   # Neovim with all plugins
-    ./tmux   # Tmux with plugins (for tvim)
+    ./nvim # Neovim with all plugins
+    ./tmux # Tmux with plugins (for tvim)
   ];
 
   nixpkgs = {
@@ -20,6 +28,8 @@
     sessionVariables = {
       EDITOR = "nvim";
       NVM_DIR = "$HOME/.nvm";
+      # Prevent MSBuild worker nodes from persisting after builds (causes memory bloat)
+      MSBUILDDISABLENODEREUSE = "1";
     };
     sessionPath = [
       "$HOME/.nix-profile/bin"
@@ -55,9 +65,12 @@
 
   home.packages = with pkgs; [
     lazygit
-    (google-cloud-sdk.withExtraComponents (with google-cloud-sdk.components; [
-      gke-gcloud-auth-plugin
-    ]))
+    (google-cloud-sdk.withExtraComponents (
+      with google-cloud-sdk.components;
+      [
+        gke-gcloud-auth-plugin
+      ]
+    ))
   ];
 
   programs.nh = {
@@ -86,17 +99,34 @@
       user.email = "25279790+LucStr@users.noreply.github.com";
       push.autoSetupRemote = true;
       pull.rebase = true;
+      rebase.autoStash = true;
     };
   };
 
   # Symlink dotfiles from config directory
-  home.file = let
-    mkSymlink = name: config.lib.file.mkOutOfStoreSymlink
-      "${config.home.homeDirectory}/nix-config/home-manager/config/${name}";
-  in builtins.listToAttrs (map (name: {
-    name = ".config/${name}";
-    value.source = mkSymlink name;
-  }) [ "hypr" "waybar" "wofi" "gtk-3.0" "alacritty" "scripts" "gh-dash" ]);
+  home.file =
+    let
+      mkSymlink =
+        name:
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nix-config/home-manager/config/${name}";
+    in
+    builtins.listToAttrs (
+      map
+        (name: {
+          name = ".config/${name}";
+          value.source = mkSymlink name;
+        })
+        [
+          "hypr"
+          "waybar"
+          "wofi"
+          "gtk-3.0"
+          "alacritty"
+          "scripts"
+          "gh-dash"
+          "lazygit"
+        ]
+    );
 
   # Enable better integration for non-NixOS Linux
   targets.genericLinux.enable = true;
