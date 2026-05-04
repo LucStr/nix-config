@@ -65,6 +65,13 @@
 
   home.packages = with pkgs; [
     lazygit
+    grim
+    slurp
+    wl-clipboard
+    cliphist
+    hyprpicker
+    swaynotificationcenter
+    libnotify
     (google-cloud-sdk.withExtraComponents (
       with google-cloud-sdk.components;
       [

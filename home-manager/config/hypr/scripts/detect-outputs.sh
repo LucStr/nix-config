@@ -1,31 +1,36 @@
 #!/bin/sh
 export XCURSOR_SIZE=24
 
-# Function to check display status
-check_display() {
-  if [ -f "$1" ]; then
-    status=$(cat "$1")
-    echo $status
-    if [ "$status" = "connected" ]; then
-      echo "$2"
-      return 0
-    fi
-  fi
-  return 1
-}
+# Pick the primary display: any connected external (HDMI > DP > DVI > VGA),
+# falling back to the internal panel. Scans /sys/class/drm so it works for any
+# connector number (e.g. DP-12) without needing a hardcoded list.
+#
+# This script is sourced (not exec'd) so the export propagates to the caller.
 
-# Define order of preference for displays
-declare -a displays=("/sys/class/drm/card0-DP-5/status DP-5" "/sys/class/drm/card0-HDMI-A-5/status HDMI-A-5" "/sys/class/drm/card1-HDMI-A-5/status HDMI-A-5" "/sys/class/drm/card0-DP-2/status DP-2" "/sys/class/drm/card1-DP-5/status DP-5" "/sys/class/drm/card1-DP-4/status DP-4")
-
-# Default display
 export MAIN_DISPLAY="eDP-1"
 
-# Check each display in order of preference
-for display_info in "${displays[@]}"; do
-  read -r file display <<< "$display_info"
-  if check_display "$file" "$display"; then
-    export MAIN_DISPLAY="$display"
-    echo $MAIN_DISPLAY
+hdmi=""; dp=""; dvi=""; vga=""
+for status_file in /sys/class/drm/card*-*/status; do
+  [ -f "$status_file" ] || continue
+  [ "$(cat "$status_file")" = "connected" ] || continue
+
+  connector=${status_file#/sys/class/drm/card*-}
+  connector=${connector%/status}
+
+  case "$connector" in
+    eDP-*|Writeback-*) ;;
+    HDMI-A-*) [ -z "$hdmi" ] && hdmi=$connector ;;
+    DP-*)     [ -z "$dp" ]   && dp=$connector ;;
+    DVI-D-*)  [ -z "$dvi" ]  && dvi=$connector ;;
+    VGA-*)    [ -z "$vga" ]  && vga=$connector ;;
+  esac
+done
+
+for candidate in "$hdmi" "$dp" "$dvi" "$vga"; do
+  if [ -n "$candidate" ]; then
+    export MAIN_DISPLAY="$candidate"
     break
   fi
 done
+
+echo "$MAIN_DISPLAY"

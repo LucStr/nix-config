@@ -14,8 +14,3 @@ size = 11
 family = "Cousine Nerd Font Mono"
 
 [terminal]
-
-[[keyboard.bindings]]
-key = "Return"
-mods = "Shift"
-chars = "\u001B\r"
