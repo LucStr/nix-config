@@ -28,6 +28,7 @@
     sessionVariables = {
       EDITOR = "nvim";
       NVM_DIR = "$HOME/.nvm";
+      GOBIN = "$HOME/.local/bin";
       # Prevent MSBuild worker nodes from persisting after builds (causes memory bloat)
       MSBUILDDISABLENODEREUSE = "1";
     };
@@ -72,6 +73,7 @@
     hyprpicker
     swaynotificationcenter
     libnotify
+    playerctl
     (google-cloud-sdk.withExtraComponents (
       with google-cloud-sdk.components;
       [
