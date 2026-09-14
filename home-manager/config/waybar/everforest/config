@@ -6,11 +6,16 @@
   "height": 60, 
   "layer": "top",
   "position": "top",
-  "output": "DP-12",
+  "output": "DP-13",
   "spacing": 15,
   "modules-left": ["custom/launcher", "clock", "clock#date"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["pulseaudio", "network", "battery", "custom/powermenu"],
+  "modules-right": ["tray", "pulseaudio", "network", "battery", "custom/powermenu"],
+
+  "tray": {
+      "icon-size": 18,
+      "spacing": 10
+  },
 
   "hyprland/workspaces": {
       "disable-scroll": true,
