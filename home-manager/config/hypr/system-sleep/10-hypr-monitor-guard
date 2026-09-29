@@ -1,0 +1,23 @@
+#!/bin/sh
+# elogind pre-sleep hook: never suspend while Hyprland has zero monitors.
+#
+# Undocking a closed laptop makes elogind suspend ~180 ms after the unplug.
+# monitor-guard.sh (running in the session) usually re-enables eDP-1 first,
+# but that is a race; this hook makes it deterministic. elogind waits for
+# system-sleep hooks before it writes /sys/power/state, and monitor-guard.sh
+# --once only returns once eDP-1 is enabled again (or after 3s).
+#
+# Install (root):
+#   sudo install -m 755 ~/.config/hypr/system-sleep/10-hypr-monitor-guard \
+#     /etc/elogind/system-sleep/
+# Stage is $1 ("pre"/"post"), target is $2 (e.g. "suspend").
+
+[ "$1" = "pre" ] || exit 0
+
+LUCA_UID="$(id -u luca 2>/dev/null)" || exit 0
+HIS="$(ls -t "/run/user/$LUCA_UID/hypr" 2>/dev/null | head -1)"
+[ -n "$HIS" ] || exit 0
+
+su - luca -c "HYPRLAND_INSTANCE_SIGNATURE=$HIS ~/.config/hypr/scripts/monitor-guard.sh --once pre-sleep" \
+  >/dev/null 2>&1
+exit 0

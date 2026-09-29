@@ -1,0 +1,2 @@
+# Template for ~/.config/hypr/lid-state.conf (gitignored, written at runtime).
+# Empty means "lid open". lid-close.sh writes "monitor = eDP-1, disable" here.

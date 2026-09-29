@@ -15,6 +15,18 @@
 # With the panel left enabled, closing the lid still suspends the machine via
 # elogind (HandleLidSwitch=suspend), which powers the panel down anyway.
 
+# Where the disable is persisted. hyprland.conf sources this file last, so the
+# rule below survives a config reload (SUPER_SHIFT+R, the theme switcher); a
+# bare `hyprctl keyword` does not -- a reload discards runtime keywords and the
+# eDP-1 rule in hyprland.conf would re-enable the panel under us.
+LID_STATE_CONF="$HOME/.config/hypr/lid-state.conf"
+
+write_lid_state() {
+  printf '%s\n' \
+    "# Written by scripts/lid-close.sh. Empty means \"lid open\"." \
+    "$1" > "$LID_STATE_CONF"
+}
+
 # hyprctl -j monitors lists only ENABLED monitors, so this counts real outputs.
 others=$(hyprctl -j monitors 2>/dev/null | jq -r '[.[] | select(.name != "eDP-1")] | length' 2>/dev/null)
 
@@ -26,7 +38,11 @@ esac
 
 if [ "$others" -ge 1 ]; then
   logger -t hypr-lid "close: $others external monitor(s) active -> disabling eDP-1"
+  write_lid_state "monitor = eDP-1, disable"
   hyprctl keyword monitor "eDP-1, disable"
 else
+  # Clear any stale rule: without an external display the panel must stay on,
+  # and a leftover disable would black the machine out on the next reload.
   logger -t hypr-lid "close: eDP-1 is the only output -> leaving it enabled"
+  write_lid_state ""
 fi
