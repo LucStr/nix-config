@@ -1,0 +1,134 @@
+{
+  "margin-top": 12,
+  "margin-left": 24,
+  "margin-bottom": 0,
+  "margin-right": 24,
+  "height": 54,
+  "layer": "top",
+  "position": "top",
+  "output": "DP-13",
+  "spacing": 0,
+  "modules-left": [
+    "group/ukiyo-left"
+  ],
+  "modules-center": [
+    "hyprland/workspaces"
+  ],
+  "modules-right": [
+    "group/ukiyo-right"
+  ],
+  "group/ukiyo-left": {
+    "orientation": "horizontal",
+    "modules": [
+      "custom/launcher",
+      "clock",
+      "clock#date"
+    ]
+  },
+  "group/ukiyo-right": {
+    "orientation": "horizontal",
+    "modules": [
+      "tray",
+      "pulseaudio",
+      "network",
+      "battery",
+      "custom/powermenu"
+    ]
+  },
+  "tray": {
+    "icon-size": 18,
+    "spacing": 10
+  },
+  "hyprland/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "on-click": "activate",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
+    "persistent-workspaces": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": [],
+      "6": [],
+      "7": [],
+      "8": [],
+      "9": [],
+      "10": []
+    }
+  },
+  "custom/launcher": {
+    "interval": "once",
+    "format": "藍",
+    "on-click": "pkill wofi || wofi --show drun --term=kitty --width=20% --height=50% --columns 1 -I -s ~/.config/wofi/themes/ukiyo-e.css -o $MAIN_DISPLAY",
+    "tooltip": false
+  },
+  "pulseaudio": {
+    "format": "<span font_family='Font Awesome 6 Free' font_weight='900' size='11264' rise='1024'>{icon}</span> {volume}%",
+    "format-bluetooth": "<span font_family='Font Awesome 6 Free' font_weight='900' size='11264' rise='1024'>{icon}</span> <span font_family='Font Awesome 6 Brands' font_weight='400' size='11264' rise='1024'></span> {volume}%",
+    "format-bluetooth-muted": "<span font_family='Font Awesome 6 Free' font_weight='900' size='11264' rise='1024'></span> <span font_family='Font Awesome 6 Brands' font_weight='400' size='11264' rise='1024'></span> muted",
+    "format-muted": "<span font_family='Font Awesome 6 Free' font_weight='900' size='11264' rise='1024'></span> muted",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    },
+    "on-click-right": "pavucontrol",
+    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+  },
+  "network": {
+    "format-wifi": "<span font_family='Font Awesome 6 Free' font_weight='900' size='11264' rise='1024'></span> {signalStrength}%",
+    "format-ethernet": "<span font_family='Font Awesome 6 Free' font_weight='900' size='11264' rise='1024'></span> {ifname}",
+    "format-disconnected": "<span font_family='Cousine Nerd Font Propo' font_weight='400' size='11264' rise='1024'>󰤭</span>",
+    "on-click": "sh ~/.config/wofi/scripts/wifimenu.sh"
+  },
+  "battery": {
+    "bat": "BAT0",
+    "adapter": "ADP0",
+    "interval": 60,
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "max-length": 10,
+    "format": "<span font_family='Font Awesome 6 Free' font_weight='900' size='11264' rise='1024'>{icon}</span> {capacity}%",
+    "format-warning": "<span font_family='Font Awesome 6 Free' font_weight='900' size='11264' rise='1024'>{icon}</span> {capacity}%",
+    "format-critical": "<span font_family='Font Awesome 6 Free' font_weight='900' size='11264' rise='1024'>{icon}</span> {capacity}%",
+    "format-charging": "<span font_family='Font Awesome 6 Free' font_weight='900' size='11264' rise='1024'></span> {capacity}%",
+    "format-plugged": "<span font_family='Font Awesome 6 Free' font_weight='900' size='11264' rise='1024'></span> {capacity}%",
+    "format-alt": "<span font_family='Font Awesome 6 Free' font_weight='900' size='11264' rise='1024'>{icon}</span> {capacity}%",
+    "format-full": "<span font_family='Font Awesome 6 Free' font_weight='900' size='11264' rise='1024'></span> 100%",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "clock": {
+    "format": "{:%H:%M}"
+  },
+  "clock#date": {
+    "format": "{:%a %d %b}"
+  },
+  "custom/powermenu": {
+    "format": "<span font_family='Font Awesome 6 Free' font_weight='900' size='11264' rise='1024'></span>",
+    "on-click": "pkill wofi || sh .config/wofi/scripts/powermenu.sh 'ukiyo-e' '--height=17% -o $MAIN_DISPLAY'",
+    "tooltip": false
+  }
+}

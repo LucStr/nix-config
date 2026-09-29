@@ -1,0 +1,110 @@
+<!doctype html>
+<!--
+  Ukiyo-e wallpaper generator. Paints the print procedurally (sky, Fuji, sun,
+  seigaiha sea, bridge, rain, cartouche) at any resolution. Render with
+  ./render-wallpaper.sh WIDTH HEIGHT OUT.png
+-->
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kaisei+Tokumin:wght@700&display=block">
+<style>html,body{margin:0;background:#1a2a4a;overflow:hidden}canvas{display:block}</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<pre id="out" hidden></pre>
+<script>
+const Q = new URLSearchParams(location.search);
+const PW = +Q.get('w') || 2560, PH = +Q.get('h') || 1600;
+// Composition is laid out on a 1000-unit-tall canvas; width follows the aspect ratio.
+const S = PH / 1000, H = 1000, W = PW / S;
+
+function rng(seed){let a=seed>>>0;return function(){a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const qb=(p0,p1,p2,t)=>[(1-t)*(1-t)*p0[0]+2*(1-t)*t*p1[0]+t*t*p2[0],(1-t)*(1-t)*p0[1]+2*(1-t)*t*p1[1]+t*t*p2[1]];
+const sh=(p,dx)=>[p[0]+dx,p[1]];
+
+function grain(c,amt,seed){const cv=c.canvas,img=c.getImageData(0,0,cv.width,cv.height),d=img.data,R=rng(seed);for(let i=0;i<d.length;i+=4){const n=(R()-.5)*amt;d[i]+=n;d[i+1]+=n;d[i+2]+=n}c.putImageData(img,0,0)}
+function fibers(c,R,n,rgb,amax){for(let i=0;i<n;i++){const x=R()*W,y=R()*H,l=6+R()*26,a=R()*Math.PI;c.strokeStyle=`rgba(${rgb},${.02+R()*amax})`;c.lineWidth=.5+R()*.7;c.beginPath();c.moveTo(x,y);c.quadraticCurveTo(x+Math.cos(a+.6)*l*.5,y+Math.sin(a+.6)*l*.5,x+Math.cos(a)*l,y+Math.sin(a)*l);c.stroke()}}
+function seigaiha(c,x0,y0,x1,y1,r,fill,stroke,lw,rings){
+  c.lineWidth=lw;let row=0;
+  for(let y=y0;y<=y1+r;y+=r/2,row++){const off=row%2?r:0;
+    for(let x=x0-2*r+off;x<=x1+2*r;x+=2*r){
+      c.fillStyle=fill;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();c.strokeStyle=stroke;
+      for(let k=0;k<rings;k++){const rr=r*(1-k/rings)-lw;if(rr<=1)break;c.beginPath();c.arc(x,y,rr,Math.PI,Math.PI*2);c.stroke()}
+    }}
+}
+function ronin(c,x,y,s,col){
+  c.save();c.translate(x,y);c.scale(s,s);c.fillStyle=col;c.strokeStyle=col;
+  c.beginPath();c.moveTo(-5,-30);c.lineTo(5,-30);c.lineTo(9,-14);c.lineTo(8.5,0);c.lineTo(-8.5,0);c.lineTo(-9,-14);c.closePath();c.fill();
+  c.beginPath();c.moveTo(-8,-28);c.quadraticCurveTo(0,-33,8,-28);c.lineTo(7,-21);c.lineTo(-7,-21);c.closePath();c.fill();
+  c.beginPath();c.arc(0,-33,3.2,0,Math.PI*2);c.fill();
+  c.beginPath();c.moveTo(-15,-34);c.quadraticCurveTo(0,-46,15,-34);c.quadraticCurveTo(0,-36.5,-15,-34);c.fill();
+  c.lineWidth=1.7;c.lineCap='round';c.beginPath();c.moveTo(4,-18);c.lineTo(-18,-9);c.stroke();c.beginPath();c.moveTo(4,-18);c.lineTo(11,-21.5);c.stroke();
+  c.restore();
+}
+
+function cartouche(c){
+  const x=W-148,y=96,w=84,h=318;
+  c.fillStyle='#c34043';c.fillRect(x+6,y+6,w,h);
+  c.fillStyle='#e4dac0';c.fillRect(x,y,w,h);
+  c.strokeStyle='#1b2233';c.lineWidth=2;c.strokeRect(x+1,y+1,w-2,h-2);
+  c.lineWidth=1;c.strokeRect(x+7.5,y+7.5,w-15,h-15);
+  c.fillStyle='#1b2233';c.font='700 40px "Kaisei Tokumin", serif';c.textAlign='center';c.textBaseline='middle';
+  const chars=[...'浪人雨中'],step=47.2;
+  chars.forEach((ch,i)=>c.fillText(ch,x+w/2,y+h/2+(i-(chars.length-1)/2)*step));
+  const kx=x+14+27,ky=436+27;
+  c.fillStyle='#c34043';c.beginPath();c.arc(kx,ky,27,0,Math.PI*2);c.fill();
+  c.strokeStyle='#f0e6cc';c.lineWidth=2;c.beginPath();c.arc(kx,ky,23.5,0,Math.PI*2);c.stroke();
+  c.fillStyle='#f0e6cc';c.font='700 26px "Kaisei Tokumin", serif';c.fillText('極',kx,ky+1);
+}
+
+function paint(c){
+  const R=rng(31),HZ=745;
+  const fx=.65*W-1040, bx=.275*W-440, sunX=1330+fx, k=W/1600;
+  let g=c.createLinearGradient(0,0,0,HZ);[['#0F1628',0],['#1A2A4A',.22],['#2D4F67',.58],['#8A8B7A',.84],['#D3B98B',1]].forEach(([s,p])=>g.addColorStop(p,s));c.fillStyle=g;c.fillRect(0,0,W,HZ);
+  g=c.createLinearGradient(0,0,0,230);g.addColorStop(0,'rgba(7,9,18,.85)');g.addColorStop(1,'rgba(7,9,18,0)');c.fillStyle=g;c.fillRect(0,0,W,230);
+  // wood grain showing through the sky, like a real block print
+  for(let i=0;i<80*k;i++){const y0=R()*HZ,f1=.003+R()*.003,p=R()*6;c.strokeStyle=`rgba(220,215,186,${.012+R()*.028})`;c.lineWidth=.6+R()*1.2;c.beginPath();for(let x=0;x<=W+16;x+=16){const y=y0+Math.sin(x*f1+p)*7+Math.sin(x*.017+p*2)*2;x?c.lineTo(x,y):c.moveTo(x,y)}c.stroke()}
+  const sg=c.createRadialGradient(sunX,520,60,sunX,520,260);sg.addColorStop(0,'rgba(232,131,74,.35)');sg.addColorStop(1,'rgba(232,131,74,0)');c.fillStyle=sg;c.fillRect(sunX-330,200,660,560);
+  c.fillStyle='#E06C3A';c.beginPath();c.arc(sunX,520,88,0,Math.PI*2);c.fill();
+  const L0=sh([560,740],fx),L1=sh([900,560],fx),L2=sh([1010,300],fx),R0=sh([1070,300],fx),R1=sh([1170,560],fx),R2=sh([1560,740],fx);
+  g=c.createLinearGradient(0,300,0,740);g.addColorStop(0,'#2A3E5E');g.addColorStop(1,'#18233A');c.fillStyle=g;
+  c.beginPath();c.moveTo(...L0);c.quadraticCurveTo(...L1,...L2);c.lineTo(1030+fx,296);c.lineTo(1050+fx,302);c.lineTo(...R0);c.quadraticCurveTo(...R1,...R2);c.closePath();c.fill();
+  c.fillStyle='#DCD7BA';c.beginPath();let p=qb(L0,L1,L2,.7);c.moveTo(p[0],p[1]);
+  for(let t=.72;t<=1.0001;t+=.02){p=qb(L0,L1,L2,t);c.lineTo(p[0],p[1])}
+  c.lineTo(1030+fx,296);c.lineTo(1050+fx,302);
+  for(let t=0;t<=.3001;t+=.02){p=qb(R0,R1,R2,t);c.lineTo(p[0],p[1])}
+  const A=qb(R0,R1,R2,.3),B=qb(L0,L1,L2,.7);
+  for(let i=1;i<12;i++)c.lineTo(A[0]+(B[0]-A[0])*i/12,A[1]+(B[1]-A[1])*i/12+(i%2?20+R()*38:-6));
+  c.closePath();c.fill();
+  c.strokeStyle='rgba(45,79,103,.55)';c.lineWidth=2;for(let i=0;i<6;i++){const x=985+fx+i*18+R()*8;c.beginPath();c.moveTo(x,318);c.lineTo(x+(i-2.5)*10,380+R()*40);c.stroke()}
+  const hill=(base,amp,col)=>{const ph=R()*6;c.fillStyle=col;c.beginPath();c.moveTo(0,HZ+2);for(let x=0;x<=W+20;x+=20)c.lineTo(x,base+Math.sin(x*.006+ph)*amp+Math.sin(x*.021+ph*2)*amp*.4);c.lineTo(W,HZ+2);c.closePath();c.fill()};
+  hill(702,24,'#3B5873');hill(728,14,'#2A405A');
+  c.fillStyle='#152136';c.fillRect(0,HZ,W,H-HZ);
+  c.save();c.beginPath();c.rect(0,HZ,W,H-HZ);c.clip();seigaiha(c,0,HZ+14,W,H,30,'#172640','rgba(220,215,186,.26)',1.4,4);c.restore();
+  for(let i=0;i<10;i++){c.fillStyle=`rgba(232,131,74,${.34-i*.03})`;const w2=110-i*9;c.fillRect(sunX-w2/2+(R()-.5)*20,HZ+8+i*13,w2,3)}
+  const D0=sh([60,870],bx),D1=sh([440,700],bx),D2=sh([820,870],bx);
+  c.fillStyle='#0C111D';for(const t of[.12,.3,.7,.88]){const q=qb(D0,D1,D2,t);c.fillRect(q[0]-6,q[1],12,H-q[1])}
+  c.strokeStyle='#0E1320';c.lineCap='butt';c.lineWidth=16;c.beginPath();c.moveTo(...D0);c.quadraticCurveTo(...D1,...D2);c.stroke();
+  const tp=qb(D0,D1,D2,.46);ronin(c,tp[0],tp[1]-8,1.15,'#0A0D16');
+  c.lineWidth=5;c.beginPath();c.moveTo(D0[0],D0[1]-28);c.quadraticCurveTo(D1[0],D1[1]-28,D2[0],D2[1]-28);c.stroke();
+  c.lineWidth=4;for(let t=.04;t<.97;t+=.08){if(t>.4&&t<.53)continue;const a=qb(D0,D1,D2,t);c.beginPath();c.moveTo(a[0],a[1]-6);c.lineTo(a[0],a[1]-28);c.stroke()}
+  c.lineCap='round';
+  for(let i=0;i<950*k;i++){const x=R()*(W+300)-150,y=R()*(H+100)-100,l=50+R()*130,dark=R()<.4;c.strokeStyle=dark?`rgba(6,9,18,${.25+R()*.2})`:`rgba(226,220,194,${.08+R()*.14})`;c.lineWidth=.6+R()*.9;c.beginPath();c.moveTo(x,y);c.lineTo(x-l*.12,y+l);c.stroke()}
+  cartouche(c);
+  fibers(c,R,600*k,'226,220,194',.03);
+  grain(c,14,37);
+}
+
+(async()=>{
+  const cv=document.getElementById('c');cv.width=PW;cv.height=PH;cv.style.width=PW+'px';cv.style.height=PH+'px';
+  try{await document.fonts.load('700 40px "Kaisei Tokumin"','浪人雨中極')}catch(e){}
+  const c=cv.getContext('2d');c.setTransform(S,0,0,S,0,0);
+  paint(c);
+  // render-wallpaper.sh reads the pixels from here via --dump-dom
+  document.getElementById('out').textContent=cv.toDataURL('image/png');
+  document.title='done';
+})();
+</script>
+</body>
+</html>

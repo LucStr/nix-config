@@ -1,0 +1,3 @@
+# Themes without their own alacritty file keep the translucent default.
+[window]
+opacity = 0.8

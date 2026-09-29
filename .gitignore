@@ -1,2 +1,4 @@
 result
 home-manager/config/hypr/lid-state.conf
+home-manager/config/hypr/hyprlock/current.conf
+home-manager/config/alacritty/theme.toml

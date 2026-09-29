@@ -30,10 +30,24 @@ hyprpaper -c ~/.config/hypr/hyprpaper/$COLOR_SCHEME.conf &
 source ~/.config/hypr/scripts/detect-outputs.sh
 sed -i -E 's/("output": ")(.*)(",)/\1'"$MAIN_DISPLAY"'\3/g' ~/.config/waybar/$COLOR_SCHEME/config
 
-# Switch hyprlock
+# Switch hyprlock: the theme's own layout if it has one, otherwise the
+# shared default layout with the theme's image as background
 .config/hypr/themes/summer-day/summer-day.png
 
-sed -i -E 's|(path = ).*|\1'"$HOME/.config/hypr/themes/$1/$1.png"'|' ~/.config/hypr/hyprlock.conf
+mkdir -p ~/.config/hypr/hyprlock
+if [ -f ~/.config/hypr/themes/$1/hyprlock.conf ]; then
+  ln -sfn ~/.config/hypr/themes/$1/hyprlock.conf ~/.config/hypr/hyprlock/current.conf
+else
+  sed -i -E 's|(path = ).*|\1'"$HOME/.config/hypr/themes/$1/$1.png"'|' ~/.config/hypr/hyprlock/default.conf
+  ln -sfn ~/.config/hypr/hyprlock/default.conf ~/.config/hypr/hyprlock/current.conf
+fi
+
+# alacritty colors and opacity (imported by alacritty.toml)
+if [ -f ~/.config/alacritty/themes/$COLOR_SCHEME.toml ]; then
+  ln -sfn ~/.config/alacritty/themes/$COLOR_SCHEME.toml ~/.config/alacritty/theme.toml
+else
+  ln -sfn ~/.config/alacritty/themes/default.toml ~/.config/alacritty/theme.toml
+fi
 
 # waybar
 pkill waybar
@@ -75,6 +89,9 @@ sed -i -E 's/("editor.fontFamily": ")(.*)(,.*,.*",)/\1'"$FONT"'\3/g' '.config/Co
 
 # Nvim theme
 #sed -i -E '8 s/(theme = ")(.*)(",)/\1'"$NVIM_THEME"'\3/g' ~/.config/nvim/lua/custom/chadrc.lua
+# nvim reads this at startup and falls back to everforest if it can't load it
+mkdir -p ~/.local/state/theme
+echo "$NVIM_THEME" > ~/.local/state/theme/nvim-colorscheme
 
 # Obsidian theme (change the vault name/directory)
 #VAULT_DIRECTORY="Documents/Obsidian Vault"

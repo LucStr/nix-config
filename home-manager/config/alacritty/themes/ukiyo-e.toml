@@ -1,0 +1,45 @@
+# Ukiyo-e: Kanagawa Wave ANSI colors on a kachi-iro indigo ground.
+# Opaque, because the wallpaper (rain, waves) is too busy to read through.
+[window]
+opacity = 1.0
+padding = { x = 10, y = 8 }
+
+[colors.primary]
+background = "#181d2b"
+foreground = "#dcd7ba"
+
+[colors.cursor]
+text = "#181d2b"
+cursor = "#e8834a"
+
+[colors.selection]
+background = "#2d4f67"
+foreground = "#c8c093"
+
+[colors.normal]
+black = "#090618"
+red = "#c34043"
+green = "#76946a"
+yellow = "#c0a36e"
+blue = "#7e9cd8"
+magenta = "#957fb8"
+cyan = "#6a9589"
+white = "#c8c093"
+
+[colors.bright]
+black = "#727169"
+red = "#e82424"
+green = "#98bb6c"
+yellow = "#e6c384"
+blue = "#7fb4ca"
+magenta = "#938aa9"
+cyan = "#7aa89f"
+white = "#dcd7ba"
+
+[[colors.indexed_colors]]
+index = 16
+color = "#e8834a"
+
+[[colors.indexed_colors]]
+index = 17
+color = "#ff5d62"

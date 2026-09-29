@@ -1,0 +1,14 @@
+{
+    "gtkTheme": "Adwaita-dark",
+    "kvantumTheme": "",
+    "iconTheme": "Adwaita",
+    "colorScheme": "ukiyo-e",
+    "colorMode": "dark",
+    "vsCodeTheme": "Kanagawa",
+    "vsCodeExtraColors": "",
+    "nvimTheme": "kanagawa-wave",
+    "obsidianTheme": "Kanagawa",
+    "font": "JetBrainsMono Nerd Font",
+    "darkReaderColors": {"background": "#181d2b", "text": "#dcd7ba"},
+    "firefoxTheme": "Kanagawa"
+}

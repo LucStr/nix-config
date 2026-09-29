@@ -1,6 +1,6 @@
 #!/bin/bash
 
-entries="Summer-Day\nSummer-Night\nObsidian-Glass"
+entries="Summer-Day\nSummer-Night\nObsidian-Glass\nUkiyo-e"
 source='source = ~/.config/hypr/themes/'
 # delete-line="$(sed -i '1d' ~/.config/hypr/hyprland.conf)"
 
@@ -24,6 +24,12 @@ case $selected in
     notify-send "Obsidian-Glass"
     sed -i '1d' ~/.config/hypr/hyprland.conf
     sed -i '1i\source = ~/.config/hypr/themes/obsidian-glass/obsidian-glass.conf' ~/.config/hypr/hyprland.conf
+    hyprctl reload
+    ;;
+  Ukiyo-e)
+    notify-send "Ukiyo-e"
+    sed -i '1d' ~/.config/hypr/hyprland.conf
+    sed -i '1i\source = ~/.config/hypr/themes/ukiyo-e/ukiyo-e.conf' ~/.config/hypr/hyprland.conf
     hyprctl reload
     ;;
 esac

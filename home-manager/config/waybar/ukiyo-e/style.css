@@ -1,0 +1,131 @@
+@import "../colors/ukiyo-e.css";
+
+/* The bar itself is transparent. Each group is a cartouche, the titled
+   panel printed in the corner of an ukiyo-e sheet: cream paper, an indigo
+   double rule, and a hard red block offset down and right. */
+
+* {
+  font-family: "Kaisei Tokumin", "Cousine Nerd Font", "Font Awesome 6 Free";
+  font-size: 16px;
+  font-weight: bold;
+  min-height: 0;
+}
+
+window#waybar {
+  background-color: transparent;
+  color: @sumi;
+}
+
+tooltip {
+  background-color: @gofun;
+  color: @sumi;
+  border: 2px solid @sumi;
+  border-radius: 0;
+}
+
+tooltip label {
+  color: @sumi;
+}
+
+#ukiyo-left,
+#workspaces,
+#ukiyo-right {
+  background-color: @gofun;
+  color: @sumi;
+  border: 2px solid @sumi;
+  border-radius: 0;
+  /* cream gap, inner hairline rule, then the offset block */
+  box-shadow: inset 0 0 0 3px @gofun, inset 0 0 0 4px @sumi, 6px 6px 0 0 @beni;
+
+  /* bottom/right margins leave room for the offset block */
+  margin: 0 8px 8px 0;
+  padding: 0 8px;
+}
+
+/* seal: launcher */
+#custom-launcher {
+  background-color: @beni;
+  color: @gofun;
+  font-size: 17px;
+  padding: 0 7px;
+  margin: 8px 6px 8px 2px;
+}
+
+#clock {
+  font-size: 19px;
+  padding: 0 6px;
+}
+
+#clock.date {
+  font-size: 16px;
+  color: @usuzumi;
+}
+
+#workspaces {
+  padding: 0 4px;
+}
+
+#workspaces button {
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  text-shadow: none;
+  color: @sumi;
+  padding: 0 9px;
+  margin: 7px 1px;
+}
+
+#workspaces button.empty {
+  color: @nezumi;
+}
+
+#workspaces button:hover {
+  background: alpha(@sumi, 0.1);
+  color: @sumi;
+}
+
+#workspaces button.active {
+  background-color: @kaki;
+  color: @sumi;
+}
+
+#workspaces button.urgent {
+  background-color: @beni;
+  color: @gofun;
+}
+
+#tray,
+#pulseaudio,
+#network,
+#battery {
+  padding: 0 9px;
+}
+
+#pulseaudio.muted,
+#network.disconnected {
+  color: @nezumi;
+}
+
+#battery.charging,
+#battery.plugged {
+  color: @matsuba;
+}
+
+#battery.warning:not(.charging) {
+  color: @kaki;
+}
+
+#battery.critical:not(.charging) {
+  background-color: @beni;
+  color: @gofun;
+  margin: 8px 0;
+}
+
+/* indigo seal: power menu */
+#custom-powermenu {
+  background-color: @sumi;
+  color: @gofun;
+  padding: 0 10px 0 9px;
+  margin: 8px 2px 8px 6px;
+}

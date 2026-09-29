@@ -88,7 +88,42 @@
         plugin = everforest;
         config = ''
             let g:everforest_background = 'hard'
-            colorscheme everforest
+        '';
+      }
+      {
+        plugin = kanagawa-nvim;
+        # The desktop theme picks the colorscheme: switch-theme.sh writes the
+        # theme's nvimTheme to ~/.local/state/theme/nvim-colorscheme. A missing
+        # file or an unknown name falls back to everforest.
+        config = toLua ''
+          require("kanagawa").setup({
+            colors = {
+              theme = {
+                -- ukiyo-e: kachi-iro indigo ground, matching alacritty
+                wave = {
+                  ui = {
+                    bg = "#181d2b",
+                    bg_gutter = "none",
+                    bg_dim = "#141827",
+                    bg_m1 = "#141827",
+                    bg_p1 = "#1f2638",
+                    bg_p2 = "#223249",
+                  },
+                },
+              },
+            },
+            overrides = function()
+              return {
+                CursorLineNr = { fg = "#e8834a", bold = true },
+              }
+            end,
+          })
+
+          local ok, lines = pcall(vim.fn.readfile, vim.fn.expand("~/.local/state/theme/nvim-colorscheme"))
+          local scheme = ok and lines[1] or "everforest"
+          if not pcall(vim.cmd.colorscheme, scheme) then
+            vim.cmd.colorscheme("everforest")
+          end
         '';
       }
       vim-sleuth

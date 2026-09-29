@@ -75,6 +75,7 @@
     libnotify
     playerctl
     opentofu
+    kaisei-tokumin # display font of the ukiyo-e desktop theme
     (google-cloud-sdk.withExtraComponents (
       with google-cloud-sdk.components;
       [
@@ -82,6 +83,9 @@
       ]
     ))
   ];
+
+  # Makes fonts from home.packages visible to fontconfig (Waybar, Wofi, Hyprlock)
+  fonts.fontconfig.enable = true;
 
   programs.nh = {
     enable = true;
